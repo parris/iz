@@ -1,0 +1,15 @@
+{
+    "name": "Zuul",
+    "version": "0.0.1",
+    "description": "Some basic validation functions that were useful across projects",
+    "main": "Validation.js",
+    "keywords": [
+        "validation",
+        "regex",
+        "checker"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:parris/zuul.git"
+    }
+}
