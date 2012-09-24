@@ -166,7 +166,34 @@ describe("Zuul", function() {
         zuul.inArray(function () {}, 5).should.not.be.ok;
     });
 
-    xit("Can validate integers", function () {
-        zuul.int(intTestPassString1).should.be.ok;
+    it("Can validate integers", function () {
+        zuul.int("1000").should.be.ok;
+        zuul.int(1000).should.be.ok;
+        zuul.int(999).should.be.ok;
+        zuul.int("11.0", true).should.be.ok;
+
+        zuul.int("11.0").should.not.be.ok;
+        zuul.int(11.2).should.not.be.ok;
+        zuul.int("bob").should.not.be.ok;
+        zuul.int({}).should.not.be.ok;
+        zuul.int([]).should.not.be.ok;
+        zuul.int(function () {}).should.not.be.ok;
+    });
+
+    it("Can validate IPv4, IPv6 and host names", function () {
+        zuul.ip("pizza").should.be.ok;
+        //ipv6
+        zuul.ip("3ffe:1900:4545:3:200:f8ff:fe21:67cf").should.be.ok;
+        zuul.ip("fe80:0:0:0:200:f8ff:fe21:67cf").should.be.ok;
+        zuul.ip("fe80::200:f8ff:fe21:67cf").should.be.ok;
+        //ipv4
+        zuul.ip("0.0.0.0").should.be.ok;
+        zuul.ip("192.0.2.235").should.be.ok;
+        //technically valid (citing wikipedia), but doesn't pass, but I don't think it is expected:
+        zuul.ip("0xC0.0x00.0x02.0xEB").should.not.be.ok;
+        zuul.ip("0300.0000.0002.0353").should.not.be.ok;
+        zuul.ip("0xC00002EB").should.not.be.ok
+        zuul.ip("3221226219").should.not.be.ok;
+        zuul.ip("030000001353").should.not.be.ok;
     });
 });

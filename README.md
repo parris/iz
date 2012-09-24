@@ -21,7 +21,7 @@ Possible validations so far. All return true or false. The comment next to each 
     zuul.fileExtensionAudio(value);     // Check against mp3, ogg, wav, aac
     zuul.fileExtensionImage(value);     // Check against png, jpg, jpeg, gif, bmp, svg, gif
     zuul.inArray(arr, value);           // If * is in the array
-    zuul.int(*, bool);                  // Is an int. If the 2nd variable is true (default), the decimals points are strictly not allowed
+    zuul.int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
     zuul.minLen(str, min);              // str is greater than min
     zuul.maxLen(str, max);              // str is shorter than max
