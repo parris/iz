@@ -7,27 +7,49 @@ API (sorta)
 Possible validations so far. All return true or false. The comment next to each is the true case:
 
 zuul.alphaNumeric(*);               // is number or string(contains only numbers or strings)
+
 zuul.between(number, start, end);   // number is start or greater but less than or equal to end, all params numeric
+
 zuul.blank(*);                      // empty string, undefined or null
+
 zuul.boolean(*);                    //true, false, 0, 1
+
 zuul.cc(*);                         // luhn checksum approved value
+
 zuul.date(*);                       // is a data obj or is a string that is easily converted to a date
+
 zuul.decimal(*);                    // contains 1 decimal point and potentially can have a - at the beginning
+
 zuul.email(*);                      // seems like a valid email address
+
 zuul.extension(ob1, ob2);           // if obj2's methods are all found in obj1
+
 zuul.inList(*, list);               // if * is in the list
+
 zuul.int(*, bool);                  // Is an int. If the 2nd variable is true (default), the decimals points are strictly not allowed
+
 zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
+
 zuul.minLen(str, min);              // str is greater than min
+
 zuul.maxLen(str, max);              // str is shorter than max
+
 zuul.money(str);                    // contains monetary 1 monetary symbol and decimal with 2 digits
+
 zuul.multiple(num, mult);           // number is multiple of another number
+
 zuul.notEmpty(arr);                 // array or object has at least member or item
+
 zuul.number(*);                     // is either an int or decimal
+
 zuul.ofType(obj, typeName);         // if it is a named object, and the name matches the string
+
 zuul.phone(*);                      // is a phone number of some type
+
 zuul.postal(*);                     // is a postal code or zip code
+
 zuul.ssn(*);                        // is a social security number
+
 zuul.url(*);                        // seems like a valid url
 
 The check the possible cases that will definitely work take a look at the spec folder.
