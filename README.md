@@ -23,8 +23,8 @@ Possible validations so far. All return true or false. The comment next to each 
     zuul.inArray(arr, value);           // If * is in the array
     zuul.int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
-    zuul.minLen(str, min);              // str is greater than min
-    zuul.maxLen(str, max);              // str is shorter than max
+    zuul.minLen(val, min);              // val (str or arr) is greater than min
+    zuul.maxLen(val, max);              // val (str or arr) is shorter than max
     zuul.money(str);                    // Contains monetary 1 monetary symbol and decimal with 2 digits
     zuul.multiple(num, mult);           // Number is multiple of another number
     zuul.notEmpty(arr);                 // Array or object has at least member or item

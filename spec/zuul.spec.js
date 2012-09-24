@@ -196,4 +196,32 @@ describe("Zuul", function() {
         zuul.ip("3221226219").should.not.be.ok;
         zuul.ip("030000001353").should.not.be.ok;
     });
+
+    it("Can require a string to have some min length", function () {
+        zuul.minLength("Pizza", 5).should.be.ok;
+        zuul.minLength("pizza", 4).should.be.ok;
+        zuul.minLength("pizza", 6).should.not.be.ok;
+        zuul.minLength({}, 5).should.not.be.ok;
+        zuul.minLength("lizard", {}).should.not.be.ok;
+    });
+
+    it("Can require an array to have some min length", function () {
+        zuul.minLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
+        zuul.minLength([1, 2, 3, 4, 5, 6], 5).should.be.ok;
+        zuul.minLength([1, 2, 3, 4, 5, 6], 7).should.not.be.ok;
+    });
+
+    it("Can require a string to have some max length", function () {
+        zuul.maxLength("Pizza", 5).should.be.ok;
+        zuul.maxLength("pizza", 6).should.be.ok;
+        zuul.maxLength("pizza", 4).should.not.be.ok;
+        zuul.maxLength({}, 5).should.not.be.ok;
+        zuul.maxLength("lizard", {}).should.not.be.ok;
+    });
+
+    it("Can require an array to have some max length", function () {
+        zuul.maxLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
+        zuul.maxLength([1, 2, 3, 4, 5, 6], 7).should.be.ok;
+        zuul.maxLength([1, 2, 3, 4, 5, 6], 5).should.not.be.ok;
+    });
 });

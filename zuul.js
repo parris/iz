@@ -208,6 +208,30 @@ var zuul = zuul || {};
         return re.test(str);
     }
 
+    function zuul_minLength(val, len) {
+        if ((typeof val === "string"
+                || typeof val === "object")
+                && typeof val.length !== "undefined"
+                && zuul_int(len)
+                && val.length >= len) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function zuul_maxLength(val, len) {
+        if ((typeof val === "string"
+                || typeof val === "object")
+                && typeof val.length !== "undefined"
+                && zuul_int(len)
+                && val.length <= len) {
+            return true;
+        }
+
+        return false;
+    }
+
     //This is just static, no need to make a new instance here
     zuul.alphaNumeric = zuul_alphaNumeric;
     zuul.between = zuul_between;
@@ -224,6 +248,8 @@ var zuul = zuul || {};
     zuul.inArray = zuul_inArray;
     zuul.int = zuul_int;
     zuul.ip = zuul_ip;
+    zuul.minLength = zuul_minLength;
+    zuul.maxLength = zuul_maxLength;
 }());
 
 module.exports = zuul;
