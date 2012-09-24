@@ -8,7 +8,7 @@ zuul.alphaNumeric(*);               // is number or string(contains only numbers
 zuul.between(number, start, end);   // number is start or greater but less than or equal to end, all params numeric
 zuul.blank(*);                      // empty string, undefined or null
 zuul.boolean(*);                    //true, false, 0, 1
-zuul.cc(*);                         // a valid credit card by a major provider
+zuul.cc(*);                         // luhn checksum approved value
 zuul.date(*);                       // is a data obj or is a string that is easily converted to a date
 zuul.decimal(*);                    // contains 1 decimal point and potentially can have a - at the beginning
 zuul.email(*);                      // seems like a valid email address
@@ -38,4 +38,5 @@ variety of things. The 'primitives' are easily compared so that is fairly useles
 environment it is not possible within the scope of this package. Also it is somewhat a difficult problem to solve
 async type requests synchronously in node without some other library being involved.
 - File: Requires async.
+- ExpDate: Just make it so an old date can't be entered. You can't check for this until the bank reports a failure
 
