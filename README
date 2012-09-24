@@ -1,7 +1,9 @@
-This package's goals are really simple. Just looking for a lightweight manner to validate common things. Zuul is
-reference to ghostbusters (and mythology I SUPPOSE). Apparently he is some sort of gatekeeper. As such zuul will
-act as your gatekeeper and keep your data's integrity intact!
+Goals
+----
+This package's goals are really simple. Just looking for a lightweight manner to validate common things. Zuul is reference to ghostbusters (and mythology I SUPPOSE). Apparently he is some sort of gatekeeper. As such zuul will act as your gatekeeper and keep your data's integrity intact! I also named it zuul for conflict purposes. It is less likely that zull will conflict that word validate or validation.
 
+API (sorta)
+----
 Possible validations so far. All return true or false. The comment next to each is the true case:
 
 zuul.alphaNumeric(*);               // is number or string(contains only numbers or strings)
@@ -30,6 +32,8 @@ zuul.url(*);                        // seems like a valid url
 
 The check the possible cases that will definitely work take a look at the spec folder.
 
+Omissions
+----
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
 - Equality: There is no guarantee of an equalTo method for objects and even if there were object equality can mean a variety of things. The 'primitives' are easily compared, which makes this check sort of useless. If this catches on maybe I'll enforce equalTo methods on objects?
@@ -37,3 +41,11 @@ Lastly, I omitted a few typical validations (temporarily maybe) for these reason
 - File: Requires async not ready yet.
 - ExpDate: Just make it so an old date can't be entered. You can't check for this until the bank reports a failure
 - In depth email address regex: Not really possible it seems. You can either write some really complicated regex that will likely pass 99.9% of things or write something simple that will pass everything with the @ symbol. I choose the later. The other option was to ask the ISPs. Once again async is required. Not ready for that yet. Also some ISPs have blocked those features (sbcglobal for instance).
+
+Integration
+----
+I am integrating this with backbone.js. I am writing some code to make backbone.js transportable between server side and client side and the way I am integrating it is by extending the model prototype. There are other ways, but this might be the easiest solution! You can use underscores extend functionality to modify backbone just a bit to include this functions.
+
+Installation
+----
+I am going to publish this on svn once everything is done. For now you can throw this into node_modules.
