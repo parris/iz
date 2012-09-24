@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="49859fc8-3154-4908-8f1b-3137484ebe57" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/zuul.spec.js" afterPath="$PROJECT_DIR$/spec/zuul.spec.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/zuul.js" afterPath="$PROJECT_DIR$/zuul.js" />
     </list>
     <ignored path="zuul.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,10 +31,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="79" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.0">
+            <state line="35" column="67" selection-start="2949" selection-end="2949" vertical-scroll-proportion="0.63193506">
               <folding />
             </state>
           </provider>
@@ -45,7 +43,7 @@
       <file leaf-file-name="zuul.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/zuul.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="233" column="0" selection-start="8585" selection-end="8585" vertical-scroll-proportion="-16.961538">
+            <state line="221" column="0" selection-start="8273" selection-end="8273" vertical-scroll-proportion="-9.576923">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -53,10 +51,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zuul.spec.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="zuul.spec.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spec/zuul.spec.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="7" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.78723407">
+            <state line="219" column="7" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -85,9 +83,9 @@
         <option value="$PROJECT_DIR$/spec/validations.spec.js" />
         <option value="$PROJECT_DIR$/validation.js" />
         <option value="$PROJECT_DIR$/README" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/zuul.js" />
         <option value="$PROJECT_DIR$/spec/zuul.spec.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -322,28 +320,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/spec/zuul.spec.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="79" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="219" column="7" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/zuul.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="233" column="0" selection-start="8585" selection-end="8585" vertical-scroll-proportion="-16.961538">
+        <state line="221" column="0" selection-start="8273" selection-end="8273" vertical-scroll-proportion="-9.576923">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/zuul.spec.js">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="7" selection-start="9326" selection-end="9326" vertical-scroll-proportion="0.78723407">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state line="35" column="67" selection-start="2949" selection-end="2949" vertical-scroll-proportion="0.63193506">
+          <folding />
         </state>
       </provider>
     </entry>

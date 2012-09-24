@@ -25,15 +25,15 @@ Possible validations so far. All return true or false. The comment next to each 
     zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
     zuul.minLen(val, min);              // val (str or arr) is greater than min
     zuul.maxLen(val, max);              // val (str or arr) is shorter than max
-    zuul.money(str);                    // Contains monetary 1 monetary symbol and decimal with 2 digits
+    /*zuul.money(str);                  // Contains monetary 1 monetary symbol and decimal with 2 digits
     zuul.multiple(num, mult);           // Number is multiple of another number
     zuul.notEmpty(arr);                 // Array or object has at least member or item
     zuul.number(*);                     // Is either an int or decimal
-    zuul.ofType(obj, typeName);         // Ff it is a named object, and the name matches the string
+    zuul.ofType(obj, typeName);         // If it is a named object, and the name matches the string
     zuul.phone(*);                      // Is a phone number of some type
     zuul.postal(*);                     // Is a postal code or zip code
     zuul.ssn(*);                        // Is a social security number
-    zuul.url(*);                        // Seems like a valid url
+    zuul.url(*);                        // Seems like a valid url*/
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
