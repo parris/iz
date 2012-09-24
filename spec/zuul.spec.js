@@ -99,7 +99,7 @@ describe("Zuul", function() {
         zuul.decimal([]).should.not.be.ok;
     });
 
-    it("can validate email address", function () {
+    it("Can validate email address", function () {
         zuul.email("bob@bob").should.be.ok;
         zuul.email("bob@bob.com").should.be.ok;
         zuul.email("bob").should.not.be.ok;
@@ -107,6 +107,63 @@ describe("Zuul", function() {
         zuul.email(function () {}).should.not.be.ok;
         zuul.email([]).should.not.be.ok;
         zuul.email(5).should.not.be.ok;
+    });
+
+    it("Can validate that an object is an extension of another object", function () {
+        zuul.extension({},"5").should.not.be.ok;
+        zuul.extension({
+            bob: 10,
+            something: "hi",
+            somethingElse: "bye"
+        },{
+            bob: "912dfinn",
+            something: "yes!"
+        }).should.be.ok;
+        zuul.extension([],[]).should.be.ok;
+        zuul.extension({
+            bob: 10,
+            something: "hi"
+        },{
+            bob: "912dfinn",
+            something: "yes!",
+            somethingElse: "bye"
+        }).should.not.be.ok;
+        zuul.extension([],["hello"]).should.not.be.ok;
+    });
+
+    it("Can validate that a file extension is valid", function () {
+        zuul.fileExtension(["pizza"],"apple_pie.pizza").should.be.ok;
+        zuul.fileExtension(["png"],"hello.png").should.be.ok;
+        zuul.fileExtension(["png"],"hello.PNG").should.be.ok;
+        zuul.fileExtension([], "").should.not.be.ok;
+        zuul.fileExtension("","").should.not.be.ok;
+        zuul.fileExtension(["PNG"],"hello.png").should.not.be.ok;
+        zuul.fileExtension([".png"],"hello.png").should.not.be.ok;
+        zuul.fileExtension(["png"],"hello.mp3").should.not.be.ok;
+        zuul.fileExtension({},{}).should.not.be.ok;
+    });
+
+    it("Can validate audio file extensions", function () {
+        zuul.fileExtensionAudio("apple.mp3").should.be.ok;
+        zuul.fileExtensionAudio("apple.png").should.not.be.ok;
+    });
+
+    it("Can validate image file extensions", function () {
+        zuul.fileExtensionImage("apple.png").should.be.ok;
+        zuul.fileExtensionImage("apple.mp3").should.not.be.ok;
+    });
+
+    it("Can validate video file extensions", function () {
+        zuul.fileExtensionVideo("apple.mp4").should.be.ok;
+        zuul.fileExtensionVideo("apple.mp3").should.not.be.ok;
+    });
+
+    it("Can tell if something is in an array", function () {
+        zuul.inArray(["pizza","chicken","tofu","turkey"], "tofu").should.be.ok;
+        zuul.inArray(["pizza","chicken","tofu","turkey"], "lizard").should.not.be.ok;
+        zuul.inArray(5,6).should.not.be.ok;
+        zuul.inArray({},[]).should.not.be.ok;
+        zuul.inArray(function () {}, 5).should.not.be.ok;
     });
 
     xit("Can validate integers", function () {

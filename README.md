@@ -2,33 +2,38 @@ Goals
 ----
 This package's goals are really simple. Just looking for a lightweight manner to validate common things. Zuul is reference to ghostbusters (and mythology I SUPPOSE). Apparently he is some sort of gatekeeper. As such zuul will act as your gatekeeper and keep your data's integrity intact! I also named it zuul for conflict purposes. It is less likely that zull will conflict that word validate or validation.
 
+BTW I did intend for some of this is like a greatest hits of the web in terms of validation and I attempted to provide credit where it was due.
+
 API (sorta)
 ----
 Possible validations so far. All return true or false. The comment next to each is the true case:
 
-    zuul.alphaNumeric(*);               // is number or string(contains only numbers or strings)
-    zuul.between(number, start, end);   // number is start or greater but less than or equal to end, all params numeric
-    zuul.blank(*);                      // empty string, undefined or null
-    zuul.boolean(*);                    //true, false, 0, 1
-    zuul.cc(*);                         // luhn checksum approved value
-    zuul.date(*);                       // is a data obj or is a string that is easily converted to a date
-    zuul.decimal(*);                    // contains 1 decimal point and potentially can have a - at the beginning
-    zuul.email(*);                      // seems like a valid email address
-    zuul.extension(ob1, ob2);           // if obj2's methods are all found in obj1
-    zuul.inList(*, list);               // if * is in the list
+    zuul.alphaNumeric(*);               // Is number or string(contains only numbers or strings)
+    zuul.between(number, start, end);   // Number is start or greater but less than or equal to end, all params numeric
+    zuul.blank(*);                      // Empty string, undefined or null
+    zuul.boolean(*);                    // true, false, 0, 1
+    zuul.cc(*);                         // Luhn checksum approved value
+    zuul.date(*);                       // Is a data obj or is a string that is easily converted to a date
+    zuul.decimal(*);                    // Contains 1 decimal point and potentially can have a - at the beginning
+    zuul.email(*);                      // Seems like a valid email address
+    zuul.extension(ob1, ob2);           // If obj2's methods are all found in obj1
+    zuul.fileExtension(arr, value);     // Checks if the extension of value is in arr. An obj can be provide, but must have indexOf defined.
+    zuul.fileExtensionAudio(value);     // Check against mp3, ogg, wav, aac
+    zuul.fileExtensionImage(value);     // Check against png, jpg, jpeg, gif, bmp, svg, gif
+    zuul.inArray(arr, value);           // If * is in the array
     zuul.int(*, bool);                  // Is an int. If the 2nd variable is true (default), the decimals points are strictly not allowed
     zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
     zuul.minLen(str, min);              // str is greater than min
     zuul.maxLen(str, max);              // str is shorter than max
-    zuul.money(str);                    // contains monetary 1 monetary symbol and decimal with 2 digits
-    zuul.multiple(num, mult);           // number is multiple of another number
-    zuul.notEmpty(arr);                 // array or object has at least member or item
-    zuul.number(*);                     // is either an int or decimal
-    zuul.ofType(obj, typeName);         // if it is a named object, and the name matches the string
-    zuul.phone(*);                      // is a phone number of some type
-    zuul.postal(*);                     // is a postal code or zip code
-    zuul.ssn(*);                        // is a social security number
-    zuul.url(*);                        // seems like a valid url
+    zuul.money(str);                    // Contains monetary 1 monetary symbol and decimal with 2 digits
+    zuul.multiple(num, mult);           // Number is multiple of another number
+    zuul.notEmpty(arr);                 // Array or object has at least member or item
+    zuul.number(*);                     // Is either an int or decimal
+    zuul.ofType(obj, typeName);         // Ff it is a named object, and the name matches the string
+    zuul.phone(*);                      // Is a phone number of some type
+    zuul.postal(*);                     // Is a postal code or zip code
+    zuul.ssn(*);                        // Is a social security number
+    zuul.url(*);                        // Seems like a valid url
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 

@@ -126,6 +126,68 @@ var zuul = zuul || {};
         return (/\S+@\S+/).test(value);
     }
 
+    function zuul_extension(obj1, obj2) {
+        var key;
+        if (typeof obj1 !== "object" || typeof obj2 !== "object") {
+            return false;
+        }
+
+        for (key in obj2) {
+            if (obj2.hasOwnProperty(key) && typeof obj1[key] === "undefined") {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Accepts anything.anything.anything.ext.ext and matches the last ext
+     * @param value a file extension of a file name
+     */
+    function zuul_fileExtension(validExtensions, value) {
+        var ext;
+
+        if (typeof validExtensions !== "object"
+                || typeof validExtensions.indexOf === "undefined"
+                || typeof value !== "string") {
+            return false;
+        }
+
+        ext = value.split(".").pop().toLowerCase(); //split by '.' and get me the last thing, then lowercase it
+        if (validExtensions.indexOf(ext) !== -1) {
+            return true;
+        }
+        return false;
+    }
+
+    function zuul_fileExtensionAudio(value) {
+        var validExtensions = ["mp3", "ogg", "aac", "wav"];
+        return zuul_fileExtension(validExtensions, value);
+    }
+
+    function zuul_fileExtensionImage(value) {
+        var validExtensions = ["gif", "png", "jpeg", "jpg", "svg", "bmp"];
+        return zuul_fileExtension(validExtensions, value);
+    }
+
+    function zuul_fileExtensionVideo(value) {
+        var validExtensions = ["mp4", "ogv", "m4v", "mov", "avi"];
+        return zuul_fileExtension(validExtensions, value);
+    }
+
+    function zuul_inArray(arr, value) {
+        if (typeof arr !== "object"
+                || typeof arr.indexOf === "undefined") {
+            return false;
+        }
+
+        if (arr.indexOf(value) !== -1) {
+            return true;
+        }
+        return false;
+    }
+
     //This is just static, no need to make a new instance here
     zuul.alphaNumeric = zuul_alphaNumeric;
     zuul.between = zuul_between;
@@ -134,6 +196,12 @@ var zuul = zuul || {};
     zuul.date = zuul_date;
     zuul.decimal = zuul_decimal;
     zuul.email = zuul_email;
+    zuul.extension = zuul_extension;
+    zuul.fileExtension = zuul_fileExtension;
+    zuul.fileExtensionAudio = zuul_fileExtensionAudio;
+    zuul.fileExtensionImage = zuul_fileExtensionImage;
+    zuul.fileExtensionVideo = zuul_fileExtensionVideo;
+    zuul.inArray = zuul_inArray;
     zuul.int = zuul_int;
 }());
 
