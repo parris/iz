@@ -2,7 +2,7 @@
     "name": "Zuul",
     "version": "0.0.1",
     "description": "Some basic validation functions that were useful across projects",
-    "main": "Validation.js",
+    "main": "validation.js",
     "keywords": [
         "validation",
         "regex",
@@ -11,5 +11,9 @@
     "repository": {
         "type": "git",
         "url": "git@github.com:parris/zuul.git"
+    },
+    "devDependencies": {
+        "mocha":"~1.1.0",
+        "should":"~0.6.3"
     }
 }
