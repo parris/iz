@@ -5,12 +5,14 @@
     <option curly="true" />
     <option noarg="true" />
     <option forin="true" />
+    <option es5="true" />
     <option strict="true" />
     <option noempty="true" />
     <option undef="true" />
     <option eqeqeq="true" />
     <option nonew="true" />
     <option browser="true" />
+    <option node="true" />
     <option maxerr="50" />
   </component>
 </project>

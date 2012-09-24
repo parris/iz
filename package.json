@@ -2,7 +2,7 @@
     "name": "Zuul",
     "version": "0.0.1",
     "description": "Some basic validation functions that were useful across projects",
-    "main": "validation.js",
+    "main": "zuul.js",
     "keywords": [
         "validation",
         "regex",

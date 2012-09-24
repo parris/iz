@@ -1,6 +1,6 @@
 This package's goals are really simple. Just looking for a lightweight manner to validate common things. Zuul is
 reference to ghostbusters (and mythology I SUPPOSE). Apparently he is some sort of gatekeeper. As such zuul will
-act as your gate keeper and keep your data's integrity intact!
+act as your gatekeeper and keep your data's integrity intact!
 
 Possible validations so far. All return true or false. The comment next to each is the true case:
 
