@@ -30,7 +30,7 @@ Possible validations so far. All return true or false. The comment next to each 
     zuul.ssn(*);                        // is a social security number
     zuul.url(*);                        // seems like a valid url
 
-The check the possible cases that will definitely work take a look at the spec folder.
+Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
 Omissions
 ----
