@@ -12,6 +12,9 @@ describe("Zuul", function() {
         zuul.alphaNumeric("_3423423").should.not.be.ok;
         zuul.alphaNumeric("342 3423").should.not.be.ok;
         zuul.alphaNumeric("alals*fd").should.not.be.ok;
+        zuul.alphaNumeric({}).should.not.be.ok;
+        zuul.alphaNumeric(function () {}).should.not.be.ok;
+        zuul.alphaNumeric([]).should.not.be.ok;
     });
 
     it("Can validate that a primitive is between 2 other primitives", function () {
@@ -66,6 +69,44 @@ describe("Zuul", function() {
 
         zuul.cc("4012 8888 8888 1881").should.be.ok; //visa with spaces
         zuul.cc("4012-8888-8888-1881").should.be.ok; //visa with dashes
+        zuul.cc({}).should.not.be.ok;
+        zuul.cc(function () {}).should.not.be.ok;
+        zuul.cc(["5"]).should.not.be.ok;
+    });
+
+    it("Can validated dates", function () {
+        zuul.date(new Date()).should.be.ok;
+        zuul.date(0).should.be.ok; //assumed milliseconds from epoch
+        zuul.date("09/23/2012").should.be.ok;
+        zuul.date("09-23-2012 21:27:00").should.be.ok;
+        zuul.date("January 5th, 2012").should.not.be.ok;
+        zuul.date("Pizza").should.not.be.ok;
+        zuul.date({}).should.not.be.ok;
+        zuul.date(function () {}).should.not.be.ok;
+        zuul.date([]).should.not.be.ok;
+    });
+
+    it("Can validate decimals", function () {
+        zuul.decimal("5.5").should.be.ok;
+        zuul.decimal(5.5).should.be.ok;
+        zuul.decimal("340298.3234234").should.be.ok;
+
+        zuul.decimal(5).should.not.be.ok;
+        zuul.decimal("5").should.not.be.ok;
+        zuul.decimal("5.5.5").should.not.be.ok;
+        zuul.decimal({}).should.not.be.ok;
+        zuul.decimal(function () {}).should.not.be.ok;
+        zuul.decimal([]).should.not.be.ok;
+    });
+
+    it("can validate email address", function () {
+        zuul.email("bob@bob").should.be.ok;
+        zuul.email("bob@bob.com").should.be.ok;
+        zuul.email("bob").should.not.be.ok;
+        zuul.email({}).should.not.be.ok;
+        zuul.email(function () {}).should.not.be.ok;
+        zuul.email([]).should.not.be.ok;
+        zuul.email(5).should.not.be.ok;
     });
 
     xit("Can validate integers", function () {

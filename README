@@ -30,13 +30,10 @@ zuul.url(*);                        // seems like a valid url
 
 The check the possible cases that will definitely work take a look at the spec folder.
 
-Lastly, I omitted a few typical validations for these reasons:
+Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
-- Equality: There is no guarantee of an equals method for objects and even if there were object equality can mean a
-variety of things. The 'primitives' are easily compared so that is fairly useless.
-- Uniqueness: I would LOVE to check for uniqueness; however, since that implementation is extremely dependant on
-environment it is not possible within the scope of this package. Also it is somewhat a difficult problem to solve
-async type requests synchronously in node without some other library being involved.
-- File: Requires async.
+- Equality: There is no guarantee of an equalTo method for objects and even if there were object equality can mean a variety of things. The 'primitives' are easily compared, which makes this check sort of useless. If this catches on maybe I'll enforce equalTo methods on objects?
+- Uniqueness: I would LOVE to check for uniqueness; however, since that implementation is extremely dependant on environment it is not possible within the scope of this package. Also it is somewhat a difficult problem to solve async type requests synchronously in node without some other library being involved. I have one I am working for mongo. I'll post a gist eventually.
+- File: Requires async not ready yet.
 - ExpDate: Just make it so an old date can't be entered. You can't check for this until the bank reports a failure
-
+- In depth email address regex: Not really possible it seems. You can either write some really complicated regex that will likely pass 99.9% of things or write something simple that will pass everything with the @ symbol. I choose the later. The other option was to ask the ISPs. Once again async is required. Not ready for that yet. Also some ISPs have blocked those features (sbcglobal for instance).
