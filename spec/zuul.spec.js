@@ -232,7 +232,8 @@ describe("Zuul", function() {
         zuul.money(function (){}).should.not.be.ok; //no functions
         zuul.money([]).should.not.be.ok; //arrays etc
 
-        zuul.money("100", /[*]/).should.be.ok;
+        //zuul.money("100", /[*]/).should.be.ok;
+        zuul.money("$100", ["$",""]).should.be.ok;
         zuul.money("100", {}).should.not.be.ok;
     });
 });
