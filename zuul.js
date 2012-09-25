@@ -3,6 +3,159 @@ var zuul = zuul || {};
 
 (function () {
     'use strict';
+    var locales = {
+        sq: {},         //Albanian
+        sq_AL: {},      //  Albania
+        ar: {},         //Arabic
+        ar_DZ: {},      //  Algeria
+        ar_BH: {},      //  Bahrain
+        ar_EG: {},      //  Egypt
+        ar_IQ: {},      //  Iraq
+        ar_JO: {},      //  Jordan,
+        ar_KW: {},      //  Kuwait
+        ar_LB: {},      //  Lebanon
+        ar_LY: {},      //  Libya
+        ar_MA: {},      //  Morocco
+        ar_OM: {},      //  Oman
+        ar_QA: {},      //  Qatar
+        ar_SA: {},      //  Saudi Arabia
+        ar_SD: {},      //  Sudan
+        ar_SY: {},      //  Syria
+        ar_TN: {},      //  Tunisia
+        ar_AE: {},      //  United Arab Emirates
+        ar_YE: {},      //  Yemen
+        be: {},         //Belarusian
+        be_BY: {},      //  Belarus
+        bg: {},         //Bulgarian
+        bg_BG: {},      //  Bulgaria
+        ca: {},         //Catalan
+        ca_ES: {},      //  Spain
+        zh: {},         //Chinese
+        zh_CN: {},      //  China
+        zh_HK: {},      //  Hong Kong
+        zh_SG: {},      //  Singapore
+        zh_TW: {},      //  Taiwan
+        hr: {},         //Croatian
+        hr_HR: {},      //  Croatia
+        cs: {},         //Czech
+        cs_CZ: {},      //  Czech Republic
+        da: {},         //Danish
+        da_DK: {},      //  Denmark
+        nl: {},         //Dutch
+        nl_BE: {},      //  Belgium
+        nl_NL: {},      //  Netherlands
+        en: {},         //English
+        en_AU: {},      //  Australia
+        en_CA: {},      //  Canada
+        en_IN: {},      //  India
+        en_IE: {},      //  Ireland
+        en_MT: {},      //  Malta
+        en_NZ: {},      //  New Zealand
+        en_PH: {},      //  Philippines
+        en_SG: {},      //  Singapore
+        en_GB: {},      //  United Kingdom
+        en_US: {},      //  United States
+        et: {},         //Estonian
+        et_EE: {},      //  Estonia
+        fi: {},         //Finish
+        fi_FI: {},      //  Finland
+        fr: {},         //French
+        fr_BE: {},      //  Belgium
+        fr_CA: {},      //  Canada
+        fr_FR: {},      //  France
+        fr_LU: {},      //  Luxembourg
+        fr_CH: {},      //  Switzerland
+        de: {},         //German
+        de_AT: {},      //  Austria
+        de_DE: {},      //  Germany
+        de_LU: {},      //  Luxembourg
+        de_CH: {},      //  Switzerland
+        el: {},         //Greek
+        el_CY: {},      //  Cyprus
+        el_GR: {},      //  Greece
+        iw: {},         //Hebrew
+        iw_IL: {},      //  Israel
+        hi_IN: {},      //Hindi India
+        hu: {},         //Hungarian
+        hu_HU: {},      //  Hungary
+        is: {},         //Icelandic
+        is_IS: {},      //  Iceland
+        in: {},         //Indonesian
+        in_ID: {},      //  Indonesia
+        ga: {},         //Irish
+        ga_IE: {},      //  Ireland
+        it: {},         //Italian
+        it_IT: {},      //  Italy
+        it_CH: {},      //  Switzerland
+        ja: {},         //Japanese
+        ja_JP: {},      //  Japan
+        ja_JP_JP: {},   //  Japan, JP
+        ko: {},         //Korean
+        ko_KR: {},      //  South Korea
+        lv: {},         //Latvian
+        lv_LV: {},      //  Latvia
+        lt: {},         //Lithuanian
+        lt_LT: {},      //  Lithuania
+        mk: {},         //Macedonian
+        mk_MK: {},      //  Macedonia
+        ms: {},         //Malay
+        ms_MY: {},      //  Malaysia
+        mt: {},         //Maltese
+        mt_MT: {},      //  Malta
+        no: {},         //Norwegian
+        no_NO: {},      //  Norway,
+        no_NO_NY: {},   //  Noway, Nynorsk
+        pl: {},         //Polish
+        pl_PL: {},      //  Poland
+        pt: {},         //Portuguese
+        pt_BR: {},      //  Brazil
+        pt_PT: {},      //  Portugal
+        ro: {},         //Romanian
+        ro_RO: {},      //  Romania
+        ru: {},         //Russian
+        ru_RU: {},      //  Russia
+        sr: {},         //Serbian
+        sr_BA: {},      //  Bosnia and Herzegovina
+        sr_ME: {},      //  Montenegro
+        sr_CS: {},      //  Serbia and Montenegro
+        sr_RS: {},      //  Serbia
+        sk: {},         //Slovak
+        sk_SK: {},      //  Slovakia
+        sl: {},         //Slovenian
+        sl_SI: {},      //  Slovenia
+        es: {},         //Spanish
+        es_AR: {},      //  Argentina
+        es_BO: {},      //  Bolivia
+        es_CL: {},      //  Chile
+        es_CO: {},      //  Colombia
+        es_CR: {},      //  Costa Rica
+        es_DO: {},      //  Dominican Republic
+        es_EC: {},      //  Ecuador
+        es_SV: {},      //  El Salvador
+        es_GT: {},      //  Guatemala
+        es_HN: {},      //  Honduras
+        es_MX: {},      //  Mexico
+        es_NI: {},      //  Nicaragua
+        es_PA: {},      //  Panama
+        es_PY: {},      //  Paraguay
+        es_PE: {},      //  Peru
+        es_PR: {},      //  Puerto Rico
+        es_ES: {},      //  Spain
+        es_US: {},      //  United States
+        es_UY: {},      //  Uruguay
+        es_VE: {},      //  Venezuela
+        sv: {},         //Swedish
+        sv_SE: {},      //  Sweden
+        th: {},         //Thai
+        th_TH: {},      //  Thailand
+        th_TH_TH: {},   //  Thailand,TH
+        tr: {},         //Turkish
+        tr_TR: {},      //  Turkey
+        uk: {},         //Ukrainian
+        uk_UA: {},      //  Ukraine
+        vi: {},         //Vietnamese
+        vi_VN: {}      //Vietnam
+    };
 
     function zuul_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
@@ -232,6 +385,27 @@ var zuul = zuul || {};
         return false;
     }
 
+    /**
+     * Checks if some string is in a monetary format.
+     * @param str moniesssssss
+     * @param format A RegExp or a Locale
+     * @return {Boolean}
+     */
+    function zuul_money(str, format) {
+        var i = 0,
+            form = "";
+        if (typeof str === "string" && (format instanceof RegExp
+                || (typeof format === "object" && typeof format.length !== "undefined"))) {
+
+            if (format instanceof RegExp && format.test(str)) {
+                return true;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
     //This is just static, no need to make a new instance here
     zuul.alphaNumeric = zuul_alphaNumeric;
     zuul.between = zuul_between;
@@ -250,6 +424,7 @@ var zuul = zuul || {};
     zuul.ip = zuul_ip;
     zuul.minLength = zuul_minLength;
     zuul.maxLength = zuul_maxLength;
+    zuul.money = zuul_money;
 }());
 
 module.exports = zuul;

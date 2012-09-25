@@ -25,8 +25,8 @@ Possible validations so far. All return true or false. The comment next to each 
     zuul.ip(str);                       // str resembles an IPV4 or IPV6 address
     zuul.minLen(val, min);              // val (str or arr) is greater than min
     zuul.maxLen(val, max);              // val (str or arr) is shorter than max
-    /*zuul.money(str);                  // Contains monetary 1 monetary symbol and decimal with 2 digits
-    zuul.multiple(num, mult);           // Number is multiple of another number
+    zuul.money(str, format);            // format is a regex or the following strings: USD, GBP,
+    /*zuul.multiple(num, mult);         // Number is multiple of another number
     zuul.notEmpty(arr);                 // Array or object has at least member or item
     zuul.number(*);                     // Is either an int or decimal
     zuul.ofType(obj, typeName);         // If it is a named object, and the name matches the string

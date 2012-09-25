@@ -224,4 +224,15 @@ describe("Zuul", function() {
         zuul.maxLength([1, 2, 3, 4, 5, 6], 7).should.be.ok;
         zuul.maxLength([1, 2, 3, 4, 5, 6], 5).should.not.be.ok;
     });
+
+    it("Can verify money is in the right format", function () {
+        zuul.money("100").should.not.be.ok;
+        zuul.money(123).should.not.be.ok; //numbers are not allowed
+        zuul.money({}).should.not.be.ok; //objs not allowed
+        zuul.money(function (){}).should.not.be.ok; //no functions
+        zuul.money([]).should.not.be.ok; //arrays etc
+
+        zuul.money("100", /[*]/).should.be.ok;
+        zuul.money("100", {}).should.not.be.ok;
+    });
 });
