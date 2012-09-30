@@ -6,3 +6,5 @@ language: node_js
 branches:
   only:
     - master
+
+script: npm test
