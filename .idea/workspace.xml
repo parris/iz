@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49859fc8-3154-4908-8f1b-3137484ebe57" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="zuul.iws" />
@@ -46,7 +45,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="26" selection-start="409" selection-end="409" vertical-scroll-proportion="0.39506173">
+            <state line="16" column="25" selection-start="408" selection-end="408" vertical-scroll-proportion="0.39506173">
               <folding />
             </state>
           </provider>
@@ -381,7 +380,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="26" selection-start="409" selection-end="409" vertical-scroll-proportion="0.39506173">
+        <state line="16" column="25" selection-start="408" selection-end="408" vertical-scroll-proportion="0.39506173">
           <folding />
         </state>
       </provider>
