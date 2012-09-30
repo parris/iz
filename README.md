@@ -57,4 +57,9 @@ Thoughts
 
 Installation
 ----
-I am going to publish this on npm once everything is done. For now you can throw this into node_modules on node and client side you can just grab the bin/iz.min.js file or link to it if you are feeling bold.
+
+Install with node.js:
+
+    npm install iz --save
+
+Client side: simply include bin/iz-latest-min.js (if you are feeling bold) or a specific version. iz.js in the root directory is un-minified and could also be useful for debugging.
