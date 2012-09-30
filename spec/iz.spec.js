@@ -283,6 +283,8 @@ describe("Iz", function() {
 
         iz.ssn("123456789").should.be.ok;
         iz.ssn("123-45-6789").should.be.ok;
+        iz.ssn("000-00-000").should.be.ok;
+        iz.ssn("00000-000").should.be.ok;
 
         iz.ssn("1234567890").should.not.ok;
         iz.ssn("123-45-678").should.not.be.ok;
