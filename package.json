@@ -1,5 +1,5 @@
 {
-    "name": "Zuul",
+    "name": "Iz",
     "version": "0.0.1",
     "description": "Some basic validation functions that were useful across projects",
     "main": "zuul.js",
@@ -10,10 +10,12 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git@github.com:parris/zuul.git"
+        "url": "git@github.com:parris/iz.git"
     },
     "devDependencies": {
         "mocha":"~1.1.0",
-        "should":"~0.6.3"
+        "should":"~0.6.3",
+        "gear": "~0.7.0",
+        "gear-lib": "~0.8.0",
     }
 }

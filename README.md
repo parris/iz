@@ -39,11 +39,11 @@ Omissions
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
 - Equality: There is no guarantee of an equalTo method for objects and even if there were object equality can mean a variety of things. The 'primitives' are easily compared, which makes this check sort of useless. If this catches on maybe I'll enforce equalTo methods on objects?
-- Uniqueness: I would LOVE to check for uniqueness; however, since that implementation is extremely dependant on environment it is not possible within the scope of this package. Also it is somewhat a difficult problem to solve async type requests synchronously in node without some other library being involved. I have one I am working for mongo. I'll post a gist eventually.
-- File: Requires async not ready yet.
+- Uniqueness: I would LOVE to check for uniqueness; however, since that implementation is dependant on environment it is not possible within the scope of this package. Also it is non-trivial in EVERY case to solve async type requests synchronously. I am working on uniqueness currently in mongo and I'll post a gist or something eventually.
+- File: Requires async not ready yet to do that yet.
 - ExpDate: Just make it so an old date can't be entered. You can't validate this number until the bank reports a failure anyways.
 - In depth email address regex: Not really possible it seems. You can either write some really complicated regex that will likely pass 99.9% of things or write something simple that will pass everything with the @ symbol. I choose the later. The other option was to ask the ISPs. Once again async is required. Not ready for that yet. Also some ISPs have blocked those features (sbcglobal for instance). Just make the user "confirm" their email address. That should be your validation.
-- Money: The scope is just too large. I started making this and realize there was about 50x ways to skin this. If you have ideas I'd love to hear them. I started doing it by locale then realized that was too limiting. Then I had about 7 "modes" and an optional regex, which also sucked. I think I'll settle on it depends too much on specification and as such it shouldn't be part of a library. If you need help search google for "regex money" you'll find a TON of resources.
+- Money: The scope is just too large. I started making this and realized there are about 50x ways to skin this. If you have ideas I'd love to hear them. I started doing it by locale then realized that was too limiting. Then I had about 7 "modes" and an optional regex, which also sucked. I think I'll settle on it depends too much on specification and as such it shouldn't be part of a library.
 - Empty: Underscore's implementation is awesome :).
 - URL: No real non-crazy regex exists. Checking for http:// at the front is lame, why force your user to type that in? The alternative is AJAX.
 
@@ -55,10 +55,6 @@ Thoughts
 - I may expand the scope of this project to have client/server side validations for mongo.
 - It may be cool to define locals since some of the functions depend on it. Then for each locale have different tests set-up. I'll wait till this gains some more steam or I have a need for such a system.
 
-Integration
-----
-I am integrating this with backbone.js. I am writing some code to make backbone.js transportable between server side and client side and the way I am integrating it is by extending the model prototype. There are other ways, but this might be the easiest solution! You can use underscores extend functionality to modify backbone just a bit to include this functions.
-
 Installation
 ----
-I am going to publish this on svn once everything is done. For now you can throw this into node_modules.
+I am going to publish this on npm once everything is done. For now you can throw this into node_modules on node and client side you can just grab the bin/iz.min.js file or link to it if you are feeling bold.
