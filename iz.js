@@ -321,6 +321,7 @@ var iz = iz || {};
     iz.phone = iz_phone;
     iz.postal = iz_postal;
     iz.ssn = iz_ssn;
+
 }());
 
 /* allow for both module loading and standard js loading */
