@@ -2,9 +2,17 @@
 
 Goals/Info
 ----
-This package's goals are really simple. Just looking for a lightweight manner to validate common things. It is user centric and ensures that they don't make typos. It does not require them to enter things in "some right way", but rather "a right way". In other words if they like to put "." instead of "-" in their phone numbers it should let them. We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
+This package's goals are really simple. Just looking for a lightweight manner to validate common things. It is user
+centric and ensures that they don't make typos. It does not require them to enter things in "some right way", but
+rather "a right way". In other words if they like to put "." instead of "-" in their phone numbers it should let them.
+We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
+format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
 
-I was going to name it "is", but there is another project called "is" that handles type validations. "Iz" will have to do for now!
+Change Log: 0.0.2
+----
+- Re-ordered parameters for fileExtension and inArray
+- Added method chaining
+- Added error messages
 
 API
 ----
@@ -22,7 +30,7 @@ returned object and run more validations on it later as well. This function also
     }
     iz("Bob", errors).between(2, 15).int().multiple(5);
 
-You don't need to use the chained method. Alternatively you could call the functions more simply
+You don't need to use the chained notation. Alternatively you could call the functions more simply:
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
