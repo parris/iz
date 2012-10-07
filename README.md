@@ -8,6 +8,12 @@ rather "a right way". In other words if they like to put "." instead of "-" in t
 We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
 format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
 
+Change Log: 0.0.3
+----
+- Added equal method
+- Added empty method
+- Added not
+
 Change Log: 0.0.2
 ----
 - Re-ordered parameters for fileExtension and inArray
@@ -18,13 +24,16 @@ API
 ----
 Chaining:
 
-    iz(10).between(2, 15).int().multiple(5);
+    iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
+    iz(10).between(2, 15).not.between(1, 5).int().multiple(5); // ooo fancy not operator... the next thing will check not-ness
 
 When using the chained notation an object containing an errors{array} and valid{bool} is returned. You could take the
-returned object and run more validations on it later as well. This function also accepts an object with error names.
+returned object and run more validations on it later as well. This function also accepts an object with error names. If you not something
+then you can provide not_* in the error_messages object.
 
     var errors = {
-        between: "Is not between",
+        between: "Is not between, please fix",
+        not_between: "Value must be between!",
         int: "Not an int!!!",
         multiple: "This is terrible and you should fix it"
     }
@@ -34,16 +43,18 @@ You don't need to use the chained notation. Alternatively you could call the fun
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
-Possible validations so far. All return true or false. The comment next to each is the true case:
+Possible validations so far (true case in comments):
 
     iz.alphaNumeric(*);               // Is number or string(contains only numbers or strings)
     iz.between(number, start, end);   // Number is start or greater but less than or equal to end, all params numeric
     iz.blank(*);                      // Empty string, undefined or null
     iz.boolean(*);                    // true, false, 0, 1
     iz.cc(*);                         // Luhn checksum approved value
-    iz.date(*);                       // Is a data obj or is a string that is easily converted to a date
+    iz.date(*);                       // Is a date obj or is a string that is easily converted to a date
     iz.decimal(*);                    // Contains 1 decimal point and potentially can have a - at the beginning
     iz.email(*);                      // Seems like a valid email address
+    iz.empty(*);                      // If an object, array or function contains no properties true. All primitives return true.
+    iz.equal(*, *);                   // Any 2 things are strictly equal. If 2 objects their internal properties will be checked. If the first parameter has an equals method that will be run instead
     iz.extension(ob1, ob2);           // If obj2's methods are all found in obj1
     iz.fileExtension(value, arr);     // Checks if the extension of value is in arr. An obj can be provide, but must have indexOf defined.
     iz.fileExtensionAudio(value);     // Check against mp3, ogg, wav, aac
@@ -66,22 +77,17 @@ Omissions
 ----
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
-- Equality: There is no guarantee of an equalTo method for objects and even if there were object equality can mean a variety of things. The 'primitives' are easily compared, which makes this check sort of useless. If this catches on maybe I'll enforce equalTo methods on objects?
-- Uniqueness: I would LOVE to check for uniqueness; however, since that implementation is dependant on environment it is not possible within the scope of this package. Also it is non-trivial in EVERY case to solve async type requests synchronously. I am working on uniqueness currently in mongo and I'll post a gist or something eventually.
-- File: Requires async not ready yet to do that yet.
-- ExpDate: Just make it so an old date can't be entered. You can't validate this number until the bank reports a failure anyways.
-- In depth email address regex: Not really possible it seems. You can either write some really complicated regex that will likely pass 99.9% of things or write something simple that will pass everything with the @ symbol. I choose the later. The other option was to ask the ISPs. Once again async is required. Not ready for that yet. Also some ISPs have blocked those features (sbcglobal for instance). Just make the user "confirm" their email address. That should be your validation.
-- Money: The scope is just too large. I started making this and realized there are about 50x ways to skin this. If you have ideas I'd love to hear them. I started doing it by locale then realized that was too limiting. Then I had about 7 "modes" and an optional regex, which also sucked. I think I'll settle on it depends too much on specification and as such it shouldn't be part of a library.
-- Empty: Underscore's implementation is awesome :).
-- URL: No real non-crazy regex exists. Checking for http:// at the front is lame, why force your user to type that in? The alternative is AJAX.
+- Uniqueness: I may eventually write some sort of interface for uniqueness checks within some db, but for now this is non-trivial. First up would be mongodb.
+- File: Not sure what the scope should be yet. Mime types? Existance on the web?
+- Email (more in depth): Right now we check for the @ symbol. This accepts all email address. Some more hard regex would be cool, but a real valid email regex is overly complicated and doesn't accept everything. The other option is an in depth check with an email provider (sbcglobal comes to mind).
+- Money: The scope is really large. Thinking about having localized settings. Perhaps specifying some simple format. Not sure yet!
+- URL: No real non-crazy regex exists. Checking for http:// at the front is lame, why force your user to type that in?
 
 Did I miss a validation? Send me a message or a pull request.
 
 Thoughts
 ----
-- There is a ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide both checking methods and value methods.
-- I may expand the scope of this project to have client/server side validations for mongo.
-- It may be cool to define locals since some of the functions depend on it. Then for each locale have different tests set-up. I'll wait till this gains some more steam or I have a need for such a system.
+There is a ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization methods.
 
 Installation
 ----
@@ -90,4 +96,7 @@ Install with node.js:
 
     npm install iz --save
 
-Client side: simply include bin/iz-latest-min.js (if you are feeling bold) or a specific version. iz.js in the root directory is un-minified and could also be useful for debugging.
+Client side:
+Simply include bin/iz-latest-min.js or a specific version. iz.js in the root directory is un-minified and could also be useful for debugging. I will keep all previous releases in the bin directory UNTIL it no longer becomes managable. So if you use some specific version make sure to host it client side.
+
+We will maintain backwards compatibility between 0.0.0 releases although new features will definitely be added.

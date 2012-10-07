@@ -150,6 +150,16 @@ describe("Validation", function () {
         iz.email(5).should.not.be.ok;
     });
 
+    it("can validate that something is empty", function () {
+        iz.empty([]).should.be.ok;
+        iz.empty({}).should.be.ok;
+        iz.empty(function () {}).should.be.ok;
+        iz.empty(true).should.be.ok;
+        iz.empty(5).should.be.ok;
+        iz.empty({bob: true}).should.not.be.ok;
+        iz.empty(["hi"]).should.not.be.ok;
+    });
+
     it("can validate that 2 things are strictly equal", function () {
         var obj1 = {
                 bob: "cheese",

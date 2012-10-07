@@ -136,6 +136,10 @@
         return (/\S+@\S+/).test(value);
     }
 
+    function iz_empty(value) {
+        return true;
+    }
+
     /**
      * Strictly Equal
      * @param value
