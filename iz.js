@@ -3,8 +3,7 @@
 (function () {
     'use strict';
     var validators = {},
-        iz,
-        root = this;
+        iz;
 
     function iz_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
@@ -385,6 +384,6 @@
         }
         exports.iz = iz;
     } else {
-        root.iz = iz;
+        window.iz = iz;
     }
 }());
