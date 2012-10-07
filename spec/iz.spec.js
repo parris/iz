@@ -1,4 +1,5 @@
 /*global describe, it, xit, xdescribe, before, require */
+/*jshint expr:true*/
 
 var iz = require("../iz");
 describe("Iz", function () {
@@ -38,6 +39,7 @@ describe("Iz", function () {
         result.errors.should.include(errors.between);
         result.errors.should.include(errors.boolean);
     });
+
 });
 
 describe("Validation", function () {
@@ -146,6 +148,36 @@ describe("Validation", function () {
         iz.email(function () {}).should.not.be.ok;
         iz.email([]).should.not.be.ok;
         iz.email(5).should.not.be.ok;
+    });
+
+    it("can validate that 2 things are strictly equal", function () {
+        var obj1 = {
+                bob: "cheese",
+                equals : function(obj2) {
+                    if (this.bob === obj2.bob) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            //equals method can be different and it will still match
+            obj2 = {
+                bob: "cheese",
+                equals : function () {}
+            },
+            //don't even need the equals method
+            obj3 = {
+                bob: "cheese"
+            },
+            obj4 = {
+                bob: "pizza"
+            };
+        iz.equal("bob", "bob").should.be.ok;
+        iz.equal({},{}).should.be.ok;
+        iz.equal({},{"bob": true}).should.be.ok;
+        iz.equal(obj1, obj2).should.be.ok;
+        iz.equal(obj1, obj3).should.be.ok;
+        iz.equal(obj1, obj4).should.not.be.ok;
     });
 
     it("can validate that an object is an extension of another object", function () {
