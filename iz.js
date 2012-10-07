@@ -4,15 +4,14 @@
     'use strict';
     var validators = {},
         iz,
-        root = this; //window, browser, the global object
+        root = this;
 
     function iz_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
     }
 
     function iz_number(val) {
-        if ((typeof val === "string" || typeof val === "number")
-                && !isNaN(val % 1)) {
+        if ((typeof val === "string" || typeof val === "number") && !isNaN(val % 1)) {
             return true;
         }
         return false;
@@ -91,7 +90,7 @@
             return false;
         }
 
-        value = value.replace(/[ -]/g, ""); // normalizing
+        value = value.replace(/[ \-]/g, ""); // normalizing
         if (iz_int(value)) {
             return luhnChk(value);
         }
@@ -160,9 +159,8 @@
     function iz_fileExtension(value, validExtensions) {
         var ext;
 
-        if (typeof validExtensions !== "object"
-                || typeof validExtensions.indexOf === "undefined"
-                || typeof value !== "string") {
+        if (typeof validExtensions !== "object" ||
+                typeof validExtensions.indexOf === "undefined" || typeof value !== "string") {
             return false;
         }
 
@@ -189,8 +187,7 @@
     }
 
     function iz_inArray(value, arr) {
-        if (typeof arr !== "object"
-                || typeof arr.indexOf === "undefined") {
+        if (typeof arr !== "object" || typeof arr.indexOf === "undefined") {
             return false;
         }
 
@@ -212,11 +209,8 @@
     }
 
     function iz_minLength(val, len) {
-        if ((typeof val === "string"
-                || typeof val === "object")
-                && typeof val.length !== "undefined"
-                && iz_int(len)
-                && val.length >= len) {
+        if ((typeof val === "string" || typeof val === "object") &&
+                typeof val.length !== "undefined" && iz_int(len) && val.length >= len) {
             return true;
         }
 
@@ -224,11 +218,8 @@
     }
 
     function iz_maxLength(val, len) {
-        if ((typeof val === "string"
-                || typeof val === "object")
-                && typeof val.length !== "undefined"
-                && iz_int(len)
-                && val.length <= len) {
+        if ((typeof val === "string" || typeof val === "object") &&
+            typeof val.length !== "undefined" && iz_int(len) && val.length <= len) {
             return true;
         }
 
@@ -247,8 +238,7 @@
     }
 
     function iz_ofType(obj, type) {
-        if (typeof obj === "object" && typeof obj.length === "undefined"
-                && typeof type === "string") {
+        if (typeof obj === "object" && typeof obj.length === "undefined" && typeof type === "string") {
             //is truly an object
             if (iz_getObjectClass(obj) === type) {
                 return true;
@@ -264,9 +254,9 @@
             cleanedStr = str.replace(/[^x0-9]/g, '');
             numbers = cleanedStr.split("x");
             //first and last array elements are numbers, this allows for multiple x's between the phone number and extension (if exists)
-            if (numbers.length > 0 && iz_int(numbers[0]) // has at least 1 value in the array and it is an integer
-                    && (numbers[0].length === 10 || numbers[0].length === 11) // it has an extension with or without country code
-                    && iz_int(numbers.pop())) { //if it is has an extension it is a valid number
+            if (numbers.length > 0 && iz_int(numbers[0]) &&  // has at least 1 value in the array and it is an integer
+                    (numbers[0].length === 10 || numbers[0].length === 11) && // it has an extension with or without country code
+                    iz_int(numbers.pop())) { //if it is has an extension it is a valid number
                 return true;
             }
         }
@@ -279,8 +269,8 @@
             //removing everything but numbers
             cleanedStr = str.replace(/[^0-9]/g, '');
             //is either a 5 or 9 digit zip code...
-            if (iz_int(cleanedStr)
-                    && (cleanedStr.length === 5 || cleanedStr.length === 9)) {
+            if (iz_int(cleanedStr) &&
+                    (cleanedStr.length === 5 || cleanedStr.length === 9)) {
                 return true;
             }
         }
