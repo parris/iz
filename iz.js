@@ -1,8 +1,10 @@
-/*global module, exports*/
-var iz = iz || {};
+/*global module, exports, window*/
 
 (function () {
     'use strict';
+    var validators = {},
+        iz,
+        root = this; //window, browser, the global object
 
     function iz_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
@@ -155,7 +157,7 @@ var iz = iz || {};
      * Accepts anything.anything.anything.ext.ext and matches the last ext
      * @param value a file extension of a file name
      */
-    function iz_fileExtension(validExtensions, value) {
+    function iz_fileExtension(value, validExtensions) {
         var ext;
 
         if (typeof validExtensions !== "object"
@@ -173,20 +175,20 @@ var iz = iz || {};
 
     function iz_fileExtensionAudio(value) {
         var validExtensions = ["mp3", "ogg", "aac", "wav"];
-        return iz_fileExtension(validExtensions, value);
+        return iz_fileExtension(value, validExtensions);
     }
 
     function iz_fileExtensionImage(value) {
         var validExtensions = ["gif", "png", "jpeg", "jpg", "svg", "bmp"];
-        return iz_fileExtension(validExtensions, value);
+        return iz_fileExtension(value, validExtensions);
     }
 
     function iz_fileExtensionVideo(value) {
         var validExtensions = ["mp4", "ogv", "m4v", "mov", "avi"];
-        return iz_fileExtension(validExtensions, value);
+        return iz_fileExtension(value, validExtensions);
     }
 
-    function iz_inArray(arr, value) {
+    function iz_inArray(value, arr) {
         if (typeof arr !== "object"
                 || typeof arr.indexOf === "undefined") {
             return false;
@@ -297,37 +299,82 @@ var iz = iz || {};
         return false;
     }
 
-    //Expose some methods
-    iz.alphaNumeric = iz_alphaNumeric;
-    iz.between = iz_between;
-    iz.boolean = iz_boolean;
-    iz.cc = iz_cc;
-    iz.date = iz_date;
-    iz.decimal = iz_decimal;
-    iz.email = iz_email;
-    iz.extension = iz_extension;
-    iz.fileExtension = iz_fileExtension;
-    iz.fileExtensionAudio = iz_fileExtensionAudio;
-    iz.fileExtensionImage = iz_fileExtensionImage;
-    iz.fileExtensionVideo = iz_fileExtensionVideo;
-    iz.inArray = iz_inArray;
-    iz.int = iz_int;
-    iz.ip = iz_ip;
-    iz.minLength = iz_minLength;
-    iz.maxLength = iz_maxLength;
-    iz.multiple = iz_multiple;
-    iz.number = iz_number;
-    iz.ofType = iz_ofType;
-    iz.phone = iz_phone;
-    iz.postal = iz_postal;
-    iz.ssn = iz_ssn;
+    //Expose some methods, this is done to preserve function names in all browsers
+    validators.alphaNumeric = iz_alphaNumeric;
+    validators.between = iz_between;
+    validators.boolean = iz_boolean;
+    validators.cc = iz_cc;
+    validators.date = iz_date;
+    validators.decimal = iz_decimal;
+    validators.email = iz_email;
+    validators.extension = iz_extension;
+    validators.fileExtension = iz_fileExtension;
+    validators.fileExtensionAudio = iz_fileExtensionAudio;
+    validators.fileExtensionImage = iz_fileExtensionImage;
+    validators.fileExtensionVideo = iz_fileExtensionVideo;
+    validators.inArray = iz_inArray;
+    validators.int = iz_int;
+    validators.ip = iz_ip;
+    validators.minLength = iz_minLength;
+    validators.maxLength = iz_maxLength;
+    validators.multiple = iz_multiple;
+    validators.number = iz_number;
+    validators.ofType = iz_ofType;
+    validators.phone = iz_phone;
+    validators.postal = iz_postal;
+    validators.ssn = iz_ssn;
 
+    /**
+     * Factory for creating chained checking objects
+     * @param value
+     * @return {Object} of type Iz
+     */
+    iz = function (value) {
+        /**
+         * @param value
+         * @constructor
+         */
+        function Iz(value) {
+        }
+
+        /**
+         * Partial application with currying into a validation function
+         * @param key
+         */
+        function validator_partial(fn) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            args.unshift(value); //add value to the front
+            return function() {
+                var allArguments = args.concat(Array.prototype.slice.call(arguments));
+                return validators[fn].apply(null, allArguments);
+            };
+        }
+
+        for (var fn in validators) {
+            if (validators.hasOwnProperty(fn)) {
+                Iz.prototype[fn] = validator_partial(fn);
+            }
+        }
+
+        return (new Iz(value));
+    };
+
+    for (var fn in validators) {
+        if (validators.hasOwnProperty(fn)) {
+            iz[fn] = validators[fn];
+        }
+    }
+
+    /**
+    *  Allow for both module loading and standard js loading
+    *  Credit to Underscore.js source code for this method.
+    **/
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = iz;
+        }
+        exports.iz = iz;
+    } else {
+        root.iz = iz;
+    }
 }());
-
-/* allow for both module loading and standard js loading */
-if (typeof exports !== "undefined") {
-    exports.iz = iz;
-}
-if (typeof module !== "undefined") {
-    module.exports = iz;
-}

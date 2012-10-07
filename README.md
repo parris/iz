@@ -19,10 +19,10 @@ Possible validations so far. All return true or false. The comment next to each 
     iz.decimal(*);                    // Contains 1 decimal point and potentially can have a - at the beginning
     iz.email(*);                      // Seems like a valid email address
     iz.extension(ob1, ob2);           // If obj2's methods are all found in obj1
-    iz.fileExtension(arr, value);     // Checks if the extension of value is in arr. An obj can be provide, but must have indexOf defined.
+    iz.fileExtension(value, arr);     // Checks if the extension of value is in arr. An obj can be provide, but must have indexOf defined.
     iz.fileExtensionAudio(value);     // Check against mp3, ogg, wav, aac
     iz.fileExtensionImage(value);     // Check against png, jpg, jpeg, gif, bmp, svg, gif
-    iz.inArray(arr, value);           // If * is in the array
+    iz.inArray(value, arr);           // If * is in the array
     iz.int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     iz.ip(str);                       // str resembles an IPV4 or IPV6 address
     iz.minLen(val, min);              // val (str or arr) is greater than min

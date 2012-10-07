@@ -1,10 +1,27 @@
 /*global describe, it, xit, xdescribe, before, require */
-var iz = require("../iz");
 
-describe("Iz", function() {
+var iz = require("../iz");
+describe("Iz", function () {
     'use strict';
 
-    it("Can validate alpha numeric values", function () {
+    it("can be created", function () {
+        //some value
+        (typeof (iz(5)) === "object").should.be.ok;
+        (typeof iz === "function").should.be.ok;
+    });
+
+    it("has prototyped methods and can call one", function () {
+        (typeof iz(5).alphaNumeric === "function").should.be.ok;
+        (iz(5).alphaNumeric()).should.be.ok;
+        //with parameters
+        (iz(5).between(3, 5)).should.be.ok;
+    });
+});
+
+describe("Validation", function () {
+    'use strict';
+
+    it("can validate alpha numeric values", function () {
         iz.alphaNumeric("a2d1kf0v9r9fje9fdgnsdksdf9240uyjsdfgkj").should.be.ok;
         iz.alphaNumeric("aaaaaaa").should.be.ok;
         iz.alphaNumeric("999999").should.be.ok;
@@ -17,7 +34,7 @@ describe("Iz", function() {
         iz.alphaNumeric([]).should.not.be.ok;
     });
 
-    it("Can validate that a primitive is between 2 other primitives", function () {
+    it("can validate that a primitive is between 2 other primitives", function () {
         iz.between(5, 5, 6).should.be.ok;
         iz.between(6, 5, 6).should.be.ok;
         iz.between(4, 3, 5).should.be.ok;
@@ -31,7 +48,7 @@ describe("Iz", function() {
         iz.between(function (){}, function (){}, function () {}).should.not.be.ok; //it also despises functions
     });
 
-    it("Can validate boolean values", function () {
+    it("can validate boolean values", function () {
         iz.boolean(true).should.be.ok;
         iz.boolean(false).should.be.ok;
         iz.boolean(1).should.be.ok;
@@ -45,7 +62,7 @@ describe("Iz", function() {
     /**
      * Tests from Paypal: http://www.paypalobjects.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm
      */
-    it("Can validate credit card numbers", function () {
+    it("can validate credit card numbers", function () {
         iz.cc("371449635398431").should.be.ok; //amex
         iz.cc("343434343434343").should.be.ok; //amex
         iz.cc("371144371144376").should.be.ok; //amex corp
@@ -74,7 +91,7 @@ describe("Iz", function() {
         iz.cc(["5"]).should.not.be.ok;
     });
 
-    it("Can validated dates", function () {
+    it("can validated dates", function () {
         iz.date(new Date()).should.be.ok;
         iz.date(0).should.be.ok; //assumed milliseconds from epoch
         iz.date("09/23/2012").should.be.ok;
@@ -86,7 +103,7 @@ describe("Iz", function() {
         iz.date([]).should.not.be.ok;
     });
 
-    it("Can validate decimals", function () {
+    it("can validate decimals", function () {
         iz.decimal("5.5").should.be.ok;
         iz.decimal(5.5).should.be.ok;
         iz.decimal("340298.3234234").should.be.ok;
@@ -99,7 +116,7 @@ describe("Iz", function() {
         iz.decimal([]).should.not.be.ok;
     });
 
-    it("Can validate email address", function () {
+    it("can validate email address", function () {
         iz.email("bob@bob").should.be.ok;
         iz.email("bob@bob.com").should.be.ok;
         iz.email("bob").should.not.be.ok;
@@ -109,7 +126,7 @@ describe("Iz", function() {
         iz.email(5).should.not.be.ok;
     });
 
-    it("Can validate that an object is an extension of another object", function () {
+    it("can validate that an object is an extension of another object", function () {
         iz.extension({},"5").should.not.be.ok;
         iz.extension({
             bob: 10,
@@ -131,42 +148,42 @@ describe("Iz", function() {
         iz.extension([],["hello"]).should.not.be.ok;
     });
 
-    it("Can validate that a file extension is valid", function () {
-        iz.fileExtension(["pizza"],"apple_pie.pizza").should.be.ok;
-        iz.fileExtension(["png"],"hello.png").should.be.ok;
-        iz.fileExtension(["png"],"hello.PNG").should.be.ok;
-        iz.fileExtension([], "").should.not.be.ok;
+    it("can validate that a file extension is valid", function () {
+        iz.fileExtension("apple_pie.pizza", ["pizza"]).should.be.ok;
+        iz.fileExtension("hello.png", ["png"]).should.be.ok;
+        iz.fileExtension("hello.PNG", ["png"]).should.be.ok;
+        iz.fileExtension("", []).should.not.be.ok;
         iz.fileExtension("","").should.not.be.ok;
-        iz.fileExtension(["PNG"],"hello.png").should.not.be.ok;
-        iz.fileExtension([".png"],"hello.png").should.not.be.ok;
-        iz.fileExtension(["png"],"hello.mp3").should.not.be.ok;
+        iz.fileExtension("hello.png", ["PNG"]).should.not.be.ok;
+        iz.fileExtension("hello.png", [".png"]).should.not.be.ok;
+        iz.fileExtension("hello.mp3", ["png"]).should.not.be.ok;
         iz.fileExtension({},{}).should.not.be.ok;
     });
 
-    it("Can validate audio file extensions", function () {
+    it("can validate audio file extensions", function () {
         iz.fileExtensionAudio("apple.mp3").should.be.ok;
         iz.fileExtensionAudio("apple.png").should.not.be.ok;
     });
 
-    it("Can validate image file extensions", function () {
+    it("can validate image file extensions", function () {
         iz.fileExtensionImage("apple.png").should.be.ok;
         iz.fileExtensionImage("apple.mp3").should.not.be.ok;
     });
 
-    it("Can validate video file extensions", function () {
+    it("can validate video file extensions", function () {
         iz.fileExtensionVideo("apple.mp4").should.be.ok;
         iz.fileExtensionVideo("apple.mp3").should.not.be.ok;
     });
 
-    it("Can tell if something is in an array", function () {
-        iz.inArray(["pizza","chicken","tofu","turkey"], "tofu").should.be.ok;
-        iz.inArray(["pizza","chicken","tofu","turkey"], "lizard").should.not.be.ok;
+    it("can tell if something is in an array", function () {
+        iz.inArray("tofu", ["pizza","chicken","tofu","turkey"]).should.be.ok;
+        iz.inArray("lizard", ["pizza","chicken","tofu","turkey"]).should.not.be.ok;
         iz.inArray(5,6).should.not.be.ok;
         iz.inArray({},[]).should.not.be.ok;
         iz.inArray(function () {}, 5).should.not.be.ok;
     });
 
-    it("Can validate integers", function () {
+    it("can validate integers", function () {
         iz.int("1000").should.be.ok;
         iz.int(1000).should.be.ok;
         iz.int(999).should.be.ok;
@@ -180,7 +197,7 @@ describe("Iz", function() {
         iz.int(function () {}).should.not.be.ok;
     });
 
-    it("Can validate IPv4, IPv6 and host names", function () {
+    it("can validate IPv4, IPv6 and host names", function () {
         iz.ip("pizza").should.be.ok;
         //ipv6
         iz.ip("3ffe:1900:4545:3:200:f8ff:fe21:67cf").should.be.ok;
@@ -197,7 +214,7 @@ describe("Iz", function() {
         iz.ip("030000001353").should.not.be.ok;
     });
 
-    it("Can require a string to have some min length", function () {
+    it("can require a string to have some min length", function () {
         iz.minLength("Pizza", 5).should.be.ok;
         iz.minLength("pizza", 4).should.be.ok;
         iz.minLength("pizza", 6).should.not.be.ok;
@@ -205,13 +222,13 @@ describe("Iz", function() {
         iz.minLength("lizard", {}).should.not.be.ok;
     });
 
-    it("Can require an array to have some min length", function () {
+    it("can require an array to have some min length", function () {
         iz.minLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
         iz.minLength([1, 2, 3, 4, 5, 6], 5).should.be.ok;
         iz.minLength([1, 2, 3, 4, 5, 6], 7).should.not.be.ok;
     });
 
-    it("Can require a string to have some max length", function () {
+    it("can require a string to have some max length", function () {
         iz.maxLength("Pizza", 5).should.be.ok;
         iz.maxLength("pizza", 6).should.be.ok;
         iz.maxLength("pizza", 4).should.not.be.ok;
@@ -219,20 +236,20 @@ describe("Iz", function() {
         iz.maxLength("lizard", {}).should.not.be.ok;
     });
 
-    it("Can require an array to have some max length", function () {
+    it("can require an array to have some max length", function () {
         iz.maxLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
         iz.maxLength([1, 2, 3, 4, 5, 6], 7).should.be.ok;
         iz.maxLength([1, 2, 3, 4, 5, 6], 5).should.not.be.ok;
     });
 
-    it("Can tell if a number is multiple of another number", function () {
+    it("can tell if a number is multiple of another number", function () {
         iz.multiple(10, 5).should.be.ok;
         iz.multiple(10, 2).should.be.ok;
         iz.multiple(2, 10).should.not.be.ok;
         iz.multiple(5, {}).should.not.be.ok; // disallow everything but numbers
     });
 
-    it("Can tell if something is a number", function () {
+    it("can tell if something is a number", function () {
         iz.number({}).should.not.be.ok;
         iz.number("5").should.be.ok;
         iz.number("5.32342").should.be.ok;
@@ -240,7 +257,7 @@ describe("Iz", function() {
         iz.number("bob").should.not.be.ok;
     });
 
-    it("Can tell if the name of an object is equal to some string", function () {
+    it("can tell if the name of an object is equal to some string", function () {
         var obj = {};
 
         function Car() { }
@@ -250,7 +267,7 @@ describe("Iz", function() {
         iz.ofType(obj, "Object").should.be.ok;
     });
 
-    it("Can validate a north american phone number", function () {
+    it("can validate a north american phone number", function () {
         iz.phone(1231231).should.not.be.ok;
         iz.phone({}).should.not.be.ok;
 
@@ -266,7 +283,7 @@ describe("Iz", function() {
         iz.phone("12345678901").should.be.ok;
     });
 
-    it("Can validate a US zip-code", function () {
+    it("can validate a US zip-code", function () {
         iz.postal(1231231).should.not.be.ok;
         iz.postal({}).should.not.be.ok;
 
@@ -277,7 +294,7 @@ describe("Iz", function() {
         iz.postal("9411").should.not.be.ok;
     });
 
-    it("Can validate a US SSN", function () {
+    it("can validate a US SSN", function () {
         iz.ssn(123).should.not.be.ok;
         iz.ssn({}).should.not.be.ok;
 
