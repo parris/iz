@@ -8,6 +8,24 @@ I was going to name it "is", but there is another project called "is" that handl
 
 API
 ----
+Chaining:
+
+    iz(10).between(2, 15).int().multiple(5);
+
+When using the chained notation an object containing an errors{array} and valid{bool} is returned. You could take the
+returned object and run more validations on it later as well. This function also accepts an object with error names.
+
+    var errors = {
+        between: "Is not between",
+        int: "Not an int!!!",
+        multiple: "This is terrible and you should fix it"
+    }
+    iz("Bob", errors).between(2, 15).int().multiple(5);
+
+You don't need to use the chained method. Alternatively you could call the functions more simply
+
+    iz.between(3, 2, 5); //is 3, between 2 and 5?
+
 Possible validations so far. All return true or false. The comment next to each is the true case:
 
     iz.alphaNumeric(*);               // Is number or string(contains only numbers or strings)

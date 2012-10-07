@@ -12,9 +12,31 @@ describe("Iz", function () {
 
     it("has prototyped methods and can call one", function () {
         (typeof iz(5).alphaNumeric === "function").should.be.ok;
-        (iz(5).alphaNumeric()).should.be.ok;
+        (iz(5).alphaNumeric().valid).should.be.ok;
         //with parameters
-        (iz(5).between(3, 5)).should.be.ok;
+        (iz(5).between(3, 5).valid).should.be.ok;
+    });
+
+    it("allows methods to be chained together", function () {
+        iz(5).alphaNumeric().between(3, 5).int().valid.should.be.ok;
+    });
+
+    it("tells you what fails when you chain", function () {
+        var result = iz(5).between(1, 2).boolean();
+        result.valid.should.not.be.ok;
+        result.errors.should.include("between");
+        result.errors.should.include("boolean");
+    });
+
+    it("accepts an error message list", function () {
+        var errors = {
+                between: "Is not between",
+                boolean: "Is not Boolean"
+            },
+            result = iz(5, errors).between(1, 2).boolean();
+        result.valid.should.not.be.ok;
+        result.errors.should.include(errors.between);
+        result.errors.should.include(errors.boolean);
     });
 });
 

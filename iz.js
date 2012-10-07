@@ -329,24 +329,44 @@
      * @param value
      * @return {Object} of type Iz
      */
-    iz = function (value) {
+    iz = function (value, error_messages) {
         /**
          * @param value
          * @constructor
          */
-        function Iz(value) {
+        function Iz(value, error_messages) {
+            if (typeof error_messages === "object") {
+                this.error_messages = error_messages;
+            } else {
+                this.error_messages = {};
+            }
+            this.value = value;
+            this.errors = [];
+            this.valid = true;
         }
 
         /**
-         * Partial application with currying into a validation function
+         * Partial application with currying into a validation function. Pushes to error array if an error exists.
+         * If an error_message is specified for some specific check then that message is used. Otherwise just the function name.
+         * Also sets valid to false if an error is found. It can't ever set valid to true.
          * @param key
          */
         function validator_partial(fn) {
             var args = Array.prototype.slice.call(arguments, 1);
             args.unshift(value); //add value to the front
             return function() {
-                var allArguments = args.concat(Array.prototype.slice.call(arguments));
-                return validators[fn].apply(null, allArguments);
+                var allArguments = args.concat(Array.prototype.slice.call(arguments)),
+                    result = validators[fn].apply(null, allArguments);
+                if (!result) {
+                    if (typeof this.error_messages[fn] !== "undefined") {
+                        this.errors.push(this.error_messages[fn]);
+                    } else {
+                        this.errors.push(fn);
+                    }
+                    this.errors.push(fn);
+                    this.valid = false;
+                }
+                return this;
             };
         }
 
@@ -356,7 +376,7 @@
             }
         }
 
-        return (new Iz(value));
+        return (new Iz(value, error_messages));
     };
 
     for (var fn in validators) {
