@@ -28,8 +28,8 @@ Chaining:
     iz(10).between(2, 15).not().between(1, 5).int().multiple(5); // the fancy not operator will cause the opposite result to happen next... this is also true!
 
 When using the chained notation an object containing an errors{array} and valid{bool} is returned. You could take the
-returned object and run more validations on it later as well. This function also accepts an object with error names. If you not something
-then you can provide not_* in the error_messages object.
+returned object and run more validations on it later as well. This function also accepts an object with error names. If you `.not()` something
+then you can provide not_* in the error_messages object to return a custom error.
 
     var errors = {
         between: "Is not between, please fix",
@@ -78,7 +78,7 @@ Omissions
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
 - Uniqueness: I may eventually write some sort of interface for uniqueness checks within some db, but for now this is non-trivial. First up would be mongodb.
-- File: Not sure what the scope should be yet. Mime types? Existance on the web?
+- File: Not sure what the scope should be yet. Mime types? Existence on the web?
 - Email (more in depth): Right now we check for the @ symbol. This accepts all email address. Some more hard regex would be cool, but a real valid email regex is overly complicated and doesn't accept everything. The other option is an in depth check with an email provider (sbcglobal comes to mind).
 - Money: The scope is really large. Thinking about having localized settings. Perhaps specifying some simple format. Not sure yet!
 - URL: No real non-crazy regex exists. Checking for http:// at the front is lame, why force your user to type that in?
