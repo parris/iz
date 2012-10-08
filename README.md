@@ -87,7 +87,8 @@ Did I miss a validation? Send me a message or a pull request.
 
 Thoughts
 ----
-There is a ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization methods.
+- A ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
+- Getters could be used instead of the "not()" function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
 
 Installation
 ----
