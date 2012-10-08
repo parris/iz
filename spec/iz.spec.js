@@ -40,6 +40,24 @@ describe("Iz", function () {
         result.errors.should.include(errors.boolean);
     });
 
+    it("allows to .not validations", function () {
+        iz(5).not().between(10, 20).valid.should.be.ok;
+        iz(5).not().email().valid.should.be.ok;
+        iz("bob@yahoo").not().email().valid.should.not.be.ok;
+    });
+
+    it("accepts errors for .not'd validations", function () {
+        var error_messages = {
+            not_between: "Your value needs to not be between!"
+        };
+        iz(5, error_messages).not().between(4, 6).errors.should.include(error_messages.not_between);
+        iz(5).not().between(4, 6).errors.should.include("Not between");
+    });
+
+    it("allows switching between .not and normal validations", function () {
+        iz(5).between(4, 6).not().ip().int().valid.should.be.ok;
+    });
+
 });
 
 describe("Validation", function () {
@@ -80,7 +98,7 @@ describe("Validation", function () {
         iz.boolean(-1).should.not.be.ok;
         iz.boolean("deadbeef").should.not.be.ok;
         iz.boolean("*").should.not.be.ok;
-        iz.boolean(/[ -]/g).should.not.be.ok
+        iz.boolean(/[ \-]/g).should.not.be.ok;
     });
 
     /**
@@ -273,7 +291,7 @@ describe("Validation", function () {
         //technically valid (citing wikipedia), but doesn't pass, but I don't think it is expected:
         iz.ip("0xC0.0x00.0x02.0xEB").should.not.be.ok;
         iz.ip("0300.0000.0002.0353").should.not.be.ok;
-        iz.ip("0xC00002EB").should.not.be.ok
+        iz.ip("0xC00002EB").should.not.be.ok;
         iz.ip("3221226219").should.not.be.ok;
         iz.ip("030000001353").should.not.be.ok;
     });

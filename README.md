@@ -12,7 +12,7 @@ Change Log: 0.0.3
 ----
 - Added equal method
 - Added empty method
-- Added not
+- Added not() operation
 
 Change Log: 0.0.2
 ----
@@ -25,7 +25,7 @@ API
 Chaining:
 
     iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
-    iz(10).between(2, 15).not.between(1, 5).int().multiple(5); // ooo fancy not operator... the next thing will check not-ness
+    iz(10).between(2, 15).not().between(1, 5).int().multiple(5); // ooo fancy not operator... the next thing will check not-ness
 
 When using the chained notation an object containing an errors{array} and valid{bool} is returned. You could take the
 returned object and run more validations on it later as well. This function also accepts an object with error names. If you not something

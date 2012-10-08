@@ -68,8 +68,8 @@
 
     /**
      * Returns the name of the class that the object is
-     * @author Ateş Göral: http://blog.magnetiq.com/post/514962277/finding-out-class-names-of-javascript-objects
-     * @param object
+     * @author http://blog.magnetiq.com/post/514962277/finding-out-class-names-of-javascript-objects
+     * @param obj{Object}
      * @return String name of the class
      */
     function iz_getObjectClass(obj) {
@@ -136,7 +136,27 @@
         return (/\S+@\S+/).test(value);
     }
 
+    /**
+     * True if the parameter is empty. length > 0 for objects (if exists) or arrays, Functions/Objects have no properties,
+     * or the type is primitive.
+     * @param value of any type
+     * @return {Boolean}
+     */
     function iz_empty(value) {
+        var type = typeof value,
+            key;
+        //arrays and objects with length properties
+        if(value.hasOwnProperty("length") && type !== "function" && value.length > 0) {
+            return false;
+        } else if(type === "function" || type === "object") {
+            for (key in value) {
+                if(value.hasOwnProperty(key)) {
+                    return false; //on first valid key, return false;
+                }
+            }
+        }
+
+        //primitives are empty as are objects without properties and empty arrays
         return true;
     }
 
@@ -174,6 +194,12 @@
         return value === value2;
     }
 
+    /**
+     * Is obj1 and extension of obj2? True if this is the case.
+     * @param obj1
+     * @param obj2
+     * @return {Boolean}
+     */
     function iz_extension(obj1, obj2) {
         var key;
         if (typeof obj1 !== "object" || typeof obj2 !== "object") {
@@ -334,6 +360,7 @@
     validators.date = iz_date;
     validators.decimal = iz_decimal;
     validators.email = iz_email;
+    validators.empty = iz_empty;
     validators.equal = iz_equal;
     validators.extension = iz_extension;
     validators.fileExtension = iz_fileExtension;
@@ -354,20 +381,34 @@
 
     /**
      * Factory for creating chained checking objects
-     * @param value
+     * @param value{*}
+     * @param error_messages{Object}
      * @return {Object} of type Iz
      */
     iz = function (value, error_messages) {
         /**
          * @param value
+         * @param error_messages
          * @constructor
          */
         function Iz(value, error_messages) {
+            var self = this;
+
             if (typeof error_messages === "object") {
                 this.error_messages = error_messages;
             } else {
                 this.error_messages = {};
             }
+
+            this._not = false;
+
+            function not() {
+                self._not = true;
+                return self;
+            }
+
+            this.not = not;
+
             this.value = value;
             this.errors = [];
             this.valid = true;
@@ -377,7 +418,7 @@
          * Partial application with currying into a validation function. Pushes to error array if an error exists.
          * If an error_message is specified for some specific check then that message is used. Otherwise just the function name.
          * Also sets valid to false if an error is found. It can't ever set valid to true.
-         * @param key
+         * @param fn
          */
         function validator_partial(fn) {
             var args = Array.prototype.slice.call(arguments, 1);
@@ -385,15 +426,24 @@
             return function() {
                 var allArguments = args.concat(Array.prototype.slice.call(arguments)),
                     result = validators[fn].apply(null, allArguments);
-                if (!result) {
-                    if (typeof this.error_messages[fn] !== "undefined") {
+                //2 failed validation cases
+                if ((!this._not && !result) || (this._not && result)) {
+                    //change error message based on not and if an error message is specified
+                    if (!this._not && typeof this.error_messages[fn] !== "undefined") {
                         this.errors.push(this.error_messages[fn]);
+                    } else if (this._not && typeof this.error_messages["not_" + fn] !== "undefined") {
+                        this.errors.push(this.error_messages["not_" + fn]);
+                    } else if (this._not) {
+                        this.errors.push("Not " + fn);
                     } else {
                         this.errors.push(fn);
                     }
-                    this.errors.push(fn);
+                    //all of these cases result in non-validity
                     this.valid = false;
                 }
+                //set not back for the next test
+                this._not = false;
+                //chain
                 return this;
             };
         }
