@@ -1,6 +1,6 @@
 {
     "name": "iz",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Some basic validation functions that were useful across projects",
     "main": "iz.js",
     "keywords": [
