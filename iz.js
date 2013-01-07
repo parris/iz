@@ -103,15 +103,8 @@
      * @return {Boolean}
      */
     function iz_date(value) {
-        if (iz_getObjectClass(value) === "Date") {
-            return true;
-        }
-
-        if (new Date(value).toString() !== "Invalid Date" || !isNaN(new Date(value))) { //some IEs return NaN
-            return true;
-        }
-
-        return false;
+        return iz_getObjectClass(value) === "Date" ||
+            new Date(value).toString() !== "Invalid Date" || !isNaN(new Date(value));
     }
 
     function iz_decimal(value) {
@@ -127,10 +120,7 @@
      * @return {Boolean}
      */
     function iz_email(value) {
-        if (typeof value !== "string") {
-            return false;
-        }
-        return (/\S+@\S+/).test(value);
+        return !(typeof value !== "string") && (/\S+@\S+/).test(value);
     }
 
     /**
