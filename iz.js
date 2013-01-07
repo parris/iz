@@ -115,7 +115,7 @@
     }
 
     function iz_decimal(value) {
-        if (iz_number(value) && value % 1 !== 0) {
+        if (iz_number(value) && Math.floor(value) != value) {
             return true;
         }
         return false;
