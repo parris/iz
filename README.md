@@ -8,6 +8,12 @@ rather "a right way". In other words if they like to put "." instead of "-" in t
 We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
 format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
 
+Change Log: 0.0.4
+----
+- Revalidation was added to iz
+- Add are() for group validation
+- Clean-up of syntax/optimizations
+
 Change Log: 0.0.3
 ----
 - Added equal method
@@ -72,6 +78,49 @@ Possible validations so far (true case in comments):
     iz.ssn(*);                        // Is a social security number
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
+
+Group/Saved Validations
+----
+You can now validate multiple fields at once!
+
+    var iz = require("../iz"),
+        are = require("../are"),
+
+        // Bottle, is the name of the model
+        wine = new Bottle({age: 30, cost: 1000.00}),
+
+        // How I want to output my errors
+        costErrors = {
+            decimal: "Cost must be given as a decimal"
+        },
+        ageErrors = {
+            int: "Must be an whole number",
+            between: "This wine is too young, it's no good"
+        },
+
+        // My rules, I can look at the keys and inspect the errors
+        rules = {
+            cost: iz(wine.cost, costErrors).decimal(),
+            age: iz(wine.age, ageErrors)
+                .int().between(17, 10000)
+        };
+
+    are(rules).valid();
+    // true
+
+    rules.cost.setValue(2000.00);
+    are(rules).valid();
+    // true, setValue revalidates, as does are.valid
+
+    rules.cost(100);
+    rules.cost.valid;
+    // still true
+
+    are(rules).valid()
+    // false, revalidate was called
+    rules.cost.valid
+    // false
+
 
 Omissions
 ----
