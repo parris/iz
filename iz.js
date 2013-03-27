@@ -367,39 +367,63 @@
     validators.ssn = iz_ssn;
 
     /**
-     * Factory for creating chained checking objects
-     * @param value{*}
-     * @param error_messages{Object}
-     * @return {Object} of type Iz
+     * @param value
+     * @param error_messages
+     * @constructor
      */
-    iz = function (value, error_messages) {
-        /**
-         * @param value
-         * @param error_messages
-         * @constructor
-         */
-        function Iz(value, error_messages) {
-            var self = this;
+    function Iz(value, error_messages) {
+        var self = this;
 
-            if (typeof error_messages === "object") {
-                this.error_messages = error_messages;
-            } else {
-                this.error_messages = {};
-            }
-
-            this._not = false;
-
-            function not() {
-                self._not = true;
-                return self;
-            }
-
-            this.not = not;
-
-            this.value = value;
-            this.errors = [];
-            this.valid = true;
+        if (typeof error_messages === "object") {
+            this.error_messages = error_messages;
+        } else {
+            this.error_messages = {};
         }
+
+        this._not = false;
+        this._calledValidations = {};
+
+        function not() {
+            self._not = true;
+            return self;
+        }
+
+        function revalidate() {
+            var args = [],
+                i = 0;
+
+            // reset
+            self.errors = [];
+            self.valid = true;
+
+            for (var key in self._calledValidations) {
+                var rule = self._calledValidations[key];
+
+                if (self._calledValidations.hasOwnProperty(key)) {
+                    if (rule.not) {
+                        self.not();
+                    }
+
+                    validator_partial(rule.validation)
+                        .apply(self, rule.args);
+                }
+            }
+            return self;
+        }
+
+        function setValue(value) {
+            self.value = value;
+            self.revalidate();
+            return self;
+        }
+
+        this.not = not;
+
+        this.value = value;
+        this.setValue = setValue;
+        this.revalidate = revalidate;
+        this.errors = [];
+        this.valid = true;
 
         /**
          * Partial application with currying into a validation function. Pushes to error array if an error exists.
@@ -408,11 +432,22 @@
          * @param fn
          */
         function validator_partial(fn) {
-            var args = Array.prototype.slice.call(arguments, 1);
+            var fnName = Array.prototype.slice.call(arguments)[0],
+                args = Array.prototype.slice.call(arguments, 1);
             args.unshift(value); //add value to the front
             return function() {
-                var allArguments = args.concat(Array.prototype.slice.call(arguments)),
-                    result = validators[fn].apply(null, allArguments);
+                var argArray = Array.prototype.slice.call(arguments),
+                    allArguments = [self.value].concat(argArray),
+                    result = validators[fn].apply(null, allArguments),
+                    key = (self._not ? 'not_' : '') + fnName;
+
+                //save rules that have been called
+                self._calledValidations[key] = {
+                    not: self._not,
+                    validation: fn,
+                    args: argArray
+                };
+
                 //2 failed validation cases
                 if ((!this._not && !result) || (this._not && result)) {
                     //change error message based on not and if an error message is specified
@@ -437,10 +472,18 @@
 
         for (var fn in validators) {
             if (validators.hasOwnProperty(fn)) {
-                Iz.prototype[fn] = validator_partial(fn);
+                this[fn] = validator_partial(fn);
             }
         }
+    }
 
+    /**
+     * Factory for creating chained checking objects
+     * @param value{*}
+     * @param error_messages{Object}
+     * @return {Object} of type Iz
+     */
+    iz = function (value, error_messages) {
         return (new Iz(value, error_messages));
     };
 

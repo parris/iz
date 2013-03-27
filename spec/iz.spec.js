@@ -58,6 +58,25 @@ describe("Iz", function () {
         iz(5).between(4, 6).not().ip().int().valid.should.be.ok;
     });
 
+    it("allows for revalidation when the value is changed", function() {
+        var rule = iz(5).between(2, 8);
+        rule.valid.should.be.ok;
+        rule.value = 10;
+        rule.revalidate().valid.should.not.be.ok;
+    });
+
+    it('calls revalidate when setting a new value', function() {
+        var rule = iz(5).between(2, 8);
+        rule.setValue(10).valid.should.not.be.ok;
+    });
+
+    it('clears out errors and status during revalidation', function() {
+        var rule = iz(5).between(6, 8);
+        rule.valid.should.not.be.ok;
+        rule.errors.length.should.equal(1);
+        rule.setValue(7).valid.should.be.ok;
+        rule.errors.length.should.equal(0);
+    });
 });
 
 describe("Validation", function () {
