@@ -1,0 +1,14 @@
+{
+  "name": "iz",
+  "version": "0.1.0",
+  "main": "src/web.js",
+  "directories": {
+      "lib": "src"
+  },
+  "web": {
+      "name": "izBundle",
+      "save": "dist/iz.js"
+  },
+  "author": "Parris Khachi",
+  "license": "MIT"
+}

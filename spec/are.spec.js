@@ -1,10 +1,10 @@
 /*global describe, it, xit, xdescribe, before, require */
 /*jshint expr:true*/
 
-var iz = require("../iz"),
-    are = require("../are");
+var iz = require("../src/iz"),
+    are = require("../src/are");
 
-describe("are", function() {
+describe("Are", function() {
     'use strict';
 
     beforeEach(function() {

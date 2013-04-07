@@ -1,33 +1,41 @@
 [![Build Status](https://secure.travis-ci.org/parris/iz.png)](http://travis-ci.org/parris/iz)
 
 Goals/Info
-----
+====
 This package's goals are really simple. Just looking for a lightweight manner to validate common things. It is user
 centric and ensures that they don't make typos. It does not require them to enter things in "some right way", but
 rather "a right way". In other words if they like to put "." instead of "-" in their phone numbers it should let them.
 We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
 format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
 
-Change Log: 0.0.4
-----
-- Revalidation was added to iz
-- Add are() for group validation
-- Clean-up of syntax/optimizations
+Setup
+====
 
-Change Log: 0.0.3
+Node
 ----
-- Added equal method
-- Added empty method
-- Added not() operation
 
-Change Log: 0.0.2
+    npm install iz --save
+
+Then you can include iz, are and validators if needed
+
+    var iz = require('iz'),
+        are = iz.are,
+        validators = iz.validators;
+
+Client Side
 ----
-- Re-ordered parameters for fileExtension and inArray
-- Added method chaining
-- Added error messages
+Simply include `iz.js` or `iz.min.js` like so:
+
+    <script src="iz.min.js"></script>
+    <script>
+        var iz = izBundle(),
+            are = iz.are,
+            validators = iz.validators;
+    </script>
+
 
 API
-----
+====
 Chaining:
 
     iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
@@ -53,7 +61,7 @@ Possible validations so far (true case in comments):
 
     iz.alphaNumeric(*);               // Is number or string(contains only numbers or strings)
     iz.between(number, start, end);   // Number is start or greater but less than or equal to end, all params numeric
-    iz.blank(*);                      // Empty string, undefined or null
+    iz.blank(*);                      // Empty string
     iz.boolean(*);                    // true, false, 0, 1
     iz.cc(*);                         // Luhn checksum approved value
     iz.date(*);                       // Is a date obj or is a string that is easily converted to a date
@@ -80,11 +88,12 @@ Possible validations so far (true case in comments):
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
 Group/Saved Validations
-----
+====
 You can now validate multiple fields at once!
 
-    var iz = require("../iz"),
-        are = require("../are"),
+    var iz = require("iz"),
+        are = iz.are,
+        validators = iz.validators
 
         // Bottle, is the name of the model
         wine = new Bottle({age: 30, cost: 1000.00}),
@@ -123,7 +132,7 @@ You can now validate multiple fields at once!
 
 
 Omissions
-----
+====
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
 - Uniqueness: I may eventually write some sort of interface for uniqueness checks within some db, but for now this is non-trivial. First up would be mongodb.
@@ -135,18 +144,40 @@ Lastly, I omitted a few typical validations (temporarily maybe) for these reason
 Did I miss a validation? Send me a message or a pull request.
 
 Thoughts
-----
+====
 - A ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
 - Getters could be used instead of the "not()" function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
 
-Installation
+Change Log
+====
+
+Next: Validator mixins, add source map, and refactor Iz class a bit.
+Experimental: Client side include method system. Let me know what you think about it.
+Note: I am creating an integration for backbone in another repo.
+
+0.1.0 (in progress/unreleased on npm)
 ----
+- Fixed loading of iz, are and validator modules
+- Added missing "blank" validator
+- Added build/test system via grunt
+- Removed versions in bin
+- Added version/generation number in banner
+- Changed file structure
 
-Install with node.js:
+0.0.4
+----
+- Revalidation was added to iz
+- Add are() for group validation
+- Clean-up of syntax/optimizations
 
-    npm install iz --save
+0.0.3
+----
+- Added equal method
+- Added empty method
+- Added not() operation
 
-Client side:
-Simply include bin/iz-latest-min.js or a specific version. iz.js in the root directory is un-minified and could also be useful for debugging. I will keep all previous releases in the bin directory UNTIL it no longer becomes managable. So if you use some specific version make sure to host it client side.
-
-We will maintain backwards compatibility between 0.0.0 releases although new features will definitely be added.
+0.0.2
+----
+- Re-ordered parameters for fileExtension and inArray
+- Added method chaining
+- Added error messages

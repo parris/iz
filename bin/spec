@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-./node_modules/mocha/bin/mocha spec/spec_helper.js spec/*
