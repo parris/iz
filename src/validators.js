@@ -347,34 +347,41 @@
         return obj !== undefined && obj !== null && obj !== '';
     }
 
+
+    function iz_present_and(validator) {
+        return function(val) {
+            return iz_present(val) && validator.apply(this, Array.prototype.slice.call(arguments));
+        };
+    }
+
     //Expose some methods, this is done to preserve function names in all browsers
-    validators.alphaNumeric = iz_alphaNumeric;
-    validators.between = iz_between;
-    validators.blank = iz_blank;
-    validators.boolean = iz_boolean;
-    validators.cc = iz_cc;
-    validators.date = iz_date;
-    validators.decimal = iz_decimal;
-    validators.email = iz_email;
-    validators.empty = iz_empty;
-    validators.equal = iz_equal;
+    validators.alphaNumeric = iz_present_and(iz_alphaNumeric);
+    validators.between = iz_present_and(iz_between);
+    validators.blank = iz_present_and(iz_blank);
+    validators.boolean = iz_present_and(iz_boolean);
+    validators.cc = iz_present_and(iz_cc);
+    validators.date = iz_present_and(iz_date);
+    validators.decimal = iz_present_and(iz_decimal);
+    validators.email = iz_present_and(iz_email);
+    validators.empty = iz_present_and(iz_empty);
+    validators.equal = iz_present_and(iz_equal);
     validators.extension = iz_extension;
-    validators.fileExtension = iz_fileExtension;
-    validators.fileExtensionAudio = iz_fileExtensionAudio;
-    validators.fileExtensionImage = iz_fileExtensionImage;
-    validators.fileExtensionVideo = iz_fileExtensionVideo;
+    validators.fileExtension = iz_present_and(iz_fileExtension);
+    validators.fileExtensionAudio = iz_present_and(iz_fileExtensionAudio);
+    validators.fileExtensionImage = iz_present_and(iz_fileExtensionImage);
+    validators.fileExtensionVideo = iz_present_and(iz_fileExtensionVideo);
     validators.inArray = iz_inArray;
-    validators.int = iz_int;
-    validators.ip = iz_ip;
-    validators.minLength = iz_minLength;
-    validators.maxLength = iz_maxLength;
-    validators.multiple = iz_multiple;
-    validators.number = iz_number;
-    validators.ofType = iz_ofType;
-    validators.phone = iz_phone;
-    validators.postal = iz_postal;
-    validators.ssn = iz_ssn;
+    validators.int = iz_present_and(iz_int);
+    validators.ip = iz_present_and(iz_ip);
+    validators.minLength = iz_present_and(iz_minLength);
+    validators.maxLength = iz_present_and(iz_maxLength);
+    validators.multiple = iz_present_and(iz_multiple);
+    validators.number = iz_present_and(iz_number);
+    validators.ofType = iz_present_and(iz_ofType);
+    validators.phone = iz_present_and(iz_phone);
+    validators.postal = iz_present_and(iz_postal);
     validators.present = iz_present;
+    validators.ssn = iz_present_and(iz_ssn);
 
 
     // Export module
