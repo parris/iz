@@ -1,6 +1,6 @@
 /*!
  * iz - v0.1.0 https://github.com/parris/iz
- * Built: 2013-04-06
+ * Built: 2013-05-16
  * Copyright (c) 2013 Parris Khachi;
  * Licensed under the MIT license
  */

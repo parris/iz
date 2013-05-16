@@ -343,6 +343,10 @@
         return false;
     }
 
+    function iz_present(obj) {
+        return obj !== undefined && obj !== null;
+    }
+
     //Expose some methods, this is done to preserve function names in all browsers
     validators.alphaNumeric = iz_alphaNumeric;
     validators.between = iz_between;
@@ -370,6 +374,7 @@
     validators.phone = iz_phone;
     validators.postal = iz_postal;
     validators.ssn = iz_ssn;
+    validators.present = iz_present;
 
 
     // Export module

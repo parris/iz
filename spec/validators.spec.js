@@ -336,4 +336,15 @@ describe("Validation", function () {
         iz.ssn("1234567890").should.not.ok;
         iz.ssn("123-45-678").should.not.be.ok;
     });
+
+    it("can validate presence", function() {
+        iz.present(null).should.not.be.ok;
+        iz.present(undefined).should.not.be.ok;
+        iz.present({}).should.be.ok;
+        iz.present(function () {}).should.be.ok;
+        iz.present([]).should.be.ok;
+        iz.present(5).should.be.ok;
+        iz.present(new Date()).should.be.ok;
+        iz.present('').should.be.ok;
+    });
 });
