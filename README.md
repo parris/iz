@@ -83,8 +83,8 @@ Possible validations so far (true case in comments):
     iz.ofType(obj, typeName);         // If it is a named object, and the name matches the string
     iz.phone(str, canHaveExtension?); // Is an american phone number. Any punctuations are allowed.
     iz.postal(*);                     // Is a postal code or zip code
-    iz.ssn(*);                        // Is a social security number
     iz.present(*);                    // Is not null or undefined
+    iz.ssn(*);                        // Is a social security number
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
