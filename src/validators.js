@@ -344,7 +344,7 @@
     }
 
     function iz_present(obj) {
-        return obj !== undefined && obj !== null;
+        return obj !== undefined && obj !== null && obj !== '';
     }
 
     //Expose some methods, this is done to preserve function names in all browsers

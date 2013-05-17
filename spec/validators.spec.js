@@ -340,11 +340,11 @@ describe("Validation", function () {
     it("can validate presence", function() {
         iz.present(null).should.not.be.ok;
         iz.present(undefined).should.not.be.ok;
+        iz.present('').should.not.be.ok;
         iz.present({}).should.be.ok;
         iz.present(function () {}).should.be.ok;
         iz.present([]).should.be.ok;
         iz.present(5).should.be.ok;
         iz.present(new Date()).should.be.ok;
-        iz.present('').should.be.ok;
     });
 });
