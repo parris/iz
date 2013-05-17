@@ -16,6 +16,9 @@ describe("Validation", function () {
         iz.alphaNumeric({}).should.not.be.ok;
         iz.alphaNumeric(function () {}).should.not.be.ok;
         iz.alphaNumeric([]).should.not.be.ok;
+
+        iz.alphaNumeric(null).should.be.ok;
+        iz.alphaNumeric(undefined).should.be.ok;
     });
 
     it("can validate that a primitive is between 2 other primitives", function () {
@@ -30,6 +33,9 @@ describe("Validation", function () {
         iz.between([1, 2], [1], [1, 4]).should.not.be.ok; //default array comparison... this is false.
         iz.between({},{},{}).should.not.be.ok; //it hates objects
         iz.between(function (){}, function (){}, function () {}).should.not.be.ok; //it also despises functions
+
+        iz.between(null, 1, 5).should.be.ok;
+        iz.between(undefined, 1, 5).should.be.ok;
     });
 
     it("can validate boolean values", function () {
@@ -41,14 +47,18 @@ describe("Validation", function () {
         iz.boolean("deadbeef").should.not.be.ok;
         iz.boolean("*").should.not.be.ok;
         iz.boolean(/[ \-]/g).should.not.be.ok;
+
+        iz.boolean(null).should.be.ok;
+        iz.boolean(undefined).should.be.ok;
     });
 
     it('can validate blank values', function() {
         iz.blank("").should.be.ok;
         iz.blank("hi").should.not.be.ok;
-        iz.blank(undefined).should.not.be.ok;
-        iz.blank(null).should.not.be.ok;
         iz.blank([]).should.not.be.ok;
+
+        iz.blank(undefined).should.be.ok;
+        iz.blank(null).should.be.ok;
     });
 
     /**
@@ -81,6 +91,9 @@ describe("Validation", function () {
         iz.cc({}).should.not.be.ok;
         iz.cc(function () {}).should.not.be.ok;
         iz.cc(["5"]).should.not.be.ok;
+
+        iz.cc(null).should.be.ok;
+        iz.cc(undefined).should.be.ok;
     });
 
     it("can validated dates", function () {
@@ -93,6 +106,9 @@ describe("Validation", function () {
         iz.date({}).should.not.be.ok;
         iz.date(function () {}).should.not.be.ok;
         iz.date([]).should.not.be.ok;
+
+        iz.date(null).should.be.ok;
+        iz.date(undefined).should.be.ok;
     });
 
     it("can validate decimals", function () {
@@ -106,6 +122,9 @@ describe("Validation", function () {
         iz.decimal({}).should.not.be.ok;
         iz.decimal(function () {}).should.not.be.ok;
         iz.decimal([]).should.not.be.ok;
+
+        iz.decimal(null).should.be.ok;
+        iz.decimal(undefined).should.be.ok;
     });
 
     it("can validate email address", function () {
@@ -116,6 +135,9 @@ describe("Validation", function () {
         iz.email(function () {}).should.not.be.ok;
         iz.email([]).should.not.be.ok;
         iz.email(5).should.not.be.ok;
+
+        iz.email(null).should.be.ok;
+        iz.email(undefined).should.be.ok;
     });
 
     it("can validate that something is empty", function () {
@@ -126,6 +148,9 @@ describe("Validation", function () {
         iz.empty(5).should.be.ok;
         iz.empty({bob: true}).should.not.be.ok;
         iz.empty(["hi"]).should.not.be.ok;
+
+        iz.empty(null).should.be.ok;
+        iz.empty(undefined).should.be.ok;
     });
 
     it("can validate that 2 things are strictly equal", function () {
@@ -184,27 +209,37 @@ describe("Validation", function () {
         iz.fileExtension("apple_pie.pizza", ["pizza"]).should.be.ok;
         iz.fileExtension("hello.png", ["png"]).should.be.ok;
         iz.fileExtension("hello.PNG", ["png"]).should.be.ok;
-        iz.fileExtension("", []).should.not.be.ok;
-        iz.fileExtension("","").should.not.be.ok;
         iz.fileExtension("hello.png", ["PNG"]).should.not.be.ok;
         iz.fileExtension("hello.png", [".png"]).should.not.be.ok;
         iz.fileExtension("hello.mp3", ["png"]).should.not.be.ok;
         iz.fileExtension({},{}).should.not.be.ok;
+
+        iz.fileExtension(null).should.be.ok;
+        iz.fileExtension(undefined).should.be.ok;
     });
 
     it("can validate audio file extensions", function () {
         iz.fileExtensionAudio("apple.mp3").should.be.ok;
         iz.fileExtensionAudio("apple.png").should.not.be.ok;
+
+        iz.fileExtensionAudio(null).should.be.ok;
+        iz.fileExtensionAudio(undefined).should.be.ok;
     });
 
     it("can validate image file extensions", function () {
         iz.fileExtensionImage("apple.png").should.be.ok;
         iz.fileExtensionImage("apple.mp3").should.not.be.ok;
+
+        iz.fileExtensionImage(null).should.be.ok;
+        iz.fileExtensionImage(undefined).should.be.ok;
     });
 
     it("can validate video file extensions", function () {
         iz.fileExtensionVideo("apple.mp4").should.be.ok;
         iz.fileExtensionVideo("apple.mp3").should.not.be.ok;
+
+        iz.fileExtensionVideo(null).should.be.ok;
+        iz.fileExtensionVideo(undefined).should.be.ok;
     });
 
     it("can tell if something is in an array", function () {
@@ -227,6 +262,9 @@ describe("Validation", function () {
         iz.int({}).should.not.be.ok;
         iz.int([]).should.not.be.ok;
         iz.int(function () {}).should.not.be.ok;
+
+        iz.int(null).should.be.ok;
+        iz.int(undefined).should.be.ok;
     });
 
     it("can validate IPv4, IPv6 and host names", function () {
@@ -244,6 +282,9 @@ describe("Validation", function () {
         iz.ip("0xC00002EB").should.not.be.ok;
         iz.ip("3221226219").should.not.be.ok;
         iz.ip("030000001353").should.not.be.ok;
+
+        iz.ip(null).should.be.ok;
+        iz.ip(undefined).should.be.ok;
     });
 
     it("can require a string to have some min length", function () {
@@ -252,12 +293,18 @@ describe("Validation", function () {
         iz.minLength("pizza", 6).should.not.be.ok;
         iz.minLength({}, 5).should.not.be.ok;
         iz.minLength("lizard", {}).should.not.be.ok;
+
+        iz.minLength(null).should.be.ok;
+        iz.minLength(undefined).should.be.ok;
     });
 
     it("can require an array to have some min length", function () {
         iz.minLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
         iz.minLength([1, 2, 3, 4, 5, 6], 5).should.be.ok;
         iz.minLength([1, 2, 3, 4, 5, 6], 7).should.not.be.ok;
+
+        iz.minLength(null).should.be.ok;
+        iz.minLength(undefined).should.be.ok;
     });
 
     it("can require a string to have some max length", function () {
@@ -266,12 +313,18 @@ describe("Validation", function () {
         iz.maxLength("pizza", 4).should.not.be.ok;
         iz.maxLength({}, 5).should.not.be.ok;
         iz.maxLength("lizard", {}).should.not.be.ok;
+
+        iz.maxLength(null).should.be.ok;
+        iz.maxLength(undefined).should.be.ok;
     });
 
     it("can require an array to have some max length", function () {
         iz.maxLength([1, 2, 3, 4, 5, 6], 6).should.be.ok;
         iz.maxLength([1, 2, 3, 4, 5, 6], 7).should.be.ok;
         iz.maxLength([1, 2, 3, 4, 5, 6], 5).should.not.be.ok;
+
+        iz.maxLength(null).should.be.ok;
+        iz.maxLength(undefined).should.be.ok;
     });
 
     it("can tell if a number is multiple of another number", function () {
@@ -279,6 +332,9 @@ describe("Validation", function () {
         iz.multiple(10, 2).should.be.ok;
         iz.multiple(2, 10).should.not.be.ok;
         iz.multiple(5, {}).should.not.be.ok; // disallow everything but numbers
+
+        iz.multiple(null).should.be.ok;
+        iz.multiple(undefined).should.be.ok;
     });
 
     it("can tell if something is a number", function () {
@@ -287,6 +343,9 @@ describe("Validation", function () {
         iz.number("5.32342").should.be.ok;
         iz.number(23123).should.be.ok;
         iz.number("bob").should.not.be.ok;
+
+        iz.number(null).should.be.ok;
+        iz.number(undefined).should.be.ok;
     });
 
     it("can tell if the name of an object is equal to some string", function () {
@@ -297,6 +356,9 @@ describe("Validation", function () {
         iz.ofType(new Car(), "Car").should.be.ok;
         iz.ofType(new Car(), "Object").should.not.be.ok;
         iz.ofType(obj, "Object").should.be.ok;
+
+        iz.ofType(null).should.be.ok;
+        iz.ofType(undefined).should.be.ok;
     });
 
     it("can validate a north american phone number", function () {
@@ -313,6 +375,9 @@ describe("Validation", function () {
 
         iz.phone("1234567890").should.be.ok;
         iz.phone("12345678901").should.be.ok;
+
+        iz.phone(null).should.be.ok;
+        iz.phone(undefined).should.be.ok;
     });
 
     it("can validate a US zip-code", function () {
@@ -324,6 +389,9 @@ describe("Validation", function () {
         iz.postal("94117-3333").should.be.ok;
         iz.postal("94117 33333").should.not.be.ok;
         iz.postal("9411").should.not.be.ok;
+
+        iz.postal(null).should.be.ok;
+        iz.postal(undefined).should.be.ok;
     });
 
     it("can validate a US SSN", function () {
@@ -335,16 +403,19 @@ describe("Validation", function () {
 
         iz.ssn("1234567890").should.not.ok;
         iz.ssn("123-45-678").should.not.be.ok;
+
+        iz.ssn(null).should.be.ok;
+        iz.ssn(undefined).should.be.ok;
     });
 
     it("can validate presence", function() {
         iz.present(null).should.not.be.ok;
         iz.present(undefined).should.not.be.ok;
+        iz.present("").should.not.be.ok;
         iz.present({}).should.be.ok;
         iz.present(function () {}).should.be.ok;
         iz.present([]).should.be.ok;
         iz.present(5).should.be.ok;
         iz.present(new Date()).should.be.ok;
-        iz.present('').should.be.ok;
     });
 });
