@@ -1,4 +1,6 @@
-(function() {var validators = {};
+(function() {
+    var validators = {};
+    
     function iz_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
     }
