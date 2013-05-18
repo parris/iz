@@ -7,6 +7,7 @@ centric and ensures that they don't make typos. It does not require them to ente
 rather "a right way". In other words if they like to put "." instead of "-" in their phone numbers it should let them.
 We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
 format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
+It also provides validation for required fields and separates it from whether what a user has entered is valid.
 
 Setup
 ====
@@ -57,6 +58,22 @@ You don't need to use the chained notation. Alternatively you could call the fun
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
+Required Fields:
+
+When using iz.required(*) it can be used alone or chained with other validators to cover the following scenarios:
+
+    iz(value).required()                       //value is required
+    iz(value).required().email()               //value is required and is a valid email
+    iz(value).date()                           //value is not required but must be a date if provided
+
+This behaviour is great for validating user input or payloads sent to an api where validation of required fields is a common need.
+
+N.B. However, it means that iz(null).date(), iz(undefined).email() and iz('').int() will all return true!!! While this seems counter intuitive, it is important to realise that iz validates only if a value is actually provided. Whether a value is required or not is a separate concern altogether and is covered by iz.required(*);
+
+Validators:
+
+All validators (apart from iz.required) return true if no value is provided (e.g. null, undefined or '').
+
 Possible validations so far (true case in comments):
 
     iz.alphaNumeric(*);               // Is number or string(contains only numbers or strings)
@@ -83,7 +100,7 @@ Possible validations so far (true case in comments):
     iz.ofType(obj, typeName);         // If it is a named object, and the name matches the string
     iz.phone(str, canHaveExtension?); // Is an american phone number. Any punctuations are allowed.
     iz.postal(*);                     // Is a postal code or zip code
-    iz.present(*);                    // Is not null, undefined or an empty string
+    iz.required(*);                   // Is not null, undefined or an empty string
     iz.ssn(*);                        // Is a social security number
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
