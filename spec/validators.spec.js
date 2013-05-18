@@ -408,14 +408,14 @@ describe("Validation", function () {
         iz.ssn(undefined).should.be.ok;
     });
 
-    it("can validate presence", function() {
-        iz.present(null).should.not.be.ok;
-        iz.present(undefined).should.not.be.ok;
-        iz.present("").should.not.be.ok;
-        iz.present({}).should.be.ok;
-        iz.present(function () {}).should.be.ok;
-        iz.present([]).should.be.ok;
-        iz.present(5).should.be.ok;
-        iz.present(new Date()).should.be.ok;
+    it("can validate required", function() {
+        iz.required(null).should.not.be.ok;
+        iz.required(undefined).should.not.be.ok;
+        iz.required("").should.not.be.ok;
+        iz.required({}).should.be.ok;
+        iz.required(function () {}).should.be.ok;
+        iz.required([]).should.be.ok;
+        iz.required(5).should.be.ok;
+        iz.required(new Date()).should.be.ok;
     });
 });

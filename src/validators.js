@@ -1,6 +1,6 @@
 (function() {
     var validators = {};
-
+    
     function iz_alphaNumeric(value) {
         return (/^[a-z0-9]+$/i).test(value);
     }
@@ -343,45 +343,45 @@
         return false;
     }
 
-    function iz_present(obj) {
+    function iz_required(obj) {
         return obj !== undefined && obj !== null && obj !== '';
     }
 
 
-    function iz_present_or(validator) {
+    function iz_required_or(validator) {
         return function(val) {
-            return !iz_present(val) || validator.apply(this, Array.prototype.slice.call(arguments));
+            return !iz_required(val) || validator.apply(this, Array.prototype.slice.call(arguments));
         };
     }
 
     //Expose some methods, this is done to preserve function names in all browsers
-    validators.alphaNumeric = iz_present_or(iz_alphaNumeric);
-    validators.between = iz_present_or(iz_between);
-    validators.blank = iz_present_or(iz_blank);
-    validators.boolean = iz_present_or(iz_boolean);
-    validators.cc = iz_present_or(iz_cc);
-    validators.date = iz_present_or(iz_date);
-    validators.decimal = iz_present_or(iz_decimal);
-    validators.email = iz_present_or(iz_email);
-    validators.empty = iz_present_or(iz_empty);
-    validators.equal = iz_present_or(iz_equal);
+    validators.alphaNumeric = iz_required_or(iz_alphaNumeric);
+    validators.between = iz_required_or(iz_between);
+    validators.blank = iz_required_or(iz_blank);
+    validators.boolean = iz_required_or(iz_boolean);
+    validators.cc = iz_required_or(iz_cc);
+    validators.date = iz_required_or(iz_date);
+    validators.decimal = iz_required_or(iz_decimal);
+    validators.email = iz_required_or(iz_email);
+    validators.empty = iz_required_or(iz_empty);
+    validators.equal = iz_required_or(iz_equal);
     validators.extension = iz_extension;
-    validators.fileExtension = iz_present_or(iz_fileExtension);
-    validators.fileExtensionAudio = iz_present_or(iz_fileExtensionAudio);
-    validators.fileExtensionImage = iz_present_or(iz_fileExtensionImage);
-    validators.fileExtensionVideo = iz_present_or(iz_fileExtensionVideo);
+    validators.fileExtension = iz_required_or(iz_fileExtension);
+    validators.fileExtensionAudio = iz_required_or(iz_fileExtensionAudio);
+    validators.fileExtensionImage = iz_required_or(iz_fileExtensionImage);
+    validators.fileExtensionVideo = iz_required_or(iz_fileExtensionVideo);
     validators.inArray = iz_inArray;
-    validators.int = iz_present_or(iz_int);
-    validators.ip = iz_present_or(iz_ip);
-    validators.minLength = iz_present_or(iz_minLength);
-    validators.maxLength = iz_present_or(iz_maxLength);
-    validators.multiple = iz_present_or(iz_multiple);
-    validators.number = iz_present_or(iz_number);
-    validators.ofType = iz_present_or(iz_ofType);
-    validators.phone = iz_present_or(iz_phone);
-    validators.postal = iz_present_or(iz_postal);
-    validators.present = iz_present;
-    validators.ssn = iz_present_or(iz_ssn);
+    validators.int = iz_required_or(iz_int);
+    validators.ip = iz_required_or(iz_ip);
+    validators.minLength = iz_required_or(iz_minLength);
+    validators.maxLength = iz_required_or(iz_maxLength);
+    validators.multiple = iz_required_or(iz_multiple);
+    validators.number = iz_required_or(iz_number);
+    validators.ofType = iz_required_or(iz_ofType);
+    validators.phone = iz_required_or(iz_phone);
+    validators.postal = iz_required_or(iz_postal);
+    validators.required = iz_required;
+    validators.ssn = iz_required_or(iz_ssn);
 
 
     // Export module
