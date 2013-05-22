@@ -1,7 +1,7 @@
 {
   "name": "iz",
-  "version": "0.1.0",
-  "description": "Some basic validation functions that were useful across projects",
+  "version": "0.2.0",
+  "description": "Validation for node and the web.",
   "main": "app.js",
   "homepage": "https://github.com/parris/iz",
   "keywords": [

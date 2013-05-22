@@ -1,6 +1,6 @@
 {
   "name": "iz",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "src/web.js",
   "directories": {
       "lib": "src"

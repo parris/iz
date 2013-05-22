@@ -173,6 +173,11 @@ Next: Validator mixins, add source map, and refactor Iz class a bit.
 Experimental: Client side include method system. Let me know what you think about it.
 Note: I am creating an integration for backbone in another repo.
 
+0.2.0
+----
+- Added iz.required()
+- Falsy values now pass through as valid without `.required`
+
 0.1.0
 ----
 - Fixed loading of iz, are and validator modules
