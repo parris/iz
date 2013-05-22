@@ -37,7 +37,9 @@ Simply include `iz.js` or `iz.min.js` like so:
 
 API
 ====
+
 Chaining:
+----
 
     iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
     iz(10).between(2, 15).not().between(1, 5).int().multiple(5); // the fancy not operator will cause the opposite result to happen next... this is also true!
@@ -59,6 +61,7 @@ You don't need to use the chained notation. Alternatively you could call the fun
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
 Required Fields:
+----
 
 When using iz.required(*) it can be used alone or chained with other validators to cover the following scenarios:
 
@@ -71,6 +74,7 @@ This behaviour is great for validating user input or payloads sent to an api whe
 N.B. However, it means that iz(null).date(), iz(undefined).email() and iz('').int() will all return true!!! While this seems counter intuitive, it is important to realise that iz validates only if a value is actually provided. Whether a value is required or not is a separate concern altogether and is covered by iz.required(*);
 
 Validators:
+----
 
 All validators (apart from iz.required) return true if no value is provided (e.g. null, undefined or '').
 
@@ -107,6 +111,7 @@ Almost all possible use cases that will definitely work (and definitely not work
 
 Group/Saved Validations
 ====
+
 You can now validate multiple fields at once!
 
     var iz = require("iz"),
@@ -151,6 +156,7 @@ You can now validate multiple fields at once!
 
 Omissions
 ====
+
 Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
 
 - Uniqueness: I may eventually write some sort of interface for uniqueness checks within some db, but for now this is non-trivial. First up would be mongodb.
@@ -163,6 +169,7 @@ Did I miss a validation? Send me a message or a pull request.
 
 Thoughts
 ====
+
 - A ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
 - Getters could be used instead of the "not()" function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
 
