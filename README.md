@@ -97,8 +97,8 @@ Possible validations so far (true case in comments):
     iz.inArray(value, arr);           // If * is in the array
     iz.int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     iz.ip(str);                       // str resembles an IPV4 or IPV6 address
-    iz.minLen(val, min);              // val (str or arr) is greater than min
-    iz.maxLen(val, max);              // val (str or arr) is shorter than max
+    iz.minLength(val, min);           // val (str or arr) is greater than min
+    iz.maxLength(val, max);           // val (str or arr) is shorter than max
     iz.multiple(num, mult);           // Number is multiple of another number
     iz.number(*);                     // Is either an int or decimal
     iz.ofType(obj, typeName);         // If it is a named object, and the name matches the string
