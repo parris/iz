@@ -1,4 +1,7 @@
+/*global module */
+
 module.exports = function(grunt) {
+    'use strict';
 
     var bannerTemplate =
         '/*!\n' +
@@ -7,7 +10,8 @@ module.exports = function(grunt) {
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;\n' +
         ' * Licensed under the <%= pkg.license %> license\n' +
         ' */\n',
-        pkg = grunt.file.readJSON('package.json');
+        pkg = grunt.file.readJSON('package.json'),
+        one = require('one');
 
     grunt.initConfig({
         pkg: pkg,
@@ -21,11 +25,6 @@ module.exports = function(grunt) {
             },
 
             all: { src: 'spec/**/*.js' }
-        },
-        shell: {
-            one: {
-                command: './node_modules/one/bin/onejs build webpackage.json'
-            }
         },
         uglify: {
             iz: {
@@ -44,7 +43,7 @@ module.exports = function(grunt) {
             izMin: {
                 options: {
                     banner: bannerTemplate,
-                    compress: false,
+                    compress: true,
                     mangle: {
                         except: ['Iz']
                     }
@@ -60,7 +59,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-simple-mocha');
     grunt.loadNpmTasks('grunt-shell');
 
-    grunt.registerTask('build', ['shell', 'uglify']);
+    grunt.registerTask('one', function() {
+        one('./src/web.js').save('./dist/iz.js');
+    });
+
+    grunt.registerTask('build', ['one', 'uglify']);
     grunt.registerTask('test', ['simplemocha']);
 
     grunt.registerTask('default', ['test', 'build']);

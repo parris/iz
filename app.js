@@ -1,4 +1,5 @@
-/*global require, module, window */
+/*global require, module */
+
 (function() {
     'use strict';
 

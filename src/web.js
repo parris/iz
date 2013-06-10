@@ -1,11 +1,10 @@
-/*global require, module, window */
+/*global require, module */
+var iz = require('./iz'),
+    are = require('./are'),
+    validators = require('./validators');
+
 (function() {
     'use strict';
-
-    // helps when using onejs to compile for client side
-    var iz = require('./iz'),
-        are = require('./are'),
-        validators = require('./validators');
 
     iz.are = are;
     iz.validators = validators;

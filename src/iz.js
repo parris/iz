@@ -1,9 +1,10 @@
 /*global module, exports, require */
+var validators = require('./validators');
 
 (function () {
     'use strict';
-    var iz,
-        validators = require('./validators');
+
+    var iz;
 
     /**
      * @param value
@@ -28,10 +29,6 @@
         }
 
         function revalidate() {
-            var args = [],
-                i = 0;
-
-            // reset
             self.errors = [];
             self.valid = true;
 
