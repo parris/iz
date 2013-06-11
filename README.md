@@ -29,11 +29,13 @@ Simply include `iz.js` or `iz.min.js` like so:
 
     <script src="iz.min.js"></script>
     <script>
-        var iz = izBundle(),
-            are = iz.are,
-            validators = iz.validators;
+        var iz = izBundle.iz,
+            are = izBundle.are,
+            validators = izBundle.validators;
     </script>
 
+If you are using some require based library you are going to most likely use
+the server side syntax.
 
 API
 ====
@@ -176,8 +178,10 @@ Thoughts
 Change Log
 ====
 
-Next: Validator mixins, add source map, and refactor Iz class a bit.
+Next: Refactor Iz class a bit.
+
 Experimental: Client side include method system. Let me know what you think about it.
+
 Note: I am creating an integration for backbone in another repo.
 
 0.2.0

@@ -1,6 +1,6 @@
 /*!
  * iz - v0.2.0 https://github.com/parris/iz
- * Built: 2013-06-09
+ * Built: 2013-06-11
  * Copyright (c) 2013 Parris Khachi;
  * Licensed under the MIT license
  */
@@ -12,6 +12,9 @@
                 "use strict";
                 iz.are = are;
                 iz.validators = validators;
+                if (!window.require) {
+                    window.izBundle = iz;
+                }
                 module.exports = iz;
             })();
         }, {

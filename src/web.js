@@ -9,5 +9,10 @@ var iz = require('./iz'),
     iz.are = are;
     iz.validators = validators;
 
+    // drop izBundle onto window if there is no require system
+    if (!window.require) {
+        window.izBundle = iz;
+    }
+
     module.exports = iz;
 }());
