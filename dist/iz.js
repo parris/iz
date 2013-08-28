@@ -7,9 +7,9 @@
 (function(process) {
     require.m = {
         0: [ function(require, module, exports) {
-            var iz = require("./iz"), are = require("./are"), validators = require("./validators");
+            var iz = require('./iz'), are = require('./are'), validators = require('./validators');
             (function() {
-                "use strict";
+                'use strict';
                 iz.are = are;
                 iz.validators = validators;
                 if (!window.require) {
@@ -18,18 +18,18 @@
                 module.exports = iz;
             })();
         }, {
-            "./iz": 1,
-            "./are": 3,
-            "./validators": 2
+            './iz': 1,
+            './are': 3,
+            './validators': 2
         } ],
         1: [ function(require, module, exports) {
-            var validators = require("./validators");
+            var validators = require('./validators');
             (function() {
-                "use strict";
+                'use strict';
                 var iz;
                 function Iz(value, error_messages) {
                     var self = this;
-                    if (typeof error_messages === "object") {
+                    if (typeof error_messages === 'object') {
                         this.error_messages = error_messages;
                     } else {
                         this.error_messages = {};
@@ -69,19 +69,19 @@
                         var fnName = Array.prototype.slice.call(arguments)[0], args = Array.prototype.slice.call(arguments, 1);
                         args.unshift(value);
                         return function() {
-                            var argArray = Array.prototype.slice.call(arguments), allArguments = [ self.value ].concat(argArray), result = validators[fn].apply(null, allArguments), key = (self._not ? "not_" : "") + fnName;
+                            var argArray = Array.prototype.slice.call(arguments), allArguments = [ self.value ].concat(argArray), result = validators[fn].apply(null, allArguments), key = (self._not ? 'not_' : '') + fnName;
                             self._calledValidations[key] = {
                                 not: self._not,
                                 validation: fn,
                                 args: argArray
                             };
                             if (!this._not && !result || this._not && result) {
-                                if (!this._not && typeof this.error_messages[fn] !== "undefined") {
+                                if (!this._not && typeof this.error_messages[fn] !== 'undefined') {
                                     this.errors.push(this.error_messages[fn]);
-                                } else if (this._not && typeof this.error_messages["not_" + fn] !== "undefined") {
-                                    this.errors.push(this.error_messages["not_" + fn]);
+                                } else if (this._not && typeof this.error_messages['not_' + fn] !== 'undefined') {
+                                    this.errors.push(this.error_messages['not_' + fn]);
                                 } else if (this._not) {
-                                    this.errors.push("Not " + fn);
+                                    this.errors.push('Not ' + fn);
                                 } else {
                                     this.errors.push(fn);
                                 }
@@ -105,19 +105,19 @@
                         iz[fn] = validators[fn];
                     }
                 }
-                if (typeof exports !== "undefined") {
-                    if (typeof module !== "undefined" && module.exports) {
+                if (typeof exports !== 'undefined') {
+                    if (typeof module !== 'undefined' && module.exports) {
                         exports = module.exports = iz;
                     }
                     exports.iz = iz;
                 }
             })();
         }, {
-            "./validators": 2
+            './validators': 2
         } ],
         3: [ function(require, module, exports) {
             (function() {
-                "use strict";
+                'use strict';
                 var are;
                 function Are(rules) {
                     var self = this;
@@ -135,8 +135,8 @@
                 are = function(rules) {
                     return new Are(rules);
                 };
-                if (typeof exports !== "undefined") {
-                    if (typeof module !== "undefined" && module.exports) {
+                if (typeof exports !== 'undefined') {
+                    if (typeof module !== 'undefined' && module.exports) {
                         exports = module.exports = are;
                     }
                     exports.are = are;
@@ -150,13 +150,13 @@
                     return /^[a-z0-9]+$/i.test(value);
                 }
                 function iz_number(val) {
-                    if ((typeof val === "string" || typeof val === "number") && !isNaN(val % 1)) {
+                    if ((typeof val === 'string' || typeof val === 'number') && !isNaN(val % 1)) {
                         return true;
                     }
                     return false;
                 }
                 function iz_between(val, start, end) {
-                    if (typeof val === "object" || typeof val === "function" || typeof start === "object" || typeof start === "function" || typeof end === "object" || typeof end === "function") {
+                    if (typeof val === 'object' || typeof val === 'function' || typeof start === 'object' || typeof start === 'function' || typeof end === 'object' || typeof end === 'function') {
                         return false;
                     }
                     if (val >= start && val <= end) {
@@ -165,13 +165,13 @@
                     return false;
                 }
                 function iz_boolean(value) {
-                    if (typeof value === "boolean" || typeof value === "number" && (value === 0 || value === 1)) {
+                    if (typeof value === 'boolean' || typeof value === 'number' && (value === 0 || value === 1)) {
                         return true;
                     }
                     return false;
                 }
                 function iz_int(value, allowDecimal) {
-                    if (typeof allowDecimal !== "boolean") {
+                    if (typeof allowDecimal !== 'boolean') {
                         allowDecimal = false;
                     }
                     if (!allowDecimal) {
@@ -199,29 +199,29 @@
                     return undefined;
                 }
                 function iz_cc(value) {
-                    if (typeof value !== "string" && typeof value !== "number") {
+                    if (typeof value !== 'string' && typeof value !== 'number') {
                         return false;
                     }
-                    value = value.replace(/[ \-]/g, "");
+                    value = value.replace(/[ \-]/g, '');
                     if (iz_int(value)) {
                         return luhnChk(value);
                     }
                     return false;
                 }
                 function iz_date(value) {
-                    return iz_getObjectClass(value) === "Date" || new Date(value).toString() !== "Invalid Date" || !isNaN(new Date(value));
+                    return iz_getObjectClass(value) === 'Date' || new Date(value).toString() !== 'Invalid Date' || !isNaN(new Date(value));
                 }
                 function iz_decimal(value) {
                     return iz_number(value) && Math.floor(value) != value;
                 }
                 function iz_email(value) {
-                    return !(typeof value !== "string") && /\S+@\S+/.test(value);
+                    return !(typeof value !== 'string') && /\S+@\S+/.test(value);
                 }
                 function iz_empty(value) {
                     var type = typeof value, key;
-                    if (value.hasOwnProperty("length") && type !== "function" && value.length > 0) {
+                    if (value.hasOwnProperty('length') && type !== 'function' && value.length > 0) {
                         return false;
-                    } else if (type === "function" || type === "object") {
+                    } else if (type === 'function' || type === 'object') {
                         for (key in value) {
                             if (value.hasOwnProperty(key)) {
                                 return false;
@@ -231,21 +231,21 @@
                     return true;
                 }
                 function iz_blank(value) {
-                    if (typeof value === "string") {
+                    if (typeof value === 'string') {
                         return iz_empty(value);
                     }
                     return false;
                 }
                 function iz_equal(value, value2) {
                     var valueType = typeof value, value2Type = typeof value2, key;
-                    if ((valueType === "object" || valueType === "function") && typeof value.equals === "function") {
-                        if (value2Type === "object" || value2Type === "function") {
+                    if ((valueType === 'object' || valueType === 'function') && typeof value.equals === 'function') {
+                        if (value2Type === 'object' || value2Type === 'function') {
                             return value.equals(value2);
                         }
-                    } else if (valueType === "object" || valueType === "function") {
+                    } else if (valueType === 'object' || valueType === 'function') {
                         for (key in value) {
-                            if (value.hasOwnProperty(key) && !value2.hasOwnProperty(key) && key !== "equals") {
-                                if (typeof value[key] === "object" || typeof value[key] === "function" && !iz_equal(value[key], value2[key])) {
+                            if (value.hasOwnProperty(key) && !value2.hasOwnProperty(key) && key !== 'equals') {
+                                if (typeof value[key] === 'object' || typeof value[key] === 'function' && !iz_equal(value[key], value2[key])) {
                                     return false;
                                 } else if (value[key] !== value2[key]) {
                                     return false;
@@ -258,11 +258,11 @@
                 }
                 function iz_extension(obj1, obj2) {
                     var key;
-                    if (typeof obj1 !== "object" || typeof obj2 !== "object") {
+                    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
                         return false;
                     }
                     for (key in obj2) {
-                        if (obj2.hasOwnProperty(key) && typeof obj1[key] === "undefined") {
+                        if (obj2.hasOwnProperty(key) && typeof obj1[key] === 'undefined') {
                             return false;
                         }
                     }
@@ -270,29 +270,29 @@
                 }
                 function iz_fileExtension(value, validExtensions) {
                     var ext;
-                    if (typeof validExtensions !== "object" || typeof validExtensions.indexOf === "undefined" || typeof value !== "string") {
+                    if (typeof validExtensions !== 'object' || typeof validExtensions.indexOf === 'undefined' || typeof value !== 'string') {
                         return false;
                     }
-                    ext = value.split(".").pop().toLowerCase();
+                    ext = value.split('.').pop().toLowerCase();
                     if (validExtensions.indexOf(ext) !== -1) {
                         return true;
                     }
                     return false;
                 }
                 function iz_fileExtensionAudio(value) {
-                    var validExtensions = [ "mp3", "ogg", "aac", "wav" ];
+                    var validExtensions = [ 'mp3', 'ogg', 'aac', 'wav' ];
                     return iz_fileExtension(value, validExtensions);
                 }
                 function iz_fileExtensionImage(value) {
-                    var validExtensions = [ "gif", "png", "jpeg", "jpg", "svg", "bmp" ];
+                    var validExtensions = [ 'gif', 'png', 'jpeg', 'jpg', 'svg', 'bmp' ];
                     return iz_fileExtension(value, validExtensions);
                 }
                 function iz_fileExtensionVideo(value) {
-                    var validExtensions = [ "mp4", "ogv", "m4v", "mov", "avi" ];
+                    var validExtensions = [ 'mp4', 'ogv', 'm4v', 'mov', 'avi' ];
                     return iz_fileExtension(value, validExtensions);
                 }
                 function iz_inArray(value, arr) {
-                    if (typeof arr !== "object" || typeof arr.indexOf === "undefined") {
+                    if (typeof arr !== 'object' || typeof arr.indexOf === 'undefined') {
                         return false;
                     }
                     if (arr.indexOf(value) !== -1) {
@@ -305,19 +305,19 @@
                     return re.test(str);
                 }
                 function iz_minLength(val, len) {
-                    if ((typeof val === "string" || typeof val === "object") && typeof val.length !== "undefined" && iz_int(len) && val.length >= len) {
+                    if ((typeof val === 'string' || typeof val === 'object') && typeof val.length !== 'undefined' && iz_int(len) && val.length >= len) {
                         return true;
                     }
                     return false;
                 }
                 function iz_maxLength(val, len) {
-                    if ((typeof val === "string" || typeof val === "object") && typeof val.length !== "undefined" && iz_int(len) && val.length <= len) {
+                    if ((typeof val === 'string' || typeof val === 'object') && typeof val.length !== 'undefined' && iz_int(len) && val.length <= len) {
                         return true;
                     }
                     return false;
                 }
                 function iz_multiple(num, multiple) {
-                    if (typeof num !== "number" || typeof multiple !== "number") {
+                    if (typeof num !== 'number' || typeof multiple !== 'number') {
                         return false;
                     }
                     if (num % multiple === 0) {
@@ -326,7 +326,7 @@
                     return false;
                 }
                 function iz_ofType(obj, type) {
-                    if (typeof obj === "object" && typeof obj.length === "undefined" && typeof type === "string") {
+                    if (typeof obj === 'object' && typeof obj.length === 'undefined' && typeof type === 'string') {
                         if (iz_getObjectClass(obj) === type) {
                             return true;
                         }
@@ -334,10 +334,10 @@
                     return false;
                 }
                 function iz_phone(str) {
-                    var cleanedStr = "", numbers = [];
-                    if (typeof str === "string") {
-                        cleanedStr = str.replace(/[^x0-9]/g, "");
-                        numbers = cleanedStr.split("x");
+                    var cleanedStr = '', numbers = [];
+                    if (typeof str === 'string') {
+                        cleanedStr = str.replace(/[^x0-9]/g, '');
+                        numbers = cleanedStr.split('x');
                         if (numbers.length > 0 && iz_int(numbers[0]) && (numbers[0].length === 10 || numbers[0].length === 11) && iz_int(numbers.pop())) {
                             return true;
                         }
@@ -345,9 +345,9 @@
                     return false;
                 }
                 function iz_postal(str) {
-                    var cleanedStr = "";
-                    if (typeof str === "string") {
-                        cleanedStr = str.replace(/[^0-9]/g, "");
+                    var cleanedStr = '';
+                    if (typeof str === 'string') {
+                        cleanedStr = str.replace(/[^0-9]/g, '');
                         if (iz_int(cleanedStr) && (cleanedStr.length === 5 || cleanedStr.length === 9)) {
                             return true;
                         }
@@ -355,9 +355,9 @@
                     return false;
                 }
                 function iz_ssn(str) {
-                    var cleanedStr = "";
-                    if (typeof str === "string") {
-                        cleanedStr = str.replace(/[^0-9]/g, "");
+                    var cleanedStr = '';
+                    if (typeof str === 'string') {
+                        cleanedStr = str.replace(/[^0-9]/g, '');
                         if (iz_int(cleanedStr) && cleanedStr.length === 9) {
                             return true;
                         }
@@ -365,7 +365,7 @@
                     return false;
                 }
                 function iz_required(obj) {
-                    return obj !== undefined && obj !== null && obj !== "";
+                    return obj !== undefined && obj !== null && obj !== '';
                 }
                 function iz_required_or(validator) {
                     return function(val) {
@@ -399,8 +399,8 @@
                 validators.postal = iz_required_or(iz_postal);
                 validators.required = iz_required;
                 validators.ssn = iz_required_or(iz_ssn);
-                if (typeof exports !== "undefined") {
-                    if (typeof module !== "undefined" && module.exports) {
+                if (typeof exports !== 'undefined') {
+                    if (typeof module !== 'undefined' && module.exports) {
                         exports = module.exports = validators;
                     }
                     exports.validators = validators;
@@ -412,7 +412,7 @@
         if (o[2]) return o[2].exports;
         o[0](function(u) {
             if (!require.m[o[1][u]]) {
-                throw new Error('Cannot find module "' + u + '"');
+                throw new Error('Cannot find module '' + u + ''');
             }
             return require(require.m[o[1][u]]);
         }, o[2] = {

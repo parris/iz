@@ -14,7 +14,7 @@ var validators = require('./validators');
     function Iz(value, error_messages) {
         var self = this;
 
-        if (typeof error_messages === "object") {
+        if (typeof error_messages === 'object') {
             this.error_messages = error_messages;
         } else {
             this.error_messages = {};
@@ -87,12 +87,12 @@ var validators = require('./validators');
                 //2 failed validation cases
                 if ((!this._not && !result) || (this._not && result)) {
                     //change error message based on not and if an error message is specified
-                    if (!this._not && typeof this.error_messages[fn] !== "undefined") {
+                    if (!this._not && typeof this.error_messages[fn] !== 'undefined') {
                         this.errors.push(this.error_messages[fn]);
-                    } else if (this._not && typeof this.error_messages["not_" + fn] !== "undefined") {
-                        this.errors.push(this.error_messages["not_" + fn]);
+                    } else if (this._not && typeof this.error_messages['not_' + fn] !== 'undefined') {
+                        this.errors.push(this.error_messages['not_' + fn]);
                     } else if (this._not) {
-                        this.errors.push("Not " + fn);
+                        this.errors.push('Not ' + fn);
                     } else {
                         this.errors.push(fn);
                     }

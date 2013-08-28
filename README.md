@@ -3,10 +3,10 @@
 Goals/Info
 ====
 This package's goals are really simple. Just looking for a lightweight manner to validate common things. It is user
-centric and ensures that they don't make typos. It does not require them to enter things in "some right way", but
-rather "a right way". In other words if they like to put "." instead of "-" in their phone numbers it should let them.
+centric and ensures that they don't make typos. It does not require them to enter things in 'some right way', but
+rather 'a right way'. In other words if they like to put '.' instead of '-' in their phone numbers it should let them.
 We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
-format that is our job to normalize! In fact that might be a good next project... "norm.js" sounds fairly sexy to me :).
+format that is our job to normalize! In fact that might be a good next project... 'norm.js' sounds fairly sexy to me :).
 It also provides validation for required fields and separates it from whether what a user has entered is valid.
 
 Setup
@@ -27,7 +27,7 @@ Client Side
 ----
 Simply include `iz.js` or `iz.min.js` like so:
 
-    <script src="iz.min.js"></script>
+    <script src='iz.min.js'></script>
     <script>
         var iz = izBundle.iz,
             are = izBundle.are,
@@ -51,12 +51,12 @@ returned object and run more validations on it later as well. This function also
 then you can provide not_* in the error_messages object to return a custom error.
 
     var errors = {
-        between: "Is not between, please fix",
-        not_between: "Value must be between!",
-        int: "Not an int!!!",
-        multiple: "This is terrible and you should fix it"
+        between: 'Is not between, please fix',
+        not_between: 'Value must be between!',
+        int: 'Not an int!!!',
+        multiple: 'This is terrible and you should fix it'
     }
-    iz("Bob", errors).between(2, 15).int().multiple(5);
+    iz('Bob', errors).between(2, 15).int().multiple(5);
 
 You don't need to use the chained notation. Alternatively you could call the functions more simply:
 
@@ -116,7 +116,7 @@ Group/Saved Validations
 
 You can now validate multiple fields at once!
 
-    var iz = require("iz"),
+    var iz = require('iz'),
         are = iz.are,
         validators = iz.validators
 
@@ -125,11 +125,11 @@ You can now validate multiple fields at once!
 
         // How I want to output my errors
         costErrors = {
-            decimal: "Cost must be given as a decimal"
+            decimal: 'Cost must be given as a decimal'
         },
         ageErrors = {
-            int: "Must be an whole number",
-            between: "This wine is too young, it's no good"
+            int: 'Must be an whole number',
+            between: 'This wine is too young, it's no good'
         },
 
         // My rules, I can look at the keys and inspect the errors
@@ -172,8 +172,8 @@ Did I miss a validation? Send me a message or a pull request.
 Thoughts
 ====
 
-- A ton of "checking" done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
-- Getters could be used instead of the "not()" function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
+- A ton of 'checking' done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
+- Getters could be used instead of the 'not()' function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
 
 Change Log
 ====
@@ -192,7 +192,7 @@ Note: I am creating an integration for backbone in another repo.
 0.1.0
 ----
 - Fixed loading of iz, are and validator modules
-- Added missing "blank" validator
+- Added missing 'blank' validator
 - Added build/test system via grunt
 - Removed versions in bin
 - Added version/generation number in banner

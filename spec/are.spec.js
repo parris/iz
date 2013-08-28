@@ -1,22 +1,22 @@
 /*global describe, it, xit, xdescribe, before, require */
 /*jshint expr:true*/
 
-var iz = require("../src/iz"),
-    are = require("../src/are");
+var iz = require('../src/iz'),
+    are = require('../src/are');
 
-describe("Are", function() {
+describe('Are', function() {
     'use strict';
 
     describe('group validations', function() {
 
         beforeEach(function() {
             this.costErrors = {
-                decimal: "Must be a decimal!"
+                decimal: 'Must be a decimal!'
             };
             this.ageErrors = {
-                not_decimal: "Shouldn't be a decimal!",
-                int: "Must be an integer",
-                between: "This movie is rated R, you are too young!"
+                not_decimal: 'Shouldn\'t be a decimal!',
+                int: 'Must be an integer',
+                between: 'This movie is rated R, you are too young!'
             };
             this.rules = {
                 cost: iz(5.00, this.costErrors).number(),
