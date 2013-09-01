@@ -1,18 +1,13 @@
 [![Build Status](https://secure.travis-ci.org/parris/iz.png)](http://travis-ci.org/parris/iz)
 
-Goals/Info
+What is it?
 ====
-This package's goals are really simple. Just looking for a lightweight manner to validate common things. It is user
-centric and ensures that they don't make typos. It does not require them to enter things in 'some right way', but
-rather 'a right way'. In other words if they like to put '.' instead of '-' in their phone numbers it should let them.
-We should just make sure they don't mess up and only put 8 numbers instead of 10. If we need our data in some other
-format that is our job to normalize! In fact that might be a good next project... 'norm.js' sounds fairly sexy to me :).
-It also provides validation for required fields and separates it from whether what a user has entered is valid.
+A validation library written for client/server side needs in javascript. Oh and awesome syntax is important to us too.
 
 Setup
 ====
 
-Node
+Server side (Node/CommonJS)
 ----
 
     npm install iz --save
@@ -25,30 +20,25 @@ Then you can include iz, are and validators if needed
 
 Client Side
 ----
-Simply include `iz.js` or `iz.min.js` like so:
+This depends on situation. If you are using CommonJS modules use the server side syntax.
 
-    <script src='iz.min.js'></script>
-    <script>
-        var iz = izBundle.iz,
-            are = izBundle.are,
-            validators = izBundle.validators;
-    </script>
+If you are using AMD modules, you can run `npm build` or grab the latest dist/iz.js. You can include it on your page; however, you wish then:
 
-If you are using some require based library you are going to most likely use
-the server side syntax.
+    require(['iz', 'are', 'validators'], function(iz, are, validators) {
+
+    });
+
+If you are **not** using a module system you may want to take a look at OneJS/Browserify, and how we did client side builds in v0.2.0 (just view the tag on github).
 
 API
 ====
-
 Chaining:
 ----
 
     iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
-    iz(10).between(2, 15).not().between(1, 5).int().multiple(5); // the fancy not operator will cause the opposite result to happen next... this is also true!
+    iz(10).not().between(1, 5); // the fancy not operator will cause the opposite result to happen next. This is also true!
 
-When using the chained notation an object containing an errors{array} and valid{bool} is returned. You could take the
-returned object and run more validations on it later as well. This function also accepts an object with error names. If you `.not()` something
-then you can provide not_* in the error_messages object to return a custom error.
+iz(), and all validation commands return an Iz object. An iz object always contains an `errors`{array} and `valid`{bool}. `errors` will be filled with a default error messsage for each incorrect field. To provide custom error messages you can do the following:
 
     var errors = {
         between: 'Is not between, please fix',
@@ -58,29 +48,98 @@ then you can provide not_* in the error_messages object to return a custom error
     }
     iz('Bob', errors).between(2, 15).int().multiple(5);
 
-You don't need to use the chained notation. Alternatively you could call the functions more simply:
+Simple Checks
+----
+You don't need to use the chained notation. The following will return true or false:
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
+JSON
+----
+It is often useful to get a list of validations from your server for a given model. Nested objects work to!
+
+    var rules = {
+        'cost': [
+            {
+                'rule': 'between',
+                'args': [17, 1000],
+                'error': 'The cost must be between 17, 1000'
+            },
+            {
+                'rule': 'required',
+                'error': 'You must specify a cost'
+            },
+        ],
+        'producer.id': [
+            {
+                'rule': 'int',
+                'error': 'Producer ID must be an int'
+            }
+        ],
+        'producer.name.first': [
+            {
+                'rule': 'alphaNumeric',
+                'error': 'Must be names and numbers'
+            }
+        ]
+    };
+
+    are(rules).validFor({
+        cost: 20,
+        producer: {
+            id: 1,
+            name: {
+                first: 'bob'
+            }
+        }
+    });
+
+Are/Multiple rules
+----
+`are` doesn't just force you to use json validations. You could also check if any number of chained or json rules are valid.
+
+    var wine = new Bottle({age: 30, cost: 1000.01}),
+        costErrors = {
+            number: 'Cost must be given as a number'
+        },
+        ageErrors = {
+            int: 'Must be an whole number',
+            between: 'This wine is too young, it's no good'
+        },
+        rules = {
+            cost: iz(wine.cost, costErrors).decimal(),
+            age: iz(wine.age, ageErrors)
+                .int().between(17, 10000)
+        },
+        areRules = are(rules);
+
+    areRules.valid(); // true
+
+    rules.cost.setValue(2000.00);
+    areRules.valid(); // true, setValue revalidates, as does are.valid
+
+    rules.cost('hi'); // we didn't use setValue on the Iz cost object
+    rules.cost.valid; // and valid is still true
+
+    are(rules).valid() // but `valid()` will revalidate, false
+    rules.cost.valid // and `valid` is now in the correct state again
+
+    // or you can use this and just give null values in the rules object
+    areRules.validFor(wine)
+
 Required Fields:
 ----
+In most cases, you'll only want to validate values when they exist. By default iz functions in this way. If you want to force the presence of a value you can use the `required` method.
 
-When using iz.required(*) it can be used alone or chained with other validators to cover the following scenarios:
-
-    iz(value).required()                       //value is required
-    iz(value).required().email()               //value is required and is a valid email
-    iz(value).date()                           //value is not required but must be a date if provided
-
-This behaviour is great for validating user input or payloads sent to an api where validation of required fields is a common need.
-
-N.B. However, it means that iz(null).date(), iz(undefined).email() and iz('').int() will all return true!!! While this seems counter intuitive, it is important to realise that iz validates only if a value is actually provided. Whether a value is required or not is a separate concern altogether and is covered by iz.required(*);
+    iz(value).required() //a value is required
+    iz(value).required().email() //value is required and is a valid email
+    iz(value).date() //value is not required but must be a date if provided
 
 Validators:
 ----
-
 All validators (apart from iz.required) return true if no value is provided (e.g. null, undefined or '').
 
-Possible validations so far (true case in comments):
+Validations (true case in comments):
 
     iz.alphaNumeric(*);               // Is number or string(contains only numbers or strings)
     iz.between(number, start, end);   // Number is start or greater but less than or equal to end, all params numeric
@@ -88,7 +147,7 @@ Possible validations so far (true case in comments):
     iz.boolean(*);                    // true, false, 0, 1
     iz.cc(*);                         // Luhn checksum approved value
     iz.date(*);                       // Is a date obj or is a string that is easily converted to a date
-    iz.decimal(*);                    // Contains 1 decimal point and potentially can have a - at the beginning
+    iz.decimal(*);                    // int or float
     iz.email(*);                      // Seems like a valid email address
     iz.empty(*);                      // If an object, array or function contains no properties true. All primitives return true.
     iz.equal(*, *);                   // Any 2 things are strictly equal. If 2 objects their internal properties will be checked. If the first parameter has an equals method that will be run instead
@@ -111,78 +170,28 @@ Possible validations so far (true case in comments):
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
-Group/Saved Validations
+
+Ommissions
 ====
-
-You can now validate multiple fields at once!
-
-    var iz = require('iz'),
-        are = iz.are,
-        validators = iz.validators
-
-        // Bottle, is the name of the model
-        wine = new Bottle({age: 30, cost: 1000.00}),
-
-        // How I want to output my errors
-        costErrors = {
-            decimal: 'Cost must be given as a decimal'
-        },
-        ageErrors = {
-            int: 'Must be an whole number',
-            between: 'This wine is too young, it's no good'
-        },
-
-        // My rules, I can look at the keys and inspect the errors
-        rules = {
-            cost: iz(wine.cost, costErrors).decimal(),
-            age: iz(wine.age, ageErrors)
-                .int().between(17, 10000)
-        };
-
-    are(rules).valid();
-    // true
-
-    rules.cost.setValue(2000.00);
-    are(rules).valid();
-    // true, setValue revalidates, as does are.valid
-
-    rules.cost(100);
-    rules.cost.valid;
-    // still true
-
-    are(rules).valid()
-    // false, revalidate was called
-    rules.cost.valid
-    // false
-
-
-Omissions
-====
-
-Lastly, I omitted a few typical validations (temporarily maybe) for these reasons:
-
-- Uniqueness: I may eventually write some sort of interface for uniqueness checks within some db, but for now this is non-trivial. First up would be mongodb.
+- Uniqueness: This is non-trivial since it requires db/server side/client side knowledge.
 - File: Not sure what the scope should be yet. Mime types? Existence on the web?
-- Email (more in depth): Right now we check for the @ symbol. This accepts all email address. Some more hard regex would be cool, but a real valid email regex is overly complicated and doesn't accept everything. The other option is an in depth check with an email provider (sbcglobal comes to mind).
-- Money: The scope is really large. Thinking about having localized settings. Perhaps specifying some simple format. Not sure yet!
+- Email (more in depth): Right now we check for the @ symbol. There are extremely complicated regex out there. I haven't really found the need. If you have an idea send a pull request!
+- Money: The scope is really large. I am thinking about having localized settings.
 - URL: No real non-crazy regex exists. Checking for http:// at the front is lame, why force your user to type that in?
 
 Did I miss a validation? Send me a message or a pull request.
 
-Thoughts
-====
-
-- A ton of 'checking' done, but the library doesn't expose calculated values (even though it finds them). For example the library doesn't tell you what type something is, it simply tells you if the type matches some string. It might be useful to provide checking methods along with calculation and sanitization.
-- Getters could be used instead of the 'not()' function. All it does is set _not to true and then return Iz; however, the check done to see if getters are available in the environment is the same check that would need to be done when running the validations. Since we are trying to make this tool relatively cross-platform I decided to omit this functionality.
-
 Change Log
 ====
 
-Next: Refactor Iz class a bit.
+Next: Refactor Iz class a bit. Add support for custom validations.
 
-Experimental: Client side include method system. Let me know what you think about it.
-
-Note: I am creating an integration for backbone in another repo.
+0.3.0
+----
+- Added JSON based validations
+- Replaced previous build system with requirejs.
+- Doc simplification
+- Code style reformatting
 
 0.2.0
 ----
