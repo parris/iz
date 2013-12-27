@@ -109,7 +109,7 @@ var iz = require('./iz');
                        return false;
                    }
                    valid = false;
-                   self._errors[key] = self._fields[key].errors;
+                   self._errors[field] = self._fields[field].errors;
                 }
             }
 
