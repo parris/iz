@@ -6,7 +6,7 @@ var iz = require('./iz');
     'use strict';
     var are;
 
-    function Are(rules) {
+    function Are(rules, fullValidator) {
         var self = this,
             currentRule,
             rule,
@@ -14,6 +14,8 @@ var iz = require('./iz');
             key;
 
         self._fields = {};
+        
+        self._errors = {};
 
         for (key in rules) {
             if (!rules.hasOwnProperty(key)) {
@@ -61,6 +63,7 @@ var iz = require('./iz');
         }
 
         this.valid = function() {
+            var valid = true;
             for (var key in self._fields) {
                 if (!self._fields[key].hasOwnProperty(key)) {
                     continue;
@@ -68,16 +71,21 @@ var iz = require('./iz');
 
                 self._fields[key].revalidate();
                 if (!self._fields[key].valid) {
-                    return false;
+                   if (!fullValidator) {
+                       return false;
+                   }
+                   valid = false;
+                   self._errors[key] = self._fields[key].errors;
                 }
             }
 
-            return true;
+            return valid;
         };
 
         this.validFor = function(values) {
             var field,
                 i = 0,
+                valid = true,
                 fieldKeys,
                 currentValue;
 
@@ -97,11 +105,15 @@ var iz = require('./iz');
                 self._fields[field].setValue(currentValue);
 
                 if (!self._fields[field].valid) {
-                    return false;
+                   if (!fullValidator) {
+                       return false;
+                   }
+                   valid = false;
+                   self._errors[key] = self._fields[key].errors;
                 }
             }
 
-            return true;
+            return valid;
         };
     }
 
