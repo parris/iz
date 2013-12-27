@@ -117,8 +117,8 @@ var iz = require('./iz');
         };
     }
 
-    are = function(rules) {
-        return new Are(rules);
+    are = function(rules, fullValidator) {
+        return new Are(rules, fullValidator);
     };
 
     // Export module
