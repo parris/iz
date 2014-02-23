@@ -21,6 +21,33 @@ describe('Validation', function () {
         iz.alphaNumeric(undefined).should.be.ok;
     });
 
+    it('can validate string values', function () {
+        iz.string('').should.be.ok;
+        iz.string('a2d1kf0v9r9fje9fdgnsdksdf9240uyjsdfgkj').should.be.ok;
+        iz.string('aaaaaaa').should.be.ok;
+        iz.string('999999').should.be.ok;
+        iz.string('_3423423').should.be.ok;
+        iz.string('342 3423').should.be.ok;
+        iz.string('alals*fd').should.be.ok;
+
+        iz.string(new String('')).should.be.ok;
+        iz.string(new String('239084203')).should.be.ok;
+        iz.string(new String('alals*fd')).should.be.ok;
+        
+        iz.string(9999999).should.not.be.ok;
+        iz.string({}).should.not.be.ok;
+        iz.string([]).should.not.be.ok;
+        iz.string(function () {}).should.not.be.ok;
+        iz.string(/[ \-]/g).should.not.be.ok;
+        iz.string(new Date()).should.not.be.ok;
+
+        function Car() {}
+        iz.string(new Car()).should.not.be.ok;
+
+        iz.string(null).should.be.ok;
+        iz.string(undefined).should.be.ok;
+    });
+
     it('can validate that a primitive is between 2 other primitives', function () {
         iz.between(5, 5, 6).should.be.ok;
         iz.between(6, 5, 6).should.be.ok;
