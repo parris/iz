@@ -104,7 +104,7 @@ Are/Multiple rules
         },
         ageErrors = {
             int: 'Must be an whole number',
-            between: 'This wine is too young, it's no good'
+            between: 'This wine is too young, it\'s no good'
         },
         rules = {
             cost: iz(wine.cost, costErrors).decimal(),
@@ -167,6 +167,7 @@ Validations (true case in comments):
     iz.postal(*);                     // Is a postal code or zip code
     iz.required(*);                   // Is not null, undefined or an empty string
     iz.ssn(*);                        // Is a social security number
+    iz.string(*);                     // Is the argument of type string
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
