@@ -13,7 +13,7 @@ var iz = require('./iz');
             errors,
             key;
 
-        self._fields = {};
+        self.fields = {};
 
         for (key in rules) {
             if (!rules.hasOwnProperty(key)) {
@@ -22,7 +22,7 @@ var iz = require('./iz');
 
             // if is an iz object just add rule directly, if not assemble an iz object
             if (typeof rules[key].revalidate !== 'undefined') {
-                self._fields[key] = rules[key];
+                self.fields[key] = rules[key];
             } else {
                 errors = {};
 
@@ -56,18 +56,18 @@ var iz = require('./iz');
                     );
                 }
 
-                self._fields[key] = currentRule;
+                self.fields[key] = currentRule;
             }
         }
 
         this.valid = function() {
-            for (var key in self._fields) {
-                if (!self._fields[key].hasOwnProperty(key)) {
+            for (var key in self.fields) {
+                if (!self.fields[key].hasOwnProperty(key)) {
                     continue;
                 }
 
-                self._fields[key].revalidate();
-                if (!self._fields[key].valid) {
+                self.fields[key].revalidate();
+                if (!self.fields[key].valid) {
                     return false;
                 }
             }
@@ -81,8 +81,8 @@ var iz = require('./iz');
                 fieldKeys,
                 currentValue;
 
-            for (field in self._fields) {
-                if (!self._fields.hasOwnProperty(field)) {
+            for (field in self.fields) {
+                if (!self.fields.hasOwnProperty(field)) {
                     continue;
                 }
 
@@ -94,9 +94,9 @@ var iz = require('./iz');
                     currentValue = currentValue[fieldKeys[i]];
                 }
 
-                self._fields[field].setValue(currentValue);
+                self.fields[field].setValue(currentValue);
 
-                if (!self._fields[field].valid) {
+                if (!self.fields[field].valid) {
                     return false;
                 }
             }
