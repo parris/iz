@@ -8,6 +8,10 @@
         return (/^[a-z0-9]+$/i).test(value);
     }
 
+    function izString(value) {
+        return typeof value === 'string' || value instanceof String;
+    }
+
     function izNumber(val) {
         if ((typeof val === 'string' || typeof val === 'number') && !isNaN(val % 1)) {
             return true;
@@ -359,6 +363,7 @@
 
     //Expose some methods, this is done to preserve function names in all browsers
     validators.alphaNumeric = izRequiredOr(izAlphaNumeric);
+    validators.string = izRequiredOr(izString);
     validators.between = izRequiredOr(izBetween);
     validators.blank = izRequiredOr(izBlank);
     validators.boolean = izRequiredOr(izBoolean);
