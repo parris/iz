@@ -214,7 +214,7 @@ Change Log
 
 0.4.0
 ----
-- Renamed private `_fields` variable in Are to `_fields`
+- Renamed private `_fields` variable in Are to `fields`
 - Added `getInvalidFields` to Are
 - Added `iz.string` validation
 - Fixed docs
