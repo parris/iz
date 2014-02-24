@@ -1,8 +1,9 @@
 {
   "name": "iz",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Validation for node and the web.",
   "main": "app.js",
+  "url" : "https://github.com/parris/iz/issues",
   "homepage": "https://github.com/parris/iz",
   "keywords": [
     "validation",
@@ -19,7 +20,7 @@
     "should": "~0.6.3",
     "grunt": "~0.4.1",
     "grunt-shell": "~0.2.2",
-    "grunt-simple-mocha": "~0.3.2",
+    "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git#a4946466e9ce5504ecbda4d8419ff28ab74585ff",
     "requirejs": "2.1.6",
     "grunt-cli": "~0.1.9"
   },
