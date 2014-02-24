@@ -22,10 +22,12 @@ Client Side
 ----
 This depends on situation. If you are using CommonJS modules use the server side syntax.
 
-If you are using AMD modules, you can run `npm build` or grab the latest dist/iz.js. You can include it on your page; however, you wish then:
+If you are using AMD modules, you can include files from the amd folder like so:
 
-    require(['iz', 'are', 'validators'], function(iz, are, validators) {
-
+    require(function(require) {
+        var iz = require('node_modules/iz/amd/iz'),
+            are = require('node_modules/iz/amd/are'),
+            validators = require('node_modules/iz/amd/validators');
     });
 
 If you are **not** using a module system you may want to take a look at OneJS/Browserify, and how we did client side builds in v0.2.0 (just view the tag on github).
@@ -193,10 +195,22 @@ Ommissions
 
 Did I miss a validation? Send me a message or a pull request.
 
+Roadmap
+====
+- Simplify creation of Iz objects. Too much construction happens right now.
+- Add better support for custom validations
+- Allow developers to pass custom rjs options for a custom iz build
+
 Change Log
 ====
 
-Next: Refactor Iz class a bit. Add support for custom validations.
+0.4.1
+----
+- Changed AMD compile process
+- Rebuilt modules as AMD
+- Split out tasks into their own files
+- Added roadmap
+- Fixed up more docs
 
 0.4.0
 ----
