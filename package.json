@@ -28,5 +28,5 @@
     "build": "./node_modules/.bin/grunt"
   },
   "author": "Parris Khachi",
-  "license": "MIT"
+  "license": "CC0-1.0"
 }
