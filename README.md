@@ -198,6 +198,13 @@ Change Log
 
 Next: Refactor Iz class a bit. Add support for custom validations.
 
+0.4.0
+----
+- Renamed private `_fields` variable in Are to `_fields`
+- Added `getInvalidFields` to Are
+- Added `iz.string` validation
+- Fixed docs
+
 0.3.0
 ----
 - Added JSON based validations
