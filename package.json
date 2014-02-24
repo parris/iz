@@ -28,5 +28,5 @@
     "build": "./node_modules/.bin/grunt"
   },
   "author": "Parris Khachi",
-  "license": "CC0-1.0"
+  "license": "Apache-2.0"
 }
