@@ -127,6 +127,17 @@ Are/Multiple rules
     // or you can use this and just give null values in the rules object
     areRules.validFor(wine)
 
+It is often useful to get back error messages from an Are object. Regardless of
+how you create your Are object (JSON or Iz objects) the result is a set of Iz
+objects stored within `.fields`. Iz objects contain an attribute called `errors`.
+The `.getInvalidFields` helper will retrieve all iz objects with errors.
+
+    var rules = Are(...);
+
+    if (!rules.validFor(someAttributeObject)) {
+        return rules.getInvalidFields();
+    }
+
 Required Fields:
 ----
 In most cases, you'll only want to validate values when they exist. By default iz functions in this way. If you want to force the presence of a value you can use the `required` method.
