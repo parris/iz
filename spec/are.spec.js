@@ -91,6 +91,16 @@ describe('Are', function() {
             are(this.rules).validFor(this.invalidObject).should.not.be.ok;
         });
 
+        it('returns error messages', function() {
+            var myAre = are(this.rules),
+                errorFields;
+
+            myAre.validFor(this.invalidObject);
+            errorFields = myAre.getInvalidFields();
+
+            errorFields['producer.id'].length.should.be.ok;
+        });
+
         describe('with required fields', function() {
 
             beforeEach(function() {

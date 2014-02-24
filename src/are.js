@@ -103,6 +103,19 @@ var iz = require('./iz');
 
             return true;
         };
+
+        this.getInvalidFields = function() {
+            var errorFields = {},
+                key;
+
+            for (key in self.fields) {
+                if(self.fields[key].errors && self.fields[key].errors.length) {
+                    errorFields[key] = self.fields[key].errors;
+                }
+            }
+
+            return errorFields;
+        };
     }
 
     are = function(rules) {
