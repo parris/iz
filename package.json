@@ -21,7 +21,8 @@
     "grunt": "~0.4.1",
     "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git#a4946466e9ce5504ecbda4d8419ff28ab74585ff",
     "grunt-cli": "~0.1.9",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "bower": "~1.2.2"
   },
   "scripts": {
     "test": "./node_modules/.bin/grunt test",
