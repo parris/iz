@@ -1,0 +1,27 @@
+{
+  "name": "iz",
+  "version": "0.4.1",
+  "description": "Validation for node and the web.",
+  "main": "app.js",
+  "keywords": [
+    "validation",
+    "regex",
+    "checker"
+  ],
+  "authors": [
+    "Parris Khachi"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/parris/iz",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:parris/iz.git"
+  }
+}
