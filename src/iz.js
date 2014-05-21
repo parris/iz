@@ -53,8 +53,22 @@ var validators = require('./validators');
             return self;
         }
 
-        this.not = not;
+        /**
+         * Formats a string using the args index as the key
+         * @param {String} string
+         * @param {Array|Object} args
+         */
+        function format(string, args) {
+            for (i in args) {
+                string = string.replace(
+                    new RegExp('\{\{\s?' + i + '\s?\}\}', 'gim'),
+                    args[i]
+                );
+            }
+            return string;
+        }
 
+        this.not = not;
         this.value = value;
         this.setValue = setValue;
         this.revalidate = revalidate;
@@ -88,9 +102,9 @@ var validators = require('./validators');
                 if ((!this._not && !result) || (this._not && result)) {
                     //change error message based on not and if an error message is specified
                     if (!this._not && typeof this.error_messages[fn] !== 'undefined') {
-                        this.errors.push(this.error_messages[fn]);
+                        this.errors.push(format(this.error_messages[fn], allArguments));
                     } else if (this._not && typeof this.error_messages['not_' + fn] !== 'undefined') {
-                        this.errors.push(this.error_messages['not_' + fn]);
+                        this.errors.push(format(this.error_messages['not_' + fn], allArguments));
                     } else if (this._not) {
                         this.errors.push('Not ' + fn);
                     } else {
