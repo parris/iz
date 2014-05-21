@@ -59,9 +59,9 @@ var validators = require('./validators');
          * @param {Array|Object} args
          */
         function format(string, args) {
-            for (i in args) {
+            for (var i in args) {
                 string = string.replace(
-                    new RegExp('\{\{\s?' + i + '\s?\}\}', 'gim'),
+                    new RegExp('\{\{\\s*'+i+'\\s*\}\}', 'gim'),
                     args[i]
                 );
             }
