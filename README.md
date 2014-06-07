@@ -140,6 +140,18 @@ The `.getInvalidFields` helper will retrieve all iz objects with errors.
         return rules.getInvalidFields();
     }
 
+Error Messages:
+----
+In the event you want to return more detailed error messages. You can use a
+simple syntax to format your error message with a validators arguments.
+
+    var error_messages = {between: '{{0}} is not between {{1}} and {{2}}'};
+    var izObj = iz(5, error_messages).between(100, 200);
+    console.log(izObj.errors);
+
+will log `['5 is not between 100 and 200']`. This works with
+`are.getInvalidFields()` too.
+
 Required Fields:
 ----
 In most cases, you'll only want to validate values when they exist. By default iz functions in this way. If you want to force the presence of a value you can use the `required` method.

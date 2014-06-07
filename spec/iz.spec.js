@@ -47,10 +47,12 @@ describe('Iz', function () {
     });
 
     it('accepts errors for .not\'d validations', function () {
-        var error_messages = {
-            not_between: 'Your value needs to not be between!'
-        };
-        iz(5, error_messages).not().between(4, 6).errors.should.include(error_messages.not_between);
+        var expected = 'Your value needs to not be between 4 and 6, it is currently 5!',
+            error_messages = {
+                not_between: 'Your value needs to not be between {{ 1 }} and {{2 }}, it is currently {{0}}!'
+            };
+
+        iz(5, error_messages).not().between(4, 6).errors.should.include(expected);
         iz(5).not().between(4, 6).errors.should.include('Not between');
     });
 
