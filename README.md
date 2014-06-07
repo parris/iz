@@ -216,6 +216,13 @@ Roadmap
 Change Log
 ====
 
+0.5.0
+----
+- Added interpolation to error messages
+- Added bower
+- Changed license and copyright info
+- Fixed readme typos
+
 0.4.1
 ----
 - Changed AMD compile process
