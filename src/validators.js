@@ -101,7 +101,7 @@
 
     /**
      * TODO: maybe provide format and use: http://www.mattkruse.com/javascript/date/source.html
-     * but that seems in elegant. Then again dates in general are in elegant... *shrug*
+     * but that seems inelegant. Then again dates in general are inelegant... *shrug*
      * @param value
      * @return {Boolean}
      */
