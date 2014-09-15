@@ -9,7 +9,7 @@
     }
 
     function izString(value) {
-        return typeof value === 'string' || value instanceof String;
+        return typeof value === 'string' || value instanceof String;
     }
 
     function izNumber(val) {

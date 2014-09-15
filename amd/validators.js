@@ -9,7 +9,7 @@ define(function (require, exports, module) {/*global module, exports */
     }
 
     function izString(value) {
-        return typeof value === 'string' || value instanceof String;
+        return typeof value === 'string' || value instanceof String;
     }
 
     function izNumber(val) {
