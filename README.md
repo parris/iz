@@ -216,6 +216,10 @@ Roadmap
 Change Log
 ====
 
+0.5.2
+----
+- Removed a strange hidden character that was introduced
+
 0.5.0
 ----
 - Added interpolation to error messages
