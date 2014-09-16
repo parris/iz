@@ -181,6 +181,7 @@ Validations (true case in comments):
     iz.fileExtensionAudio(value);     // Check against mp3, ogg, wav, aac
     iz.fileExtensionImage(value);     // Check against png, jpg, jpeg, gif, bmp, svg, gif
     iz.inArray(value, arr);           // If * is in the array
+    iz.anArray(arr);                  // If arr is an array
     iz.int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     iz.ip(str);                       // str resembles an IPV4 or IPV6 address
     iz.minLength(val, min);           // val (str or arr) is greater than min
@@ -215,6 +216,10 @@ Roadmap
 
 Change Log
 ====
+
+0.6.0
+----
+- Added `is.anArray` validation
 
 0.5.2
 ----

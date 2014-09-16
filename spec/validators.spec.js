@@ -277,6 +277,14 @@ describe('Validation', function () {
         iz.inArray(function () {}, 5).should.not.be.ok;
     });
 
+    it('can detect an array', function () {
+        iz.anArray(['pizza','chicken','tofu','turkey']).should.be.ok;
+        iz.anArray('lizard').should.not.be.ok;
+        iz.anArray(5).should.not.be.ok;
+        iz.anArray({}).should.not.be.ok;
+        iz.anArray(function () {}).should.not.be.ok;
+    });
+
     it('can validate integers', function () {
         iz.int('1000').should.be.ok;
         iz.int(1000).should.be.ok;

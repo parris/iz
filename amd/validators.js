@@ -258,6 +258,10 @@ define(function (require, exports, module) {/*global module, exports */
         return false;
     }
 
+    function izAnArray(arr) {
+        return Array.isArray(arr);
+    }
+
     /**
      * Matches IPv4, IPv6 or hostname
      * @author Mikulas Dite http://stackoverflow.com/questions/9208814/validate-ipv4-ipv6-and-hostname
@@ -379,6 +383,7 @@ define(function (require, exports, module) {/*global module, exports */
     validators.fileExtensionImage = izRequiredOr(izFileExtensionImage);
     validators.fileExtensionVideo = izRequiredOr(izFileExtensionVideo);
     validators.inArray = izInArray;
+    validators.anArray = izRequiredOr(izAnArray);
     validators.int = izRequiredOr(izInt);
     validators.ip = izRequiredOr(izIp);
     validators.minLength = izRequiredOr(izMinLength);
