@@ -199,7 +199,7 @@ Almost all possible use cases that will definitely work (and definitely not work
 
 Custom Validators:
 ----
-Adding customer validators is done though the either the validation or iz object.  If the validator already exists, then addValidator will throw an exception.  You can force an over ride by adding a 3rd parameter of true.
+Adding customer validators is done though the either the validation or iz object.  If the validator already exists, then addValidator will throw an exception.  You can force an override by adding a 3rd parameter of true.
 
 
     var dummyValidator = function(value){
@@ -209,10 +209,10 @@ Adding customer validators is done though the either the validation or iz object
         return value.indexOf('test') === 0;
     };
     iz.addValidator('startsWithTest', dummyValidator);
-    iz.starsWithTest('test string');
+    iz.startsWithTest('test string');
 
-    //only do this if you are certain, you need to
-    iz.addValidator('string', dummyValidator, true); //for override of existing validator
+    //for override of existing validator, only do this if you are sure.
+    iz.addValidator('string', dummyValidator, true);
 
 
 
