@@ -1,6 +1,6 @@
 {
   "name": "iz",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Validation for node and the web.",
   "main": "app.js",
   "url": "https://github.com/parris/iz/issues",
