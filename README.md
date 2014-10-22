@@ -199,7 +199,7 @@ Almost all possible use cases that will definitely work (and definitely not work
 
 Custom Validators:
 ----
-Adding customer validators is done though the either the validation or iz object.  If the validator already exists, then addValidator will throw an exception.  You can force an override by adding a 3rd parameter of true.
+Adding custom validators is done though either the validation or iz object.  If the validator already exists, then addValidator will throw an exception.  You can force an override by adding a 3rd parameter of true.
 
 
     var dummyValidator = function(value){
@@ -234,6 +234,10 @@ Roadmap
 
 Change Log
 ====
+
+0.7.0
+----
+- Added `iz.addValidator` method to add custom validations more effectively
 
 0.6.0
 ----
