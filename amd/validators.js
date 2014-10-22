@@ -1,6 +1,19 @@
 define(function (require, exports, module) {/*global module, exports */
-(function() {
+(function () {
     
+
+    function addValidator(name, validator, force) {
+        if (typeof validators [name] !== 'undefined'
+            && force !== true) {
+            throw new Error('Not adding validator because ' + name + ' already exists');
+        }
+
+        if (name === 'addValidator') {
+            throw new Error('Cannot override addValidator');
+        }
+
+        validators[name] = validator;
+    }
 
     var validators = {};
 
@@ -396,6 +409,7 @@ define(function (require, exports, module) {/*global module, exports */
     validators.required = izRequired;
     validators.ssn = izRequiredOr(izSsn);
 
+    validators.addValidator = addValidator;
 
     // Export module
     if (typeof exports !== 'undefined') {

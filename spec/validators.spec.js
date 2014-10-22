@@ -2,6 +2,7 @@
 /*jshint expr:true*/
 
 var iz = require('../src/iz');
+var validator = require('../src/validators');
 describe('Validation', function () {
     'use strict';
 
@@ -452,5 +453,38 @@ describe('Validation', function () {
         iz.required([]).should.be.ok;
         iz.required(5).should.be.ok;
         iz.required(new Date()).should.be.ok;
+    });
+
+    var dummyValidator = function(value){
+        if(typeof value !=='string'){
+            return false;
+        }
+        return value.indexOf('test') === 0;
+    };
+
+    it('can add custom validator',function(){
+        iz.addValidator('testStart',dummyValidator);
+
+        validator.should.have.property('testStart');
+
+        iz.should.have.property('testStart');
+        iz.testStart('test text').should.be.ok;
+    });
+
+    it('custom validator does not override existing validator', function () {
+        iz.addValidator.bind(null, 'ssn', dummyValidator).should.throw();
+    });
+
+    it('can override existing validator',function(){
+        iz.addValidator('ssn', dummyValidator, true);
+
+        validator.should.have.property('testStart');
+
+        iz.should.have.property('ssn');
+        iz.ssn('test text').should.be.ok;
+    });
+
+    it('customer validator does not override addValidator', function () {
+        iz.addValidator.bind(null, 'addValidator', dummyValidator).should.throw();
     });
 });

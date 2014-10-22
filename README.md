@@ -197,6 +197,25 @@ Validations (true case in comments):
 
 Almost all possible use cases that will definitely work (and definitely not work) are in the spec folder.
 
+Custom Validators:
+----
+Adding customer validators is done though the either the validation or iz object.  If the validator already exists, then addValidator will throw an exception.  You can force an override by adding a 3rd parameter of true.
+
+
+    var dummyValidator = function(value){
+        if(typeof value !=='string'){
+            return false;
+        }
+        return value.indexOf('test') === 0;
+    };
+    iz.addValidator('startsWithTest', dummyValidator);
+    iz.startsWithTest('test string');
+
+    //for override of existing validator, only do this if you are sure.
+    iz.addValidator('string', dummyValidator, true);
+
+
+
 
 Ommissions
 ====
@@ -211,7 +230,6 @@ Did I miss a validation? Send me a message or a pull request.
 Roadmap
 ====
 - Simplify creation of Iz objects. Too much construction happens right now.
-- Add better support for custom validations
 - Allow developers to pass custom rjs options for a custom iz build
 
 Change Log

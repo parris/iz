@@ -143,6 +143,11 @@ var validators = require('./validators');
         }
     }
 
+    iz.addValidator = function (name, func, force) {
+        validators.addValidator(name, func, force);
+        iz[name] = func;
+    };
+
     // Export module
     if (typeof exports !== 'undefined') {
         if (typeof module !== 'undefined' && module.exports) {
