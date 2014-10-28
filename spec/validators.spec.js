@@ -34,7 +34,7 @@ describe('Validation', function () {
         iz.string(new String('')).should.be.ok;
         iz.string(new String('239084203')).should.be.ok;
         iz.string(new String('alals*fd')).should.be.ok;
-        
+
         iz.string(9999999).should.not.be.ok;
         iz.string({}).should.not.be.ok;
         iz.string([]).should.not.be.ok;
@@ -284,6 +284,7 @@ describe('Validation', function () {
         iz.anArray(5).should.not.be.ok;
         iz.anArray({}).should.not.be.ok;
         iz.anArray(function () {}).should.not.be.ok;
+        iz('').anArray().required().valid.should.not.be.ok;
     });
 
     it('can validate integers', function () {

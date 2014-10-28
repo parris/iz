@@ -272,7 +272,7 @@
     }
 
     function izAnArray(arr) {
-        return Array.isArray(arr);
+        return Object.prototype.toString.call(arr) === '[object Array]';
     }
 
     /**
