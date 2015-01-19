@@ -79,7 +79,8 @@ var iz = require('./iz');
             var field,
                 i = 0,
                 fieldKeys,
-                currentValue;
+                currentValue,
+                areAllRulesValid = true;
 
             for (field in self.fields) {
                 if (!self.fields.hasOwnProperty(field)) {
@@ -91,14 +92,24 @@ var iz = require('./iz');
 
                 // account for chained field names
                 for (i = 1; i < fieldKeys.length; i++) {
-                    currentValue = currentValue[fieldKeys[i]];
+                    // we'll get an out of bounds error if the field doesn't exist
+                    // let's treat this as an undefined
+                    try {
+                        currentValue = currentValue[fieldKeys[i]];
+                    } catch (e) {
+                        currentValue = undefined;
+                    }
                 }
 
                 self.fields[field].setValue(currentValue);
 
                 if (!self.fields[field].valid) {
-                    return false;
+                    areAllRulesValid = false;
                 }
+            }
+
+            if (!areAllRulesValid) {
+                return false;
             }
 
             return true;

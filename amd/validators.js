@@ -272,7 +272,7 @@ define(function (require, exports, module) {/*global module, exports */
     }
 
     function izAnArray(arr) {
-        return Array.isArray(arr);
+        return Object.prototype.toString.call(arr) === '[object Array]';
     }
 
     /**
