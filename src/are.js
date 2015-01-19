@@ -92,7 +92,13 @@ var iz = require('./iz');
 
                 // account for chained field names
                 for (i = 1; i < fieldKeys.length; i++) {
-                    currentValue = currentValue[fieldKeys[i]];
+                    // we'll get an out of bounds error if the field doesn't exist
+                    // let's treat this as an undefined
+                    try {
+                        currentValue = currentValue[fieldKeys[i]];
+                    } catch (e) {
+                        currentValue = undefined;
+                    }
                 }
 
                 self.fields[field].setValue(currentValue);
