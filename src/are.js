@@ -79,7 +79,8 @@ var iz = require('./iz');
             var field,
                 i = 0,
                 fieldKeys,
-                currentValue;
+                currentValue,
+                areAllRulesValid = true;
 
             for (field in self.fields) {
                 if (!self.fields.hasOwnProperty(field)) {
@@ -97,8 +98,12 @@ var iz = require('./iz');
                 self.fields[field].setValue(currentValue);
 
                 if (!self.fields[field].valid) {
-                    return false;
+                    areAllRulesValid = false;
                 }
+            }
+
+            if (!areAllRulesValid) {
+                return false;
             }
 
             return true;

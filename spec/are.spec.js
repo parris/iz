@@ -133,4 +133,50 @@ describe('Are', function() {
 
     });
 
+    describe('(Issue #26) are.rules', function() {
+
+        beforeEach(function() {
+            this.rules = {
+                'address.city': [
+                    {
+                        'rule': 'required',
+                        'error': 'You must specify a city'
+                    },
+                    {
+                        'rule': 'minLength',
+                        'args': [5],
+                        'error': 'The city name length must be more than 5'
+                    }
+                ],
+                'address.street': [
+                    {
+                        'rule': 'required',
+                        'error': 'You must specify a street'
+                    },
+                    {
+                        'rule': 'minLength',
+                        'args': [5],
+                        'error': 'The street name length must be more than 5'
+                    }
+                ]
+            };
+
+            this.validationObject = are(this.rules);
+
+            this.validationObject.validFor({
+                address: {
+                    city: 'Test',
+                    street: "Street test name"
+                }
+            });
+
+            this.invalidFields = this.validationObject.getInvalidFields();
+        });
+
+        it('should revalidate all fields', function() {
+            this.invalidFields.should.not.have.property('address.street');
+        });
+
+    });
+
 });
