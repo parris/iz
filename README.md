@@ -56,6 +56,8 @@ You don't need to use the chained notation. The following will return true or fa
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
+NOTE: these rules do not also include the "required" validator under the hood. Meaning checks like `iz.email(null)` are truthy technically; whereas, `iz(null).email().required().valid` will be falsey. 
+
 JSON
 ----
 It is often useful to get a list of validations from your server for a given model. Nested objects work to!
