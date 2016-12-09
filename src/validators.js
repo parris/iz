@@ -21,6 +21,11 @@
         return (/^[a-z0-9]+$/i).test(value);
     }
 
+	function izMatch(value, regexp) {
+		if (!obj instanceof RegExp) return false;
+        return regexp.test(value);
+    }
+
     function izString(value) {
         return typeof value === 'string' || value instanceof String;
     }
@@ -114,7 +119,7 @@
 
     /**
      * TODO: maybe provide format and use: http://www.mattkruse.com/javascript/date/source.html
-     * but that seems in elegant. Then again dates in general are in elegant... *shrug*
+     * but that seems inelegant. Then again dates in general are inelegant... *shrug*
      * @param value
      * @return {Boolean}
      */
@@ -380,6 +385,7 @@
 
     //Expose some methods, this is done to preserve function names in all browsers
     validators.alphaNumeric = izRequiredOr(izAlphaNumeric);
+    validators.match = izRequiredOr(izMatch);
     validators.string = izRequiredOr(izString);
     validators.between = izRequiredOr(izBetween);
     validators.blank = izRequiredOr(izBlank);
