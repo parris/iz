@@ -1,8 +1,8 @@
 {
   "name": "iz",
-  "version": "0.7.1",
+  "version": "2.0.0",
   "description": "Validation for node and the web.",
-  "main": "app.js",
+  "main": "src/lib.js",
   "url": "https://github.com/parris/iz/issues",
   "homepage": "https://github.com/parris/iz",
   "keywords": [
@@ -10,23 +10,19 @@
     "regex",
     "checker"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:parris/iz.git"
-  },
+  "repository": "git@github.com:parris/iz.git",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "~1.1.0",
-    "should": "~0.6.3",
-    "grunt": "~0.4.1",
-    "grunt-simple-mocha": "git://github.com/yaymukund/grunt-simple-mocha.git#a4946466e9ce5504ecbda4d8419ff28ab74585ff",
-    "grunt-cli": "~0.1.9",
-    "grunt-contrib-requirejs": "~0.4.1",
-    "bower": "~1.2.2"
+    "chai": "^4.0.2",
+    "eslint": "^4.1.0",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
   },
   "scripts": {
-    "test": "./node_modules/.bin/grunt test",
-    "build": "./node_modules/.bin/grunt"
+    "lint": "eslint src/*.js spec/*.js",
+    "test": "npm run lint && npm run unit",
+    "unit": "./node_modules/.bin/mocha spec/*.spec.js",
+    "unit:debug": "./node_modules/.bin/mocha debug spec/*.spec.js"
   },
   "author": "Parris Khachi",
   "license": "Apache-2.0"
