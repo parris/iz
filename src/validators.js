@@ -109,15 +109,15 @@ function izDecimal(value) {
 }
 
 /**
- * Basically just expects the @ symbol. There was a full discussion about it here:
- * http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
- *
- * Might make this more complicated in the future... or not *shrug*
+ * I liked the minimal complexity this Regex had
+ * http://www.w3resource.com/javascript/form/email-validation.php
+ * 
  * @param value
  * @return {Boolean}
  */
 function izEmail(value) {
-  return !(typeof value !== 'string') && (/\S+@\S+/).test(value);
+  return !(typeof value !== 'string') && 
+    (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value);
 }
 
 /**

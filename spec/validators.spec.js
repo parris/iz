@@ -159,6 +159,11 @@ describe('Validation', function () {
   it('can validate email address', function () {
     iz.email('bob@bob').should.be.ok;
     iz.email('bob@bob.com').should.be.ok;
+    iz.email('bob@bob.com    ').should.not.be.ok;
+    iz.email('bob+bob@a.com    ').should.be.ok;
+    iz.email('  bob@bob.com').should.not.be.ok;
+    iz.email('@bob.com').should.not.be.ok;
+    iz.email('bo@b@.com').should.not.be.ok;
     iz.email('bob').should.not.be.ok;
     iz.email({}).should.not.be.ok;
     iz.email(function () {}).should.not.be.ok;
