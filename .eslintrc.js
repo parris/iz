@@ -8,8 +8,10 @@ module.exports = {
   },
   "extends": "eslint:recommended",
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 8
   },
+  "plugins": ["async-await"],
   "rules": {
     "indent": [
       "error",

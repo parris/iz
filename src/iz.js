@@ -10,6 +10,17 @@ function format(string, args) {
   return string;
 }
 
+function captureError(target, name, isNotted, result, allArgs) {
+  if ((!isNotted && !result) || (isNotted && result)) {
+    if (target.errorMessages && typeof target.errorMessages[name] !== 'undefined') {
+      target.errors.push(format(target.errorMessages[name], allArgs));
+    } else {
+      target.errors.push(name);
+    }
+    target.valid = false;
+  }
+}
+
 function getValid(target) {
   if (!target.required && [undefined, null, ''].indexOf(target.valid) > -1) {
     return true;
@@ -21,6 +32,9 @@ const proxyHandler = {
   get: function(target, name) {
     if (name === 'isIz') { return true; }
     if (name === 'valid') { return getValid(target); }
+    if (name === 'async') {
+      return Promise.all(target.promises).then(() => target).catch(() => target);
+    }
     if (['errors', 'errorMessages', 'value'].indexOf(name) > -1) { return target[name]; }
     if (name === 'required') {
       return function() {
@@ -43,15 +57,14 @@ const proxyHandler = {
     return function(...args) {
       const allArgs = [target.value, ...args];
       const result = validator.apply(null, allArgs);
+      target.promises.push(result);
 
-      if ((!isNotted && !result) || (isNotted && result)) {
-        if (typeof target.errorMessages[name] !== 'undefined') {
-          target.errors.push(format(target.errorMessages[name], allArgs));
-        } else {
-          target.errors.push(name);
-        }
-
-        target.valid = false;
+      if (result instanceof Promise) {
+        result
+          .then((res) => captureError(target, name, isNotted, res, allArgs))
+          .catch((res) => captureError(target, name, isNotted, res, allArgs));
+      } else {
+        captureError(target, name, isNotted, result, allArgs);
       }
 
       // allows for chaining
@@ -70,6 +83,7 @@ function iz(value, errorMessages) {
   return new Proxy({
     errors: [],
     errorMessages: errorMessages || {},
+    promises: [],
     required: false,
     valid: true,
     value,

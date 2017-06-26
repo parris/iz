@@ -1,7 +1,7 @@
 const iz = require('../src/iz');
 
 describe('Iz', function() {
-  it('can be created', () => {
+  it('can be created', function() {
     (typeof (iz(5)) === 'object').should.be.ok;
     (typeof iz === 'function').should.be.ok;
   });
@@ -62,5 +62,46 @@ describe('Iz', function() {
     iz(undefined).between(4, 6).valid.should.be.ok;
     iz(3).between(4, 6).valid.should.not.be.ok;
     iz(5).between(4, 6).valid.should.be.ok;
+  });
+
+  it('handles async validations with async/await', async function() {
+    let result = await iz(5).between(4, 6).async;
+    result.valid.should.be.ok;
+  });
+
+  it('handles async validations with promises', function(done) {
+    iz(5).between(4, 6).async.then((result) => {
+      result.valid.should.be.ok;
+      done();
+    });
+  });
+
+  it('handles truthy async validations', async function() {
+    let result = await iz(5).sleepyTrue().async;
+    result.valid.should.be.ok;
+  });
+
+  it('handles falsey async validations', async function() {
+    let result = await iz(5).sleepyFalse().async;
+    result.valid.should.not.be.ok;
+  });
+
+  it('handles falsey async validations with promises', function(done) {
+    iz(5).sleepyFalse().async.then((result) => {
+      result.valid.should.not.be.ok;
+      done();
+    });
+  });
+
+  it('handles falsey async validations with promises', function(done) {
+    iz(5).sleepyFalseReject().async.then((result) => {
+      result.valid.should.not.be.ok;
+      done();
+    });
+  });
+
+  it('handles falsey async/await rejection', async function() {
+    let result = await iz(5).sleepyFalseReject().async;
+    result.valid.should.not.be.ok;
   });
 });
