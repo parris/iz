@@ -56,7 +56,7 @@ You don't need to use the chained notation. The following will return true or fa
 
     iz.between(3, 2, 5); //is 3, between 2 and 5?
 
-NOTE: these rules do not also include the "required" validator under the hood. Meaning checks like `iz.email(null)` are truthy technically; whereas, `iz(null).email().required().valid` will be falsey. 
+NOTE: these rules do not also include the "required" validator under the hood. Meaning checks like `iz.email(null)` are truthy technically; whereas, `iz(null).email().required().valid` will be falsey.
 
 JSON
 ----
@@ -229,20 +229,27 @@ Ommissions
 
 Did I miss a validation? Send me a message or a pull request.
 
-Roadmap
-====
-- Simplify creation of Iz objects. Too much construction happens right now.
-- Allow developers to pass custom rjs options for a custom iz build
-
 Change Log
 ====
 
 2.0.0
 ----
-- Library Modernization
+Goals - Modernize, make the library smaller and add more features.
+
+New features:
 - Async/Await and Promise based validations.
 - Better email validator
+
+Improvements:
 - Only import the validators you need
+- Simplified creation of Iz/Are objects
+
+Other:
+- Removed "setValue" methods in favor of just re-running the validations
+- Switched opposite (not) validations to new format to simplify the library
+- Changed how "required" validation works
+- Removed some duplicate functionality that added library weight
+- Changing API for are
 
 0.7.0
 ----
