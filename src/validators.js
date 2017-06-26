@@ -25,6 +25,6 @@ module.exports = {
   ofType: require('./basicValidators/type'),
   phone: require('./basicValidators/phoneUS'),
   postal: require('./basicValidators/postalUS'),
-  ssn: require('./basicValidators/ssn'),
+  ssn: require('./basicValidators/SSN'),
   string: require('./basicValidators/string'),
 };
