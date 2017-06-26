@@ -237,6 +237,13 @@ Roadmap
 Change Log
 ====
 
+2.0.0
+----
+- Library Modernization
+- Async/Await and Promise based validations.
+- Better email validator
+- Only import the validators you need
+
 0.7.0
 ----
 - Added `iz.addValidator` method to add custom validations more effectively
