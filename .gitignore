@@ -1,4 +1,4 @@
 .idea
 node_modules/*
 amd/build.txt
-lib
+lib/*
