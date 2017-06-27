@@ -1,8 +1,7 @@
 /*global describe, it, xit, xdescribe, before, require */
 /*jshint expr:true*/
 
-var iz = require('../src/iz'),
-  are = require('../src/are');
+const are = require('../src/are');
 
 describe('Are', function() {
   'use strict';
