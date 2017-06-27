@@ -1,4 +1,4 @@
-const iz = require('../src/iz');
+const iz = require('../lib/iz');
 
 describe('Iz', function() {
   it('can be created', function() {

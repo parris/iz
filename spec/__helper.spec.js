@@ -2,8 +2,8 @@ process.env.NODE_ENV = 'test';
 
 global.should = require('should');
 
-const iz = require('../src/iz');
-iz.register(require('../src/validators'));
+const iz = require('../lib/iz');
+iz.register(require('../lib/validators'));
 iz.register({
   sleepyTrue: function sleepyTrue() {
     return new Promise((resolve) => {

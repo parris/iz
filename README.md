@@ -16,22 +16,22 @@ Installation
 Then you can include iz, are and validators if needed
 
     import iz from 'iz';
-    import are from 'iz/are';
-    import validators from 'iz/validators';
+    import are from 'iz/lib/are';
+    import validators from 'iz/lib/validators';
 
 Once you do this, you should decide which validations you'd like to include.
 The default setup will include everything. This is how you can set that up:
 
     import iz from 'iz';
-    import validators from 'iz/validators';
+    import validators from 'iz/lib/validators';
 
     iz.register(validators);
 
 If you'd like to do something more custom (to reduce bundle size):
 
     import iz from 'iz';
-    import between from 'iz/basicValidators/between';
-    import int from 'iz/basicValidators/int';
+    import between from 'iz/lib/basicValidators/between';
+    import int from 'iz/lib/basicValidators/int';
 
     iz.register({
         between: between,
