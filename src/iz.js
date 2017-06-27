@@ -35,7 +35,7 @@ const proxyHandler = {
     if (name === 'async') {
       return Promise.all(target.promises).then(() => target).catch(() => target);
     }
-    if (['errors', 'errorMessages', 'value'].indexOf(name) > -1) { return target[name]; }
+    if (['errors', 'errorMessages', 'promises', 'value'].indexOf(name) > -1) { return target[name]; }
     if (name === 'required') {
       return function() {
         target.required = true;

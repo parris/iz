@@ -29,6 +29,46 @@ function getErrors(rules, key) {
   return errors;
 }
 
+class Result {
+  constructor(allIzs, allPromises) {
+    this.allIzs = allIzs;
+    this.allPromises = allPromises;
+  }
+
+  validateAll() {
+    return this.allIzs.reduce(
+      (memo, currentIz) => (!currentIz.iz.valid) ? false : memo,
+      true
+    );
+  }
+
+  getInvalidFields() {
+    return this.allIzs.reduce((acc, currentIz) => {
+      if (!currentIz.iz.valid) {
+        acc[currentIz.ruleName] =  Object.assign(
+          { errorCount: Object.keys(currentIz.iz.errorMessages).length },
+          currentIz.iz.errorMessages
+        );
+      }
+      return acc;
+    }, {});
+  }
+
+  get async() {
+    const result = this;
+    return Promise.all(this.allPromises).then(() => result).catch(() => result);
+  }
+
+  get invalidFields() {
+    return this.getInvalidFields();
+  }
+
+  get valid() {
+    return this.validateAll();
+  }
+
+}
+
 module.exports = function(rules) {
   return {
     valid: function() {
@@ -43,8 +83,8 @@ module.exports = function(rules) {
       return isValid;
     },
     for: function(values) {
-      let isValid = true;
-      const invalidFields = {};
+      const allIzs = [];
+      let allPromises = [];
 
       Object.keys(rules).forEach((key) => {
         let currentIz = iz(getValue(values, key), getErrors(rules, key));
@@ -55,23 +95,14 @@ module.exports = function(rules) {
           currentIz = currentIz[rule.rule](...args);
         });
 
-        if (!currentIz.valid) {
-          isValid = false;
-          invalidFields[key] = currentIz.errors;
-        }
+        allPromises = allPromises.concat(currentIz.promises);
+        allIzs.push({
+          iz: currentIz,
+          ruleName: key,
+        });
       });
 
-      return {
-        get invalidFields() {
-          return invalidFields;
-        },
-        get valid() {
-          return isValid;
-        },
-        getInvalidFields() {
-          return invalidFields;
-        },
-      };
+      return new Result(allIzs, allPromises);
     },
   };
 };

@@ -94,8 +94,9 @@ describe('Are', function() {
     });
 
     it('returns error messages', function() {
-      are(this.rules).for(this.invalidObject)
-        .invalidFields['producer.id'].length.should.be.ok;
+      const result = are(this.rules).for(this.invalidObject);
+      const invalidFields = result.invalidFields;
+      invalidFields['producer.id'].errorCount.should.eql(1);
     });
 
     describe('with required fields', function() {
@@ -127,7 +128,21 @@ describe('Are', function() {
       });
 
     });
+  });
 
+  describe('async validation', function() {
+    it('correctly validates', async function() {
+      this.rules = {
+        cost: [
+          { rule: 'sleepyFalse' },
+          { rule: 'required' },
+        ],
+      };
+
+      this.obj = { cost: 40.3 };
+      const result = await are(this.rules).for(this.obj).async;
+      result.valid.should.eql(false);
+    });
   });
 
 });

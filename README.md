@@ -249,7 +249,7 @@ Other:
 - Switched opposite (not) validations to new format to simplify the library
 - Changed how "required" validation works
 - Removed some duplicate functionality that added library weight
-- Changing API for are
+- Changed API for Are
 
 0.7.0
 ----
