@@ -45,10 +45,7 @@ class Result {
   getInvalidFields() {
     return this.allIzs.reduce((acc, currentIz) => {
       if (!currentIz.iz.valid) {
-        acc[currentIz.ruleName] =  Object.assign(
-          { errorCount: Object.keys(currentIz.iz.errorMessages).length },
-          currentIz.iz.errorMessages
-        );
+        acc[currentIz.ruleName] = currentIz.iz.errors;
       }
       return acc;
     }, {});
@@ -71,17 +68,6 @@ class Result {
 
 module.exports = function(rules) {
   return {
-    valid: function() {
-      let isValid = true;
-
-      Object.keys(rules).forEach((name) => {
-        if (!rules[name].valid) {
-          isValid = false;
-        }
-      });
-
-      return isValid;
-    },
     for: function(values) {
       const allIzs = [];
       let allPromises = [];

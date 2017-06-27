@@ -7,34 +7,7 @@ var iz = require('../src/iz'),
 describe('Are', function() {
   'use strict';
 
-  describe('group validations', function() {
-
-    beforeEach(function() {
-      this.costErrors = {
-        decimal: 'Must be a decimal!'
-      };
-      this.ageErrors = {
-        notDecimal: 'Shouldn\'t be a decimal!',
-        int: 'Must be an integer',
-        between: 'This movie is rated R, you are too young!'
-      };
-
-      this.rules = {
-        cost: iz(5.00, this.costErrors).number(),
-        age: iz(20, this.ageErrors)
-          .notDecimal()
-          .int()
-          .between(17, 10000)
-      };
-    });
-
-    it('allows you to validate multiple things at once', function () {
-      are(this.rules).valid().should.be.ok;
-    });
-
-  });
-
-  describe('JSON group validations', function() {
+  describe('json validations', function() {
 
     beforeEach(function() {
       this.rules = {
@@ -96,7 +69,8 @@ describe('Are', function() {
     it('returns error messages', function() {
       const result = are(this.rules).for(this.invalidObject);
       const invalidFields = result.invalidFields;
-      invalidFields['producer.id'].errorCount.should.eql(1);
+      invalidFields['producer.id'].length.should.eql(1);
+      invalidFields['producer.id'][0].should.eql('Producer ID must be an int');
     });
 
     describe('with required fields', function() {
