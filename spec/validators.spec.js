@@ -331,6 +331,12 @@ describe('Validation', function () {
     validators.ofType(new Car(), 'Car').should.be.ok;
     validators.ofType(new Car(), 'Object').should.not.be.ok;
     validators.ofType(obj, 'Object').should.be.ok;
+
+    function Car2() { }
+    Car2.displayName = 'Pizza';
+
+    const obj2 = { displayName: 'Pizza' };
+    validators.ofType(obj2, Car2).should.be.ok;
   });
 
   it('can validate a north american phone number', function () {
