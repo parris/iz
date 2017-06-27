@@ -4,3 +4,4 @@ spec
 .gitignore
 bower.json
 yarn.lock
+src

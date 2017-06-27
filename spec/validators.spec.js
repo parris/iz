@@ -1,4 +1,4 @@
-const validators = require('../lib/validators');
+const validators = require('../src/validators');
 
 describe('Validation', function () {
   'use strict';
