@@ -41,6 +41,11 @@ If you'd like to do something more custom (to reduce bundle size):
 
 Note - iz.register can be called repeatedly. If you'd like to override old validators you can pass "force" as the 2nd argument.
 
+Requirements
+----
+
+Iz v2.0.0 heavily relies on many es6 features including: promises, proxies, objects and arrays. You **MUST** polyfill proxy and promise, the other features will compile to es5. If something doesn't work please report it.
+
 API
 ====
 
