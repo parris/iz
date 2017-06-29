@@ -15,6 +15,7 @@ module.exports = {
   fileExtensionAudio: require('./basicValidators/fileExtensionAudio'),
   fileExtensionImage: require('./basicValidators/fileExtensionImage'),
   fileExtensionVideo: require('./basicValidators/fileExtensionVideo'),
+  match: require('./basicValidators/match'),
   inArray: require('./basicValidators/inArray'),
   int: require('./basicValidators/int'),
   ip: require('./basicValidators/IP'),

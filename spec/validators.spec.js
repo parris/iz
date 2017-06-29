@@ -308,6 +308,13 @@ describe('Validation', function () {
     validators.maxLength([1, 2, 3, 4, 5, 6], 5).should.not.be.ok;
   });
 
+  it('can match a string using regex', function () {
+    validators.match('laura', 'a', 'g').should.be.eql(true);
+    validators.match('laura', 'b', 'g').should.be.eql(false);
+    validators.match('laura', '^.{5}$').should.be.eql(true);
+    validators.match('laura', '^.{4}$').should.be.eql(false);
+  });
+
   it('can tell if a number is multiple of another number', function () {
     validators.multiple(10, 5).should.be.ok;
     validators.multiple(10, 2).should.be.ok;
