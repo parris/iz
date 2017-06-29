@@ -2,7 +2,7 @@
   "name": "iz",
   "version": "2.1.1",
   "description": "Validation for node and the web.",
-  "main": "./lib/iz.js",
+  "main": "./lib/iz",
   "url": "https://github.com/parris/iz/issues",
   "homepage": "https://github.com/parris/iz",
   "keywords": [
@@ -11,6 +11,9 @@
     "checker"
   ],
   "repository": "git@github.com:parris/iz.git",
+  "directories": {
+    "lib": "lib"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.5.2",
