@@ -203,6 +203,11 @@ Add nested error rules within are. The current implementation doesn't allow for 
 Change Log
 ====
 
+2.1.0
+----
+
+- Added RegExp (match) validation
+
 2.0.0
 ----
 Goals - Modernize, make the library smaller and add more features.
