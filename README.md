@@ -182,6 +182,7 @@ Validations (true case in comments):
     int(*, bool (optional));       // Is an int. If the 2nd variable is true (false by default) a decimal is allowed
     ip(str);                       // str resembles an IPV4 or IPV6 address
     minLength(val, min);           // val (str or arr) is greater than min
+    match(str, tester, flags?);    // RegExp matching of a string. Accepts RegExps and strings as the tester
     maxLength(val, max);           // val (str or arr) is shorter than max
     multiple(num, mult);           // Number is multiple of another number
     number(*);                     // Is either an int or decimal
