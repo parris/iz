@@ -1,158 +1,114 @@
-/*global module, exports, require */
-var validators = require('./validators');
+const validators = {};
 
-(function () {
-    'use strict';
+function format(string, args) {
+  for (var i in args) {
+    string = string.replace(
+      new RegExp('\{\{\\s*'+i+'\\s*\}\}', 'gim'),
+      args[i]
+    );
+  }
+  return string;
+}
 
-    var iz;
+function captureError(target, name, isNotted, result, allArgs) {
+  if ((!isNotted && !result) || (isNotted && result)) {
+    if (target.errorMessages && typeof target.errorMessages[name] !== 'undefined') {
+      target.errors.push(format(target.errorMessages[name], allArgs));
+    } else {
+      target.errors.push(name);
+    }
+    target.valid = false;
+  }
+}
 
-    /**
-     * @param value
-     * @param error_messages
-     * @constructor
-     */
-    function Iz(value, error_messages) {
-        var self = this;
+function getValid(target) {
+  if (!target.required && [undefined, null, ''].indexOf(target.valid) > -1) {
+    return true;
+  }
+  return target.valid;
+}
 
-        if (typeof error_messages === 'object') {
-            this.error_messages = error_messages;
-        } else {
-            this.error_messages = {};
-        }
-
-        this._not = false;
-        this._calledValidations = {};
-
-        function not() {
-            self._not = true;
-            return self;
-        }
-
-        function revalidate() {
-            self.errors = [];
-            self.valid = true;
-
-            for (var key in self._calledValidations) {
-                var rule = self._calledValidations[key];
-
-                if (self._calledValidations.hasOwnProperty(key)) {
-                    if (rule.not) {
-                        self.not();
-                    }
-
-                    validator_partial(rule.validation)
-                        .apply(self, rule.args);
-                }
-            }
-            return self;
-        }
-
-        function setValue(value) {
-            self.value = value;
-            self.revalidate();
-            return self;
-        }
-
-        /**
-         * Formats a string using the args index as the key
-         * @param {String} string
-         * @param {Array|Object} args
-         */
-        function format(string, args) {
-            for (var i in args) {
-                string = string.replace(
-                    new RegExp('\{\{\\s*'+i+'\\s*\}\}', 'gim'),
-                    args[i]
-                );
-            }
-            return string;
-        }
-
-        this.not = not;
-        this.value = value;
-        this.setValue = setValue;
-        this.revalidate = revalidate;
-        this.errors = [];
-        this.valid = true;
-
-        /**
-         * Partial application with currying into a validation function. Pushes to error array if an error exists.
-         * If an error_message is specified for some specific check then that message is used. Otherwise just the function name.
-         * Also sets valid to false if an error is found. It can't ever set valid to true.
-         * @param fn
-         */
-        function validator_partial(fn) {
-            var fnName = Array.prototype.slice.call(arguments)[0],
-                args = Array.prototype.slice.call(arguments, 1);
-            args.unshift(value); //add value to the front
-            return function() {
-                var argArray = Array.prototype.slice.call(arguments),
-                    allArguments = [self.value].concat(argArray),
-                    result = validators[fn].apply(null, allArguments),
-                    key = (self._not ? 'not_' : '') + fnName;
-
-                //save rules that have been called
-                self._calledValidations[key] = {
-                    not: self._not,
-                    validation: fn,
-                    args: argArray
-                };
-
-                //2 failed validation cases
-                if ((!this._not && !result) || (this._not && result)) {
-                    //change error message based on not and if an error message is specified
-                    if (!this._not && typeof this.error_messages[fn] !== 'undefined') {
-                        this.errors.push(format(this.error_messages[fn], allArguments));
-                    } else if (this._not && typeof this.error_messages['not_' + fn] !== 'undefined') {
-                        this.errors.push(format(this.error_messages['not_' + fn], allArguments));
-                    } else if (this._not) {
-                        this.errors.push('Not ' + fn);
-                    } else {
-                        this.errors.push(fn);
-                    }
-                    //all of these cases result in non-validity
-                    this.valid = false;
-                }
-                //set not back for the next test
-                this._not = false;
-                //chain
-                return this;
-            };
-        }
-
-        for (var fn in validators) {
-            if (validators.hasOwnProperty(fn)) {
-                this[fn] = validator_partial(fn);
-            }
-        }
+const proxyHandler = {
+  get: function(target, name) {
+    if (name === 'isIz') { return true; }
+    if (name === 'valid') { return getValid(target); }
+    if (name === 'async') {
+      return Promise.all(target.promises).then(() => target).catch(() => target);
+    }
+    if (['errors', 'errorMessages', 'promises', 'value'].indexOf(name) > -1) { return target[name]; }
+    if (name === 'required') {
+      return function() {
+        target.required = true;
+        return new Proxy(target, proxyHandler);
+      };
     }
 
-    /**
-     * Factory for creating chained checking objects
-     * @param value{*}
-     * @param error_messages{Object}
-     * @return {Object} of type Iz
-     */
-    iz = function (value, error_messages) {
-        return (new Iz(value, error_messages));
+    let validator = validators[name];
+    let isNotted = false;
+    if (name.indexOf('not') === 0) {
+      isNotted = true;
+      validator = validators[name.substr(3, 1).toLowerCase() + name.substr(4)];
+    }
+
+    if (typeof validator !== 'function') {
+      throw new Error('Validator does not exist, have you registered it yet?');
+    }
+
+    return function(...args) {
+      const allArgs = [target.value, ...args];
+      const result = validator.apply(null, allArgs);
+      target.promises.push(result);
+
+      if (result instanceof Promise) {
+        result
+          .then((res) => captureError(target, name, isNotted, res, allArgs))
+          .catch((res) => captureError(target, name, isNotted, res, allArgs));
+      } else {
+        captureError(target, name, isNotted, result, allArgs);
+      }
+
+      // allows for chaining
+      return new Proxy(target, proxyHandler);
     };
+  },
+};
 
-    for (var fn in validators) {
-        if (validators.hasOwnProperty(fn)) {
-            iz[fn] = validators[fn];
-        }
-    }
+/**
+ * Factory for creating chained checking objects
+ * @param value{*}
+ * @param errorMessages{Object}
+ * @return {Object} of type Iz
+ */
+function iz(value, errorMessages) {
+  return new Proxy({
+    errors: [],
+    errorMessages: errorMessages || {},
+    promises: [],
+    required: false,
+    valid: true,
+    value,
+  }, proxyHandler);
+}
 
-    iz.addValidator = function (name, func, force) {
-        validators.addValidator(name, func, force);
-        iz[name] = func;
-    };
+function registerValidator(name, func, force) {
+  if (
+    typeof validators[name] !== 'undefined'
+    && force !== true
+  ) {
+    throw new Error('Not adding validator because ' + name + ' already exists');
+  }
 
-    // Export module
-    if (typeof exports !== 'undefined') {
-        if (typeof module !== 'undefined' && module.exports) {
-            exports = module.exports = iz;
-        }
-        exports.iz = iz;
-    }
-}());
+  if (name === 'addValidator') {
+    throw new Error('Cannot override addValidator');
+  }
+
+  validators[name] = func;
+}
+
+iz.register = function (validators, force) {
+  Object.keys(validators).forEach((name) => {
+    registerValidator(name, validators[name], force);
+  });
+};
+
+module.exports = iz;

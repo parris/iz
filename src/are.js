@@ -1,143 +1,94 @@
-/*global module, exports */
-
 var iz = require('./iz');
 
-(function () {
-    'use strict';
-    var are;
+function getValue(values, nesting) {
+  const parts = nesting.split('.');
+  let currentValue = undefined;
+  let currentPart;
 
-    function Are(rules) {
-        var self = this,
-            currentRule,
-            rule,
-            errors,
-            key;
-
-        self.fields = {};
-
-        for (key in rules) {
-            if (!rules.hasOwnProperty(key)) {
-                continue;
-            }
-
-            // if is an iz object just add rule directly, if not assemble an iz object
-            if (typeof rules[key].revalidate !== 'undefined') {
-                self.fields[key] = rules[key];
-            } else {
-                errors = {};
-
-                // make errors dictionary
-                for (rule in rules[key]) {
-                    if (!rules[key].hasOwnProperty(rule)) {
-                        continue;
-                    }
-
-                    if (rules[key][rule].error) {
-                        errors[rules[key][rule].rule] = rules[key][rule].error;
-                    }
-                }
-
-                currentRule = iz(0, errors);
-
-                // call rule
-                for (rule in rules[key]) {
-                    if (!rules[key].hasOwnProperty(rule)) {
-                        continue;
-                    }
-
-                    // handle 'not_'
-                    if (rules[key][rule].rule.indexOf('not_') > -1) {
-                        currentRule.not();
-                    }
-
-                    currentRule[rules[key][rule].rule.replace('not_', '')].apply(
-                        currentRule,
-                        rules[key][rule].args || []
-                    );
-                }
-
-                self.fields[key] = currentRule;
-            }
-        }
-
-        this.valid = function() {
-            for (var key in self.fields) {
-                if (!self.fields[key].hasOwnProperty(key)) {
-                    continue;
-                }
-
-                self.fields[key].revalidate();
-                if (!self.fields[key].valid) {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
-        this.validFor = function(values) {
-            var field,
-                i = 0,
-                fieldKeys,
-                currentValue,
-                areAllRulesValid = true;
-
-            for (field in self.fields) {
-                if (!self.fields.hasOwnProperty(field)) {
-                    continue;
-                }
-
-                fieldKeys = field.split('.');
-                currentValue = values[fieldKeys[0]];
-
-                // account for chained field names
-                for (i = 1; i < fieldKeys.length; i++) {
-                    // we'll get an out of bounds error if the field doesn't exist
-                    // let's treat this as an undefined
-                    try {
-                        currentValue = currentValue[fieldKeys[i]];
-                    } catch (e) {
-                        currentValue = undefined;
-                    }
-                }
-
-                self.fields[field].setValue(currentValue);
-
-                if (!self.fields[field].valid) {
-                    areAllRulesValid = false;
-                }
-            }
-
-            if (!areAllRulesValid) {
-                return false;
-            }
-
-            return true;
-        };
-
-        this.getInvalidFields = function() {
-            var errorFields = {},
-                key;
-
-            for (key in self.fields) {
-                if(self.fields[key].errors && self.fields[key].errors.length) {
-                    errorFields[key] = self.fields[key].errors;
-                }
-            }
-
-            return errorFields;
-        };
+  while (parts.length) {
+    try {
+      currentPart = currentPart.nesting.shift();
+      currentValue = values[currentPart];
+    } catch (_) {
+      break;
     }
+  }
 
-    are = function(rules) {
-        return new Are(rules);
-    };
+  return currentValue;
+}
 
-    // Export module
-    if (typeof exports !== 'undefined') {
-        if (typeof module !== 'undefined' && module.exports) {
-            exports = module.exports = are;
-        }
-        exports.are = are;
+function getErrors(rules, key) {
+  const errors = {};
+
+  rules[key].forEach((ruleDefinition) => {
+    if (ruleDefinition.error) {
+      errors[ruleDefinition.rule] = ruleDefinition.error;
     }
-}());
+  });
+
+  return errors;
+}
+
+class Result {
+  constructor(allIzs, allPromises) {
+    this.allIzs = allIzs;
+    this.allPromises = allPromises;
+  }
+
+  validateAll() {
+    return this.allIzs.reduce(
+      (memo, currentIz) => (!currentIz.iz.valid) ? false : memo,
+      true
+    );
+  }
+
+  getInvalidFields() {
+    return this.allIzs.reduce((acc, currentIz) => {
+      if (!currentIz.iz.valid) {
+        acc[currentIz.ruleName] = currentIz.iz.errors;
+      }
+      return acc;
+    }, {});
+  }
+
+  get async() {
+    const result = this;
+    return Promise.all(this.allPromises).then(() => result).catch(() => result);
+  }
+
+  get invalidFields() {
+    return this.getInvalidFields();
+  }
+
+  get valid() {
+    return this.validateAll();
+  }
+
+}
+
+module.exports = function(rules) {
+  return {
+    for: function(values) {
+      const allIzs = [];
+      let allPromises = [];
+
+      Object.keys(rules).forEach((key) => {
+        let currentIz = iz(getValue(values, key), getErrors(rules, key));
+
+        Object.keys(rules[key]).forEach((index) => {
+          const rule = rules[key][index];
+          const args = (rule.args && rule.args.length) ? rule.args : [];
+          currentIz = currentIz[rule.rule](...args);
+        });
+
+        allPromises = allPromises.concat(currentIz.promises);
+        allIzs.push({
+          iz: currentIz,
+          ruleName: key,
+        });
+      });
+
+      return new Result(allIzs, allPromises);
+    },
+  };
+};
