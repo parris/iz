@@ -7,7 +7,7 @@ function getValue(values, nesting) {
 
   while (parts.length) {
     try {
-      currentPart = currentPart.nesting.shift();
+      currentPart = parts.shift();
       currentValue = values[currentPart];
     } catch (_) {
       break;
