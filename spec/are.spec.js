@@ -92,14 +92,53 @@ describe('Are', function() {
           producer: {}
         };
 
+        this.invalidObject2 = {
+          producer: {
+            name: {
+              first: '',
+            }
+          }
+        };
+
         this.validations = are(this.rules);
       });
 
       it('correctly validates', function() {
-        this.validations.for(this.validObject).should.be.ok;
-        this.validations.for(this.invalidObject).should.not.be.ok;
+        this.validations.for(this.validObject).valid.should.be.ok;
+        this.validations.for(this.invalidObject).valid.should.not.be.ok;
+        this.validations.for(this.invalidObject2).valid.should.not.be.ok;
       });
 
+      it('correctly validates (simple)', function() {
+        const rules = {
+          name: [
+            {
+              rule: 'required',
+              error: 'You must specify a name',
+            },
+          ],
+        };
+
+        are(rules).for({ name: '' }).valid.should.not.be.ok;
+      });
+
+    });
+  });
+
+  describe('validation passes for Are rules', function() {
+    it('correctly validates', async function() {
+      this.rules = {
+        theDate: [
+          {
+            'rule': 'date',
+            'error': 'It is not a date!'
+          },
+        ],
+      };
+
+      this.obj = { theDate: '09/23/2012' };
+      const result = are(this.rules).for(this.obj);
+      result.valid.should.eql(true);
     });
   });
 

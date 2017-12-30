@@ -11,8 +11,8 @@ module.exports = function izGetObjectClass(obj) {
   }
 
   // If name isn't available we can try serializing the constructor name
-  // This won't work minified code probably
-  if (obj && obj.constructor && obj.constructor.toString) {
+  // This won't work for minified code probably
+  if (obj.constructor && obj.constructor.toString) {
     var arr = obj.constructor.toString().match(/function\s*(\w+)/);
 
     if (arr && arr.length === 2) {
