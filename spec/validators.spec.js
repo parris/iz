@@ -132,13 +132,22 @@ describe('Validation', function () {
   });
 
   it('can validate email address', function () {
+    validators.email('').should.not.be.ok;
     validators.email('bob@bob').should.be.ok;
     validators.email('bob@bob.com').should.be.ok;
+    validators.email('bob@😉.tld,').should.be.ok;
     validators.email('bob@bob.com    ').should.not.be.ok;
     validators.email('bob+bob@a.com    ').should.be.ok;
+    validators.email('bÖb+bob@a.com    ').should.be.ok;
     validators.email('  bob@bob.com').should.not.be.ok;
     validators.email('@bob.com').should.not.be.ok;
     validators.email('bo@b@.com').should.not.be.ok;
+    validators.email('bo@b@.com,').should.not.be.ok;
+    validators.email('$bo@b@.com,').should.not.be.ok;
+    validators.email('$bo@b@.com$').should.not.be.ok;
+    validators.email('$bo@b@.co.uk').should.not.be.ok;
+    validators.email('$bo@b@.co.uk.uk.u1k').should.not.be.ok;
+    validators.email('$bo@b@.co.uk.uk.ük').should.not.be.ok;
     validators.email('bob').should.not.be.ok;
     validators.email({}).should.not.be.ok;
     validators.email(function () {}).should.not.be.ok;
