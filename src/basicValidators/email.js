@@ -11,5 +11,5 @@ module.exports =function izEmail(value) {
   if (typeof value !== 'string') {
     return false;
   }
-  return isEmail.validate(value, { errorLevel: false });
+  return isEmail.validate(value, { errorLevel: false, minDomainAtoms: 2 });
 };
