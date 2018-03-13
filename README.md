@@ -203,6 +203,13 @@ Add nested error rules within are. The current implementation doesn't allow for 
 Change Log
 ====
 
+2.2.1
+----
+
+- Bug fixes
+- Unit tests are stricter
+- Email validation is vastly improved
+
 2.1.0
 ----
 

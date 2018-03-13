@@ -2,13 +2,13 @@ var iz = require('./iz');
 
 function getValue(values, nesting) {
   const parts = nesting.split('.');
-  let currentValue = undefined;
+  let currentValue = values;
   let currentPart;
 
   while (parts.length) {
     try {
       currentPart = parts.shift();
-      currentValue = values[currentPart];
+      currentValue = currentValue[currentPart];
     } catch (_) {
       break;
     }

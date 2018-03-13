@@ -61,8 +61,8 @@ describe('Are', function() {
     });
 
     it('correctly validates', function() {
-      are(this.rules).for(this.validObject).valid.should.be.ok;
-      are(this.rules).for(this.invalidObject).valid.should.not.be.ok;
+      are(this.rules).for(this.validObject).valid.should.be.true();
+      are(this.rules).for(this.invalidObject).valid.should.be.false();
     });
 
     it('returns error messages', function() {
@@ -82,6 +82,7 @@ describe('Are', function() {
         this.validObject = {
           cost: 40.3,
           producer: {
+            id: 5,
             name: {
               first: 'steve'
             }
@@ -104,22 +105,25 @@ describe('Are', function() {
       });
 
       it('correctly validates', function() {
-        this.validations.for(this.validObject).valid.should.be.ok;
-        this.validations.for(this.invalidObject).valid.should.not.be.ok;
-        this.validations.for(this.invalidObject2).valid.should.not.be.ok;
+        this.validations.for(this.validObject).valid.should.be.true();
+        this.validations.for(this.invalidObject).valid.should.be.false();
+        this.validations.for(this.invalidObject2).valid.should.be.false();
       });
 
       it('correctly validates (simple)', function() {
         const rules = {
           name: [
             {
+              rule: 'notEmpty',
+              error: 'You must specify a name',
+            },
+            {
               rule: 'required',
               error: 'You must specify a name',
             },
           ],
         };
-
-        are(rules).for({ name: '' }).valid.should.not.be.ok;
+        are(rules).for({ name: '' }).valid.should.be.false();
       });
 
     });
