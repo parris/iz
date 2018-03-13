@@ -39,7 +39,7 @@ describe('Iz', function() {
   it('allows notXYZ validations', function () {
     iz(5).notBetween(10, 20).valid.should.be.true();
     iz(5).notEmail().valid.should.be.true();
-    iz('bob@yahoo').notEmail().valid.should.be.false();
+    iz('bob@yahoo.com').notEmail().valid.should.be.false();
   });
 
   it('accepts errors for not validations', function () {
