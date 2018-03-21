@@ -203,6 +203,10 @@ Add nested error rules within are. The current implementation doesn't allow for 
 Change Log
 ====
 
+2.2.3
+----
+- Issues #41/#42 - izEqual should accept null values
+
 2.2.1
 ----
 
