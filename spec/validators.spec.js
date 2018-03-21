@@ -193,6 +193,9 @@ describe('Validation', function () {
     validators.equal(obj1, obj2).should.be.true();
     validators.equal(obj1, obj3).should.be.true();
     validators.equal(obj1, obj4).should.be.false();
+    validators.equal(null, null).should.be.true();
+    validators.equal(null, false).should.be.false();
+    validators.equal(null, {}).should.be.false();
   });
 
   it('can validate that an object is an extension of another object', function () {

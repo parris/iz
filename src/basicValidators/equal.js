@@ -5,8 +5,8 @@
  * @return {Boolean}
  */
 module.exports = function izEqual(value, value2) {
-  var valueType = typeof value,
-    value2Type = typeof value2,
+  var valueType = value === null ? 'undefined' : typeof value,
+    value2Type = value2 === null ? 'undefined' : typeof value2,
     key;
 
   if ((valueType === 'object' || valueType === 'function') && typeof value.equals === 'function') {
