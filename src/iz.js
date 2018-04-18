@@ -80,14 +80,27 @@ const proxyHandler = {
  * @return {Object} of type Iz
  */
 function iz(value, errorMessages) {
-  return new Proxy({
+  const target = {
     errors: [],
     errorMessages: errorMessages || {},
     promises: [],
     required: false,
     valid: true,
     value,
-  }, proxyHandler);
+
+    // We need all properties that could be used to be defined in order for polyfills to be effective.
+    // The following 2 are valid things that can be called.
+    isIz: null,
+    async: null,
+  };
+
+  // We need all properties that could be used to be defined in order for polyfills to be effective.
+  // All validators are properties that can be called
+  Object.keys(validators).forEach((key) => {
+    target[key] = null;
+  });
+
+  return new Proxy(target, proxyHandler);
 }
 
 function registerValidator(name, func, force) {
