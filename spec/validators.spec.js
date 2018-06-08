@@ -385,6 +385,19 @@ describe('Validation', function () {
     validators.postal('9411').should.be.false();
   });
 
+  it('can validate required values', function () {
+    validators.required('').should.be.false();
+    validators.required(null).should.be.false();
+    validators.required(undefined).should.be.false();
+
+    validators.required({}).should.be.true();
+    validators.required(true).should.be.true();
+    validators.required('leland').should.be.true();
+
+    validators.required('', true).should.be.true();
+  });
+
+
   it('can validate a US SSN', function () {
     validators.ssn(123).should.be.false();
     validators.ssn({}).should.be.false();
