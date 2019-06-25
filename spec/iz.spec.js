@@ -56,10 +56,16 @@ describe('Iz', function() {
     iz(5).between(4, 6).notIp().int().valid.should.be.true();
   });
 
-  it('handles required/non-required values', function () {
-    iz('').between(4, 6).valid.should.be.false();
-    iz(null).between(4, 6).valid.should.be.false();
-    iz(undefined).between(4, 6).valid.should.be.false();
+  it('handles non-required values', function () {
+    iz('').between(4, 6).valid.should.be.true();
+    iz(null).between(4, 6).valid.should.be.true();
+    iz(undefined).between(4, 6).valid.should.be.true();
+
+
+    iz('').between(4, 6).required().valid.should.be.false();
+    iz(null).between(4, 6).required().valid.should.be.false();
+    iz(undefined).between(4, 6).required().valid.should.be.false();
+
     iz(3).between(4, 6).valid.should.be.false();
     iz(5).between(4, 6).valid.should.be.true();
   });
