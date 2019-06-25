@@ -1,4 +1,6 @@
 module.exports = function izGetObjectClass(obj) {
+  if (typeof obj === 'undefined') { return undefined; }
+
   // Custom displayName class name (i've seen this standard around)
   // This could work for minified code. Check out the babel display name plugin
   if (obj.constructor && obj.constructor.displayName) {

@@ -22,7 +22,7 @@ function captureError(target, name, isNotted, result, allArgs) {
 }
 
 function getValid(target) {
-  if (!target.required && [undefined, null, ''].indexOf(target.valid) > -1) {
+  if (!target.required && [undefined, null, ''].indexOf(target.value) > -1) {
     return true;
   }
   return target.valid;
