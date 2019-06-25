@@ -129,6 +129,23 @@ describe('Are', function() {
     });
   });
 
+  describe('non-required fields', function() {
+    it('correctly validates', async function() {
+      this.rules = {
+        theDate: [
+          {
+            'rule': 'date',
+            'error': 'It is not a date!'
+          },
+        ],
+      };
+
+      this.obj = {};
+      const result = are(this.rules).for(this.obj);
+      result.valid.should.eql(true);
+    });
+  });
+
   describe('validation passes for Are rules', function() {
     it('correctly validates', async function() {
       this.rules = {
