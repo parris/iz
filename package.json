@@ -18,7 +18,7 @@
     "babel-cli": "^6.24.1",
     "babel-preset-env": "^1.5.2",
     "chai": "^4.0.2",
-    "eslint": "^4.1.0",
+    "eslint": "^6.6.0",
     "eslint-plugin-async-await": "^0.0.0",
     "mocha": "^3.4.2",
     "should": "^11.2.1"
