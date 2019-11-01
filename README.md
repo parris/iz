@@ -2,7 +2,7 @@
 
 What is it?
 ====
-A validation library written for client/server side needs in javascript. Oh and awesome syntax is important to us too.
+A validation library written for client/server side needs in javascript.
 
 Setup
 ====
@@ -19,32 +19,28 @@ Then you can include iz, are and validators if needed
     import are from 'iz/lib/are';
     import validators from 'iz/lib/validators';
 
-Once you do this, you should decide which validations you'd like to include.
-The default setup will include everything. This is how you can set that up:
+Once you do this, you can start validating. To do this, provide a value,
+any associated error messages and the validators. Here is a simple example:
 
-    import iz, { register } from 'iz';
+    import iz from 'iz';
     import validators from 'iz/lib/validators';
 
-    iz.register(validators);
+    iz({ value: 'Test', errorMessages: { string: 'Must be a string' }, validators}).string().valid;
 
 If you'd like to do something more custom (to reduce bundle size):
 
-    import iz, { register } from 'iz';
+    import iz from 'iz';
     import between from 'iz/lib/basicValidators/between';
     import int from 'iz/lib/basicValidators/int';
 
-    iz.register({
-        between: between,
-        int: int,
-        custom: function alwaysFalse() { return false; },
-    });
+    function myCustomValidator { ... }
 
-Note - iz.register can be called repeatedly. If you'd like to override old validators you can pass "force" as the 2nd argument.
+    iz({ value: 4, validators: { between, int, myCustomValidator }}).string().valid;
 
 Requirements
 ----
 
-Iz v2.0.0 heavily relies on many es6 features including: promises, proxies, objects and arrays. You **MUST** polyfill proxy and promise, the other features will compile to es5. If something doesn't work please report it.
+Iz v2+ heavily relies on many es6 features including: promises, proxies, objects and arrays. You **MUST** polyfill proxy and promise, the other features will compile to es5. If something doesn't work please report it.
 
 API
 ====
@@ -52,17 +48,17 @@ API
 Chaining:
 ----
 
-    iz(10).between(2, 15).int().multiple(5); //why yes, yes it is
-    iz(10).notBetween(1, 5); // all validators (custom or not) have a not variant available
+    iz({ value: 10, validators }).between(2, 15).int().multiple(5); // why yes, yes it is
+    iz({ value: 10, validators }).notBetween(1, 5); // all validators (custom or not) have a not variant available
 
 iz(), and all validation commands return an Iz object. An iz object always contains an `errors`{array} and `valid`{bool}. `errors` will be filled with a default error messsage for each incorrect field. To provide custom error messages you can do the following:
 
-    var errors = {
+    var customErrorMessages = {
         notBetween: 'Value must be between!',
         int: 'Not an int!!!',
         multiple: 'This is terrible and you should fix it'
     }
-    iz('Bob', errors).notBetween(2, 15).int().multiple(5);
+    iz({ value: 'Bob', errorMessages: customErrorMessages }).notBetween(2, 15).int().multiple(5);
 
 JSON
 ----
@@ -94,7 +90,7 @@ It is often useful to get a list of validations from your server for a given mod
         ]
     };
 
-    are(rules).for({
+    are(rules, validators).for({
         cost: 20,
         producer: {
             id: 1,
@@ -120,18 +116,18 @@ You can create custom validations that run asynchronously.
 This works with both iz and are functions. IMPORTANT: If you have an async
 validator and don't use the async property, you'll get false positives.
 
-    iz.register({
+    const validators = {
         unique: function() {
             return fetch(...).then(() => true).catch(false);
         }
-    });
+    };
 
-    iz('name').unique().async.then((result) => {
+    iz({ value: 'name', validators }).unique().async.then((result) => {
         result.valid; // can be true or false;
     })
 
     // we also support async/await
-    let result = await iz('name').unique().async;
+    let result = await iz({ value: 'name', validators }).unique().async;
     return result.valid;
 
     let result = await are(...).for(obj).async;
@@ -142,8 +138,8 @@ Error Messages:
 In the event you want to return more detailed error messages. You can use a
 simple syntax to format your error message with a validators arguments.
 
-    var error_messages = {between: '{{0}} is not between {{1}} and {{2}}'};
-    var izObj = iz(5, error_messages).between(100, 200);
+    var errorMessages = {between: '{{0}} is not between {{1}} and {{2}}'};
+    var izObj = iz({ value: 5, errorMessages, validators }).between(100, 200);
     console.log(izObj.errors);
 
 will log `['5 is not between 100 and 200']`. This works with
@@ -153,9 +149,9 @@ Required Fields:
 ----
 In most cases, you'll only want to validate values when they exist. By default iz functions in this way. If you want to force the presence of a value you can use the `required` method.
 
-    iz(value).required() //a value is required
-    iz(value).email().required() //value is required and is a valid email
-    iz(value).date() //value is not required but must be a date if provided
+    iz({ value, validators }).required() //a value is required
+    iz({ value, validators }).email().required() //value is required and is a valid email
+    iz({ value, validators }).date() //value is not required but must be a date if provided
 
 Validators:
 ----
@@ -184,7 +180,8 @@ Validations (true case in comments):
     minLength(val, min);           // val (str or arr) is greater than min
     match(str, tester, flags?);    // RegExp matching of a string. Accepts RegExps and strings as the tester
     maxLength(val, max);           // val (str or arr) is shorter than max
-    multiple(num, mult);           // Number is multiple of another number
+    multipleInt(num, mult);        // Int is multiple of another Int
+    multipleFloat(num, mult);      // Float is multiple of another Float
     number(*);                     // Is either an int or decimal
     ofType(obj, typeName);         // If it is a named object, and the name matches the string
     phone(str, canHaveExtension?); // Is an american phone number. Any punctuations are allowed.
@@ -202,6 +199,25 @@ Add nested error rules within are. The current implementation doesn't allow for 
 
 Change Log
 ====
+
+3.0.0
+---
+Goal: Allow for singleton free creation of Iz and Are objects. This is *not a backwards compatible change.*
+Many systems these days don't play nicely with singletons especially due to code splitting. This change
+should resolve that problem by required that Iz objects be supplied with validators. This also required
+the ordering of arguments supplied to Iz be modified. [Click here](https://github.com/parris/iz/blob/1ac97ab10af75085b63a8a602f9eb151545bcf14/README.md) for docs on the old "register" system if you're using
+v2.
+
+Summary:
+
+- Validators are passed into every call to iz and are. This makes Iz more portable/flexible.
+- Added a "multipleFloat" validator.
+- Renamed "multiple" into "multipleInt"
+- Dropped support for "register"
+
+2.3.1
+----
+- Fix up security vulnerabilities as reported by Github
 
 2.2.4
 ----
