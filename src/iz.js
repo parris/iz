@@ -49,7 +49,7 @@ const proxyHandler = {
     }
 
     if (typeof validator !== 'function') {
-      throw new Error('Validator does not exist, have you registered it yet?');
+      throw new Error(`Validator "${name}" does not exist.`);
     }
 
     return function(...args) {
