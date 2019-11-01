@@ -327,11 +327,18 @@ describe('Validation', function () {
     validators.match('laura', '^.{4}$').should.be.eql(false);
   });
 
-  it('can tell if a number is multiple of another number', function () {
-    validators.multiple(10, 5).should.be.true();
-    validators.multiple(10, 2).should.be.true();
-    validators.multiple(2, 10).should.be.false();
-    validators.multiple(5, {}).should.be.false(); // disallow everything but numbers
+  it('can tell if an int is multiple of another int', function () {
+    validators.multipleInt(10, 5).should.be.true();
+    validators.multipleInt(10, 2).should.be.true();
+    validators.multipleInt(2, 10).should.be.false();
+    validators.multipleInt(5, {}).should.be.false(); // disallow everything but numbers
+  });
+
+  it('can tell if a float is multiple of another float', function () {
+    validators.multipleFloat(1, 0.1).should.be.true();
+    validators.multipleFloat(1, 0.2).should.be.true();
+    validators.multipleFloat(2, 0.3).should.be.false();
+    validators.multipleFloat(4, {}).should.be.false(); // disallow everything but numbers
   });
 
   it('can tell if something is a number', function () {

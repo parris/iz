@@ -1,5 +1,3 @@
-const validators = {};
-
 function format(string, args) {
   for (var i in args) {
     string = string.replace(
@@ -43,11 +41,11 @@ const proxyHandler = {
       };
     }
 
-    let validator = validators[name];
+    let validator = target.validators[name];
     let isNotted = false;
     if (name.indexOf('not') === 0) {
       isNotted = true;
-      validator = validators[name.substr(3, 1).toLowerCase() + name.substr(4)];
+      validator = target.validators[name.substr(3, 1).toLowerCase() + name.substr(4)];
     }
 
     if (typeof validator !== 'function') {
@@ -75,17 +73,19 @@ const proxyHandler = {
 
 /**
  * Factory for creating chained checking objects
- * @param value{*}
- * @param errorMessages{Object}
+ * @param value any the value being validated
+ * @param validators {Object} Validator key, value pairs of validator functions
+ * @param errorMessages {Object}
  * @return {Object} of type Iz
  */
-function iz(value, errorMessages) {
+function iz({ value, validators = {}, errorMessages}) {
   const target = {
     errors: [],
     errorMessages: errorMessages || {},
     promises: [],
     required: false,
     valid: true,
+    validators,
     value,
 
     // We need all properties that could be used to be defined in order for polyfills to be effective.
@@ -102,26 +102,5 @@ function iz(value, errorMessages) {
 
   return new Proxy(target, proxyHandler);
 }
-
-function registerValidator(name, func, force) {
-  if (
-    typeof validators[name] !== 'undefined'
-    && force !== true
-  ) {
-    throw new Error('Not adding validator because ' + name + ' already exists');
-  }
-
-  if (name === 'addValidator') {
-    throw new Error('Cannot override addValidator');
-  }
-
-  validators[name] = func;
-}
-
-iz.register = function (validators, force) {
-  Object.keys(validators).forEach((name) => {
-    registerValidator(name, validators[name], force);
-  });
-};
 
 module.exports = iz;
