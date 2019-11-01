@@ -13,11 +13,11 @@
 <body>
   <script>
     window.onload = function() {
-      iz.register({
+      validators = {
         truthy: function (val) { return !!val; },
-      });
+      };
 
-      console.log('Value', iz(5).truthy().valid);
+      console.log('Valid?', iz({ value: 5, validators }).truthy().valid);
     };
   </script>
 </body>
