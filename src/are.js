@@ -66,14 +66,14 @@ class Result {
 
 }
 
-module.exports = function(rules) {
+module.exports = function(rules, validators) {
   return {
     for: function(values) {
       const allIzs = [];
       let allPromises = [];
 
       Object.keys(rules).forEach((key) => {
-        let currentIz = iz(getValue(values, key), getErrors(rules, key));
+        let currentIz = iz({ value: getValue(values, key), errorMessages: getErrors(rules, key), validators });
 
         Object.keys(rules[key]).forEach((index) => {
           const rule = rules[key][index];
