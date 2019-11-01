@@ -1,10 +1,31 @@
-/*global describe, it, xit, xdescribe, before, require */
-/*jshint expr:true*/
-
 const are = require('../src/are');
+const basicValidators = require('../src/validators');
 
 describe('Are', function() {
   'use strict';
+  const validators = Object.assign({}, basicValidators, {
+    sleepyTrue: function sleepyTrue() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true);
+        }, 10);
+      });
+    },
+    sleepyFalse: function sleepyFalse() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(false);
+        }, 10);
+      });
+    },
+    sleepyFalseReject: function sleepyFalseReject() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(false);
+        }, 10);
+      });
+    },
+  });
 
   describe('json validations', function() {
 
@@ -61,12 +82,12 @@ describe('Are', function() {
     });
 
     it('correctly validates', function() {
-      are(this.rules).for(this.validObject).valid.should.be.true();
-      are(this.rules).for(this.invalidObject).valid.should.be.false();
+      are(this.rules, validators).for(this.validObject).valid.should.be.true();
+      are(this.rules, validators).for(this.invalidObject).valid.should.be.false();
     });
 
     it('returns error messages', function() {
-      const result = are(this.rules).for(this.invalidObject);
+      const result = are(this.rules, validators).for(this.invalidObject);
       const invalidFields = result.invalidFields;
       invalidFields['producer.id'].length.should.eql(1);
       invalidFields['producer.id'][0].should.eql('Producer ID must be an int');
@@ -101,7 +122,7 @@ describe('Are', function() {
           }
         };
 
-        this.validations = are(this.rules);
+        this.validations = are(this.rules, validators);
       });
 
       it('correctly validates', function() {
@@ -123,7 +144,7 @@ describe('Are', function() {
             },
           ],
         };
-        are(rules).for({ name: '' }).valid.should.be.false();
+        are(rules, validators).for({ name: '' }).valid.should.be.false();
       });
 
     });
@@ -141,7 +162,7 @@ describe('Are', function() {
       };
 
       this.obj = {};
-      const result = are(this.rules).for(this.obj);
+      const result = are(this.rules, validators).for(this.obj);
       result.valid.should.eql(true);
     });
   });
@@ -158,7 +179,7 @@ describe('Are', function() {
       };
 
       this.obj = { theDate: '09/23/2012' };
-      const result = are(this.rules).for(this.obj);
+      const result = are(this.rules, validators).for(this.obj);
       result.valid.should.eql(true);
     });
   });
@@ -173,7 +194,7 @@ describe('Are', function() {
       };
 
       this.obj = { cost: 40.3 };
-      const result = await are(this.rules).for(this.obj).async;
+      const result = await are(this.rules, validators).for(this.obj).async;
       result.valid.should.eql(false);
     });
   });
