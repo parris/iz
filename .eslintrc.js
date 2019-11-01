@@ -6,12 +6,10 @@ module.exports = {
     "es6": true,
     "node": true
   },
-  "extends": "eslint:recommended",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 8
   },
-  "plugins": ["async-await"],
   "rules": {
     "indent": [
       "error",
